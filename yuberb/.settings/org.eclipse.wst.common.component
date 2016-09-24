@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
-    <wb-module deploy-name="lcbsb">
+    <wb-module deploy-name="yuberb">
         <wb-resource deploy-path="/" source-path="/src" tag="defaultRootSource"/>
-        <property name="java-output-path" value="/lcbsb/build/classes"/>
+        <property name="java-output-path" value="/yuberb/build/classes"/>
     </wb-module>
 </project-modules>

@@ -1,3 +1,3 @@
 Manifest-Version: 1.0
-Class-Path: lcbsdb.jar
+Class-Path: yuberdb.jar
 

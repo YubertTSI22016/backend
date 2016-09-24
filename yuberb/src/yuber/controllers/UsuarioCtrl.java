@@ -14,7 +14,7 @@ import yuber.shares.DataUsuario;
 @Stateless
 public class UsuarioCtrl implements IUsuario {
 
-	@EJB(lookup = "java:app/lcbsdb/UsuarioSrv!lcbs.interfaces.UsuarioLocalApi")
+	@EJB(lookup = "java:app/yuberdb/UsuarioSrv!yuber.interfaces.UsuarioLocalApi")
 	UsuarioLocalApi srvUsuario;
 
  
