@@ -3,7 +3,6 @@
 	<name>yuberdb</name>
 	<comment></comment>
 	<projects>
-		<project>yuberse</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

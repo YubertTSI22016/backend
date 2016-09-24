@@ -1,0 +1,7 @@
+<<<<<<< HEAD
+default.configuration=yuberapi
+=======
+default.configuration=yuberapi (1)
+>>>>>>> cd5611903f0a6a1bff680b7c21fd734a87ef5b40
+eclipse.preferences.version=1
+hibernate3.enabled=true
