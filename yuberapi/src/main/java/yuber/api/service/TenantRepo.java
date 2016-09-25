@@ -12,7 +12,7 @@ import yuber.shares.DataTenant;
 @Stateless
 @Remote
 public class TenantRepo {
-	@EJB(lookup =  "java:app/yuber/TenantCtrl!interfaces.ITenant")
+	@EJB(lookup =  "java:app/yuberb/TenantCtrl!yuber.interfaces.ITenant")
 	ITenant ctrTenant;
 	//TODO: Handle errors propertly 
 	public List<DataTenant> list() { 

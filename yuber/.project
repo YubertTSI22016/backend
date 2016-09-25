@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>yube</name>
+	<name>yuber</name>
 	<comment></comment>
 	<projects>
-		<project>yuberapi</project>
 		<project>yuberb</project>
 		<project>yuberdb</project>
 		<project>yuberse</project>
+		<project>yuberapi</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

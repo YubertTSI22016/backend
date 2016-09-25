@@ -34,5 +34,10 @@ public class UsuarioApi extends BaseApi{
 		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
 		return repo.AltaUsuario(usuario, tenant);
 	}
+	@GET
+	@Path("/obtener/")
+	public String obt(){
+		return repo.get();
+	}
 	
 }

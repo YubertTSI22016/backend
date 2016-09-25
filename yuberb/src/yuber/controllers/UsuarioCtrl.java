@@ -24,5 +24,12 @@ public class UsuarioCtrl implements IUsuario {
 		return srvUsuario.crearUsuario(usuario, tenant);
 	}
 
+
+	@Override
+	public String get() {
+		// TODO Auto-generated method stub
+		return "sape";
+	}
+
 	 
 }

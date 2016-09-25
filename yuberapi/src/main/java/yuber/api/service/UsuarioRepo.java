@@ -28,11 +28,16 @@ import yuber.shares.DataUsuario;
 @Stateless
 @Remote
 public class UsuarioRepo {
-	@EJB(lookup = "java:app/yuber/UsuarioCtrl!interfaces.IUsuario")
+	@EJB(lookup = "java:app/yuberb/UsuarioCtrl!yuber.interfaces.IUsuario")
 	IUsuario ctrUsuario;
 
 	public DataUsuario AltaUsuario(DataUsuario usuario, DataTenant tenant) {
 		return ctrUsuario.AltaUsuario(usuario, tenant);
+	}
+
+	public String get() {
+		// TODO Auto-generated method stub
+		return ctrUsuario.get();
 	}
 
 	 
