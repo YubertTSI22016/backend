@@ -11,7 +11,7 @@ public class DataUsuario extends DataPersona{
 
     public DataUsuario() {}
     
-    public DataUsuario(String id, String nm, String ape, DataEmail mail, List<DataTelefono> tels, Date fecNac, Boolean elim, String nomMos, String redSoc, String idRedsoc, String clv) {
+    public DataUsuario(String id, String nm, String ape, DataEmail mail, List<DataTelefono> tels, Date fecNac, Boolean elim, List<DataServicio> srv, String nomMos, String redSoc, String idRedsoc, String clv) {
     	super.setId(id);
         super.setNombrePila(nm);
         super.setApellido(ape);
@@ -20,6 +20,7 @@ public class DataUsuario extends DataPersona{
         super.setFechaNacimiento(fecNac);
         super.setEliminado(elim);
         super.setClave(clv);
+        super.setServicios(srv);
         this.redSocialUsada = redSoc;
         this.idRedSocial = idRedsoc; 
     }

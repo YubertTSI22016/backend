@@ -19,6 +19,7 @@ public abstract class DataPersona{
     @XmlJavaTypeAdapter(DateAdapter.class)
     private Date fechaNacimiento;
     private Boolean eliminado;
+    private List<DataServicio> servicios;
     
     public void setId(String val){
         this.id = val;
@@ -76,12 +77,19 @@ public abstract class DataPersona{
         return this.fechaNacimiento;
     }
     
-
     public void setEliminado(Boolean val){
     	this.eliminado = val;
     }
     
     public Boolean getEliminado(){
     	return this.eliminado;
+    }
+    
+    public void setServicios(List<DataServicio> val){
+    	this.servicios = val;
+    }
+    
+    public List<DataServicio> getServicios(){
+    	return this.servicios;
     }
 }

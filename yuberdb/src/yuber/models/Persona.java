@@ -9,6 +9,7 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -37,11 +38,14 @@ public abstract class Persona implements Serializable{
     @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
     private Boolean eliminado;
+    @OneToMany
+	@IndexColumn(name="LIST_INDEX")
+    private List<Servicio> servicios;
      
 
     public Persona() {}
     
-    public Persona(String id, String clave, String nm, String ape, Email mail, List<Telefono> tels, Date fecNac, Boolean elim) {
+    public Persona(String id, String clave, String nm, String ape, Email mail, List<Telefono> tels, Date fecNac, Boolean elim, List<Servicio> srv) {
         this.id = id;
         this.clave = clave;
         this.nombrePila = nm;
@@ -50,6 +54,7 @@ public abstract class Persona implements Serializable{
         this.telefonosContacto = tels;
         this.fechaNacimiento = fecNac;
         this.eliminado = elim;
+        this.servicios = srv;
     }
     
     public void setId(String val){
@@ -100,7 +105,6 @@ public abstract class Persona implements Serializable{
         return this.fechaNacimiento;
     }
     
-
     public void setEliminado(Boolean val){
     	this.eliminado = val;
     }
@@ -108,11 +112,20 @@ public abstract class Persona implements Serializable{
     public Boolean getEliminado(){
     	return this.eliminado;
     }
+    
     public String getClave(){
     	return this.clave;
     }
     
-    public void setClave(String c){
-    	this.clave = c;
+    public void setClave(String val){
+    	this.clave = val;
+    }
+    
+    public List<Servicio> getServicios(){
+    	return this.servicios;
+    }
+    
+    public void setServicios(List<Servicio> val){
+    	this.servicios = val;
     }
 }

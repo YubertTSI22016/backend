@@ -22,7 +22,7 @@
 			<attribute name="org.eclipse.jst.component.nondependency" value=""/>
 		</attributes>
 	</classpathentry>
-	<classpathentry combineaccessrules="false" kind="src" path="/yuberdb"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/yuberse"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/yuberdb"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/yuberse"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
