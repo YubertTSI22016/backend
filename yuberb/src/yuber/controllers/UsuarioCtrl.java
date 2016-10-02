@@ -31,5 +31,11 @@ public class UsuarioCtrl implements IUsuario {
 		return "sape";
 	}
 
+
+	@Override
+	public DataUsuario loginUsuario(String usuario, String clave, DataTenant tenant) {
+		return srvUsuario.loginUsuario(usuario, clave, tenant);
+	}
+
 	 
 }

@@ -11,10 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.IndexColumn;
 
-import yuber.shares.DataJornadaLaboral;
-import yuber.shares.DataProveedor;
-import yuber.shares.DataServicio;
-import yuber.shares.DataTelefono;
+import yuber.shares.*;
 
 @Entity
 @XmlRootElement

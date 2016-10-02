@@ -1,5 +1,16 @@
 package yuber.interfaces;
 
-public class ServicioLocalApi {
+import java.util.List;
 
+import javax.ejb.Local;
+
+import yuber.shares.DataServicio;
+import yuber.shares.DataTenant;
+
+@Local
+public interface ServicioLocalApi {
+	public List<DataServicio> obtenerServicios(Integer pagina, Integer elementosPagina, DataTenant tenant);
+	public void modificarServicio(DataServicio srv, DataTenant tenant);
+	public DataServicio getServicio(String id, DataTenant tenant);
+	public DataServicio crearServicio(DataServicio srv, DataTenant tenant);
 }

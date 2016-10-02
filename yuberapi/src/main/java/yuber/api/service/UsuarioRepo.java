@@ -40,5 +40,9 @@ public class UsuarioRepo {
 		return ctrUsuario.get();
 	}
 
+	public DataUsuario loginUsuario(String usuario, String clave, DataTenant tenant) {
+		return ctrUsuario.loginUsuario(usuario, clave, tenant);
+	}
+
 	 
 }
