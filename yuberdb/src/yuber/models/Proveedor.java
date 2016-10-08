@@ -26,15 +26,15 @@ public class Proveedor extends Persona implements Serializable {
 
     public Proveedor() {}
     
-    public Proveedor(String id, String nm, String ape, Email mail, List<Telefono> tels, Date fecNac, Boolean elim, List<Servicio> srv, String clave, Boolean activo, List<JornadaLaboral> jl) {
-        super(id,clave, nm, ape, mail, tels, fecNac, elim, srv);
+    public Proveedor(String id, String nom, String ape, Email mail, List<Telefono> tels, Date fecNac, Boolean elim, List<Servicio> srv, String clave, Boolean activo, List<JornadaLaboral> jl) {
+        super(id,clave, nom, ape, mail, tels, fecNac, elim, srv);
         this.activo = activo;
         this.jornadas = jl;
     }
     
     public Proveedor(DataProveedor dt){
     	this.setId(dt.getId());
-    	this.setNombrePila(dt.getNombrePila());
+    	this.setNombre(dt.getNombre());
     	this.setApellido(dt.getApellido());
     	if(dt.getEmail() != null){
     		this.setEmail(new Email(dt.getEmail()));
@@ -71,7 +71,7 @@ public class Proveedor extends Persona implements Serializable {
     public DataProveedor getDatatype(Boolean conHijos){
     	DataProveedor result = new DataProveedor();
     	result.setId(this.getId());
-    	result.setNombrePila(this.getNombrePila());
+    	result.setNombre(this.getNombre());
     	result.setApellido(this.getApellido());
     	if(this.getEmail()!=null)
     		result.setEmail(this.getEmail().getDatatype());

@@ -24,15 +24,15 @@ public class Usuario extends Persona implements Serializable{
 
     public Usuario() {}
     
-    public Usuario(String id, String nm, String ape, Email mail, List<Telefono> tels, Date fecNac, Boolean elim, List<Servicio> srv, String clave, String redSoc, String idRedsoc) {
-        super(id,clave, nm, ape, mail, tels, fecNac, elim, srv);
+    public Usuario(String id, String nom, String ape, Email mail, List<Telefono> tels, Date fecNac, Boolean elim, List<Servicio> srv, String clave, String redSoc, String idRedsoc) {
+        super(id,clave, nom, ape, mail, tels, fecNac, elim, srv);
         this.redSocialUsada = redSoc;
         this.idRedSocial = idRedsoc; 
     }
     
     public Usuario(DataUsuario dt){
     	this.setId(dt.getId());
-    	this.setNombrePila(dt.getNombrePila());
+    	this.setNombre(dt.getNombre());
     	this.setApellido(dt.getApellido());
     	if(dt.getEmail() != null){
     		this.setEmail(new Email(dt.getEmail()));
@@ -55,7 +55,7 @@ public class Usuario extends Persona implements Serializable{
     public DataUsuario getDatatype(Boolean conHijos){
     	DataUsuario result = new DataUsuario();
     	result.setId(this.getId());
-    	result.setNombrePila(this.getNombrePila());
+    	result.setNombre(this.getNombre());
     	result.setApellido(this.getApellido());
     	if(this.getEmail()!=null)
     		result.setEmail(this.getEmail().getDatatype());

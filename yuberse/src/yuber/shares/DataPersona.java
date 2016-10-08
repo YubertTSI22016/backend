@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @XmlRootElement
 public abstract class DataPersona{
     private String id;
-    private String nombrePila;
+    private String nombre;
     private String apellido;
     private DataEmail email;
     private String clave;
@@ -37,12 +37,12 @@ public abstract class DataPersona{
         return this.id;
     }
     
-    public void setNombrePila(String val){
-        this.nombrePila = val;
+    public void setNombre(String val){
+        this.nombre = val;
     }
     
-    public String getNombrePila(){
-        return this.nombrePila;
+    public String getNombre(){
+        return this.nombre;
     }
 
     public void setApellido(String val){

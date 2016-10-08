@@ -26,7 +26,7 @@ public abstract class Persona implements Serializable{
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
-    private String nombrePila;
+    private String nombre;
     private String apellido;
     private String clave;
     @Embedded
@@ -45,10 +45,10 @@ public abstract class Persona implements Serializable{
 
     public Persona() {}
     
-    public Persona(String id, String clave, String nm, String ape, Email mail, List<Telefono> tels, Date fecNac, Boolean elim, List<Servicio> srv) {
+    public Persona(String id, String clave, String nom, String ape, Email mail, List<Telefono> tels, Date fecNac, Boolean elim, List<Servicio> srv) {
         this.id = id;
         this.clave = clave;
-        this.nombrePila = nm;
+        this.nombre = nom;
         this.apellido = ape;
         this.email = mail;
         this.telefonosContacto = tels;
@@ -65,12 +65,12 @@ public abstract class Persona implements Serializable{
         return this.id;
     }
 
-    public void setNombrePila(String val){
-        this.nombrePila = val;
+    public void setNombre(String val){
+        this.nombre = val;
     }
     
-    public String getNombrePila(){
-        return this.nombrePila;
+    public String getNombre(){
+        return this.nombre;
     }
 
     public void setApellido(String val){

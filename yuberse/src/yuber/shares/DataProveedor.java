@@ -12,9 +12,9 @@ public class DataProveedor extends DataPersona{
 
     public DataProveedor() {}
     
-    public DataProveedor(String id, String nm, String ape, DataEmail mail, List<DataTelefono> tels, Date fecNac, Boolean elim, List<DataServicio> srv, String nomMos, Boolean activo, String clv, List<DataJornadaLaboral> jor) {
+    public DataProveedor(String id, String nom, String ape, DataEmail mail, List<DataTelefono> tels, Date fecNac, Boolean elim, List<DataServicio> srv, String nomMos, Boolean activo, String clv, List<DataJornadaLaboral> jor) {
     	super.setId(id);
-        super.setNombrePila(nm);
+        super.setNombre(nom);
         super.setApellido(ape);
         super.setEmail(mail);
         super.setTelefonosContacto(tels);
