@@ -29,24 +29,35 @@ public class UsuarioApi extends BaseApi{
 	UsuarioRepo repo;
 										
 	@POST
-	@Path("/altausuario/")
-	public DataUsuario AltaUsuario(DataUsuario usuario){
+	@Path("/alta/")
+	public DataUsuario alta(DataUsuario usuario){
 		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
 		return repo.AltaUsuario(usuario, tenant);
 	}
 	
 	@POST
-	@Path("/loginusuario/")
-	public DataUsuario LoginUsuario(String data){
+	@Path("/login/")
+	public DataUsuario login(String data){
 		JSONObject obj = new JSONObject(data);
 		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
 		return repo.loginUsuario(obj.getString("usuario"), obj.getString("clave"), tenant);
 	}
 	
-	@GET
-	@Path("/obtener/")
-	public String obt(){
-		return repo.get();
+	@GET	
+	@Path("/listar/")
+	public List<DataUsuario> listar(){
+		Integer pagina = 1;
+		Integer elementos = 1000;
+		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
+		return repo.obtenerUsuarios(pagina, elementos, tenant);
+	}
+	
+	@GET	
+	@Path("/obtener/{id}")
+	public DataUsuario obtener(@PathParam("id") final String id){
+		
+		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
+		return repo.getUsuario(id, tenant);
 	}
 	
 }

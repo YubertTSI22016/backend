@@ -16,6 +16,8 @@
  */
 package yuber.api.service;
 
+import java.util.List;
+
 import javax.ejb.EJB;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
@@ -35,13 +37,16 @@ public class UsuarioRepo {
 		return ctrUsuario.AltaUsuario(usuario, tenant);
 	}
 
-	public String get() {
-		// TODO Auto-generated method stub
-		return ctrUsuario.get();
+	public List<DataUsuario> obtenerUsuarios(Integer pagina, Integer elementosPagina, DataTenant tenant) {
+		return ctrUsuario.obtenerUsuarios(pagina, elementosPagina, tenant);
 	}
 
 	public DataUsuario loginUsuario(String usuario, String clave, DataTenant tenant) {
 		return ctrUsuario.loginUsuario(usuario, clave, tenant);
+	}
+	
+	public DataUsuario getUsuario(String id, DataTenant tenant) {
+		return ctrUsuario.getUsuario(id, tenant);
 	}
 
 	 

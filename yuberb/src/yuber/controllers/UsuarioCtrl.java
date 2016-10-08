@@ -1,5 +1,7 @@
 package yuber.controllers;
 
+import java.util.List;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -26,9 +28,8 @@ public class UsuarioCtrl implements IUsuario {
 
 
 	@Override
-	public String get() {
-		// TODO Auto-generated method stub
-		return "sape";
+	public List<DataUsuario> obtenerUsuarios(Integer pagina, Integer elementosPagina, DataTenant tenant) {
+		return srvUsuario.obtenerUsuarios(pagina, elementosPagina, tenant);
 	}
 
 
@@ -37,5 +38,9 @@ public class UsuarioCtrl implements IUsuario {
 		return srvUsuario.loginUsuario(usuario, clave, tenant);
 	}
 
+	@Override
+	public DataUsuario getUsuario(String id, DataTenant tenant) {
+		return srvUsuario.getUsuario(id , tenant);
+	}
 	 
 }
