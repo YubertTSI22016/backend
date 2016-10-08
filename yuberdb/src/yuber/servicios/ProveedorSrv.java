@@ -14,12 +14,14 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
 import yuber.interceptors.TenantIntercept;
-import yuber.interfaces.UsuarioLocalApi;
+import yuber.interfaces.ProveedorLocalApi;
 import yuber.models.Proveedor;
-import yuber.shares.*;
+import yuber.shares.DataTenant;
+import yuber.shares.DataProveedor;
+
 
 /**
- * Session Bean implementation class UsuarioSrv
+ * Session Bean implementation class ProveedorSrv
  */
 @Stateless
 @Interceptors ({TenantIntercept.class})
@@ -82,7 +84,7 @@ public class ProveedorSrv implements ProveedorLocalApi {
 		return realObj.getDatatype(true);
 	}
 
-	public void darBajaUsuario(String idProveedor, DataTenant tenant) {
+	public void darBajaProveedor(String idProveedor, DataTenant tenant) {
 		DataProveedor prv = getProveedor(idProveedor, tenant);
 		prv.setEliminado(true);
 		this.modificarProveedor(prv, tenant);
