@@ -1,26 +1,44 @@
 package yuber.models;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.xml.bind.annotation.XmlRootElement;
-import yuber.shares.DataTelefono;
+
+import org.hibernate.annotations.GenericGenerator;
+
 import yuber.shares.DataAdministrador;
+import yuber.shares.DataEmail;
 
 @Entity
 @XmlRootElement
-public class Administrador extends Persona implements Serializable{
+public class Administrador implements Serializable{
 	private static final long serialVersionUID = 1L;
-		
+
+    @Id
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+	private String id;
+	private String nombre;
+	private String apellido;
+    @Embedded
+	private Email email;
+	private Boolean eliminado;
+	private String clave;
 	private Boolean activo;
 		
 	public Administrador(){}
 	
-	public Administrador(String id, String nom, String ape, Email mail, List<Telefono> tels, Date fecNac, Boolean elim, List<Servicio> srv, String clave, Boolean activo){
-		super(id, clave, nom, ape, mail, tels, fecNac, elim, srv);
+	public Administrador(String id, String nom, String ape, Email mail, Boolean elim, String clave, Boolean activo){
+    	this.id = id;
+        this.nombre = nom;
+        this.apellido = ape;
+        this.email = mail;
+        this.eliminado = elim;
+        this.clave = clave;
 		this.activo = activo;
 	}
 	
@@ -31,45 +49,77 @@ public class Administrador extends Persona implements Serializable{
 		if (da.getEmail() != null){
 			this.setEmail(new Email (da.getEmail()));
 		}
-		if (da.getTelefonosContacto() != null){
-			List<Telefono> aux = new ArrayList<Telefono>();
-			da.getTelefonosContacto().stream().forEach ((tel) -> {
-				aux.add(new Telefono(tel));
-			});
-			this.setTelefonosContacto(aux);
-		}
-		this.setFechaNacimiento(da.getFechaNacimiento());
 		this.setEliminado(da.getEliminado());
 		this.setClave(da.getClave());
 		this.setActivo(da.getActivo());
 	}
 	
-	public DataAdministrador getDatatype(Boolean conHijos){
+	public DataAdministrador getDatatype(){
 		
 		DataAdministrador result = new DataAdministrador();
 		result.setId(this.getId());
 		result.setNombre(this.getNombre());
 		result.setApellido(this.getApellido());
-		if (this.getEmail() != null){
+		if (result.getEmail() != null){
 			result.setEmail(this.getEmail().getDatatype());
 		}
-		if (this.getTelefonosContacto() != null && conHijos){
-			List<DataTelefono> aux = new ArrayList<DataTelefono>();
-			this.getTelefonosContacto().stream().forEach((tel) -> {
-				aux.add(tel.getDatatype());
-			});
-		result.setTelefonosContacto(aux);	
-		}
-		result.setFechaNacimiento(this.getFechaNacimiento());
 		result.setClave(this.getClave());
 		result.setEliminado(this.getEliminado());
-		this.setActivo(this.getActivo());
+		result.setActivo(this.getActivo());
 		
 		return result;
+	}
+
+	public void setId(String id){
+		this.id= id;
+	}
+	
+	public void setNombre(String nombre){
+		this.nombre= nombre;
+	}
+	
+	public void setApellido(String apellido){
+		this.apellido= apellido;
+	}
+	
+	public void setEmail(Email mail){
+		this.email= mail;
+	}
+	
+	public void setClave(String clave){
+		this.clave= clave;
+	}
+	
+	public void setEliminado(Boolean elim){
+		this.eliminado= elim;
 	}
 	
 	public void setActivo(Boolean activo){
 		this.activo= activo;
+	}
+	
+	public String getId(){
+		return this.id;
+	}
+	
+	public String getNombre(){
+		return this.nombre;
+	}
+	
+	public String getApellido(){
+		return this.apellido;
+	}
+	
+	public Email getEmail(){
+		return this.email;
+	}
+	
+	public String getClave(){
+		return this.clave;
+	}
+	
+	public Boolean getEliminado(){
+		return this.eliminado;
 	}
 	
 	public Boolean getActivo(){

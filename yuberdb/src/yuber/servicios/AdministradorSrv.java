@@ -39,7 +39,7 @@ public class AdministradorSrv implements AdministradorLocalApi {
 		List<Administrador> listAdmin = new ArrayList<Administrador>(new LinkedHashSet(criteria.list()));
 		
 		listAdmin.stream().forEach((admin)->{
-			admins.add(admin.getDatatype(true));
+			admins.add(admin.getDatatype());
 		});
 		return admins;
 	}
@@ -50,7 +50,7 @@ public class AdministradorSrv implements AdministradorLocalApi {
 		criteria.add(Restrictions.eq("email.email", mailAdmin));
 		List<Administrador> listAdmin = criteria.list();
 		if (listAdmin.size() == 1) {
-			DataAdministrador admin = listAdmin.get(0).getDatatype(true);
+			DataAdministrador admin = listAdmin.get(0).getDatatype();
 			if (admin.getClave().equals(clave))
 				return admin;
 		}
@@ -68,7 +68,7 @@ public class AdministradorSrv implements AdministradorLocalApi {
 	public DataAdministrador getAdmin(String id, DataTenant tenant) {
 		Session session = (Session) em.getDelegate();
 		Administrador realObj = (Administrador) session.get(Administrador.class, id);
-		return realObj.getDatatype(true);
+		return realObj.getDatatype();
 	}
 
 	public DataAdministrador crearAdmin(DataAdministrador admin, DataTenant tenant) {
@@ -76,7 +76,7 @@ public class AdministradorSrv implements AdministradorLocalApi {
 		realObj.setEliminado(false);
 		// guardo el administrador en bd
 		em.persist(realObj);
-		return realObj.getDatatype(true);
+		return realObj.getDatatype();
 	}
 
 	public void darBajaAdmin(String idAdmin, DataTenant tenant) {
@@ -91,7 +91,7 @@ public class AdministradorSrv implements AdministradorLocalApi {
 		criteria.add(Restrictions.eq("email.email", mailAdmin));
 		List<Administrador> listAdmin = criteria.list();
 		if (listAdmin.size() > 0) {
-			DataAdministrador admin = listAdmin.get(0).getDatatype(false);
+			DataAdministrador admin = listAdmin.get(0).getDatatype();
 			return admin;
 		}
 		return null;
