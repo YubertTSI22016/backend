@@ -48,6 +48,10 @@ public class UsuarioRepo {
 	public DataUsuario getUsuario(String id, DataTenant tenant) {
 		return ctrUsuario.getUsuario(id, tenant);
 	}
+	
+	public void modificarUsuario(DataUsuario usuario, DataTenant tenant){
+		ctrUsuario.modificarUsuario(usuario, tenant);
+	}
 
 	 
 }

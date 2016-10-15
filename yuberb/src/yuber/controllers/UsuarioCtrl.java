@@ -42,5 +42,10 @@ public class UsuarioCtrl implements IUsuario {
 	public DataUsuario getUsuario(String id, DataTenant tenant) {
 		return srvUsuario.getUsuario(id , tenant);
 	}
+	
+	@Override
+	public void modificarUsuario(DataUsuario usuario, DataTenant tenant){
+		srvUsuario.modificarUsuario(usuario, tenant);
+	}
 	 
 }

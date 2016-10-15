@@ -11,7 +11,7 @@ public interface IAdministrador {
 	
 	public List<DataAdministrador> obtenerAdmins(Integer pagina, Integer elementosPagina, DataTenant tenant);
 	
-	public DataAdministrador loginAdmin(String admin, String clave, DataTenant tenant);
+	public DataAdministrador loginAdmin(String usuario, String clave, DataTenant tenant);
 	
 	public DataAdministrador getAdmin(String id, DataTenant tenant);
 	

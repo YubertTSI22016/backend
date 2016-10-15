@@ -33,8 +33,8 @@ public class AdministradorCtrl implements IAdministrador {
 
 
 	@Override
-	public DataAdministrador loginAdmin(String admin, String clave, DataTenant tenant) {
-		return srvAdmin.loginAdmin(admin, clave, tenant);
+	public DataAdministrador loginAdmin(String usuario, String clave, DataTenant tenant) {
+		return srvAdmin.loginAdmin(usuario, clave, tenant);
 	}
 
 	@Override

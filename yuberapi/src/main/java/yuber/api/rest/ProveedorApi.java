@@ -14,58 +14,59 @@ import javax.ws.rs.Produces;
 
 import org.json.JSONObject;
 
-import yuber.api.service.UsuarioRepo;
+import yuber.api.service.ProveedorRepo;
+import yuber.shares.DataProveedor;
 import yuber.shares.DataTenant;
-import yuber.shares.DataUsuario;
-
 
 @RequestScoped
-@Path("/usuarios/")
+@Path("/proveedores/")
 @Produces({ "application/json" })
 @Consumes({ "application/json" })
-public class UsuarioApi extends BaseApi{																														
+public class ProveedorApi extends BaseApi{
 	
 	@EJB
-	UsuarioRepo repo;
-										
+	ProveedorRepo repo;
+	
 	@POST
 	@Path("/alta/")
-	public DataUsuario alta(DataUsuario usuario){
-		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
-		return repo.AltaUsuario(usuario, tenant);
-	}
-	
-	@POST
-	@Path("/login/")
-	public DataUsuario login(String data){
-		JSONObject obj = new JSONObject(data);
-		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
-		return repo.loginUsuario(obj.getString("usuario"), obj.getString("clave"), tenant);
-	}
-	
-	@GET	
-	@Path("/listar/")
-	public List<DataUsuario> listar(){
-		Integer pagina = 1;
-		Integer elementos = 1000;
-		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
-		return repo.obtenerUsuarios(pagina, elementos, tenant);
-	}
-	
-	@GET	
-	@Path("/obtener/{id}")
-	public DataUsuario obtener(@PathParam("id") final String id){
+	public DataProveedor alta(DataProveedor proveedor){
 		
 		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
-		return repo.getUsuario(id, tenant);
+		return repo.altaProveedor(proveedor, tenant);
+	}
+	
+	@POST 
+	@Path("/login/")
+	public DataProveedor login(String data){
+		
+		JSONObject obj = new JSONObject(data);
+		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
+		return repo.loginProveedor(obj.getString("usuario"), obj.getString("clave"), tenant);
+	}
+	
+	@GET
+	@Path("/listar/")
+	public List<DataProveedor> listar(){
+		Integer pagina =1;
+		Integer elementosPagina= 1000;
+		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
+		return repo.obtenerProveedores(pagina, elementosPagina, tenant);
+	}
+
+	@GET
+	@Path("/obtener/{id}")
+	public DataProveedor obtener(@PathParam("id") final String id){
+		
+		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
+		return repo.getProveedor(id, tenant);
 	}
 	
 	@POST
 	@Path("/modificar/")
-	public void modificar(DataUsuario usuario){
+	public void modificar(DataProveedor proveedor){
 		
 		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
-		repo.modificarUsuario(usuario, tenant);
+		repo.modificarProveedor(proveedor, tenant);
 	}
 	
 }

@@ -13,4 +13,6 @@ public interface IUsuario {
 	public DataUsuario loginUsuario(String usuario, String clave, DataTenant tenant);
 	 
 	public DataUsuario getUsuario(String id, DataTenant tenant);
+	
+	public void modificarUsuario(DataUsuario usuario, DataTenant tenant);
 }
