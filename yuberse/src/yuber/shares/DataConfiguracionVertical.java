@@ -23,30 +23,6 @@ public DataConfiguracionVertical(){}
 		this.precioPorKm = precPorKm;
 		this.precioPorHora = precPorHor;
 	}
-	
-	public DataConfiguracionVertical(DataConfiguracionVertical dt){
-    	this.setId(dt.getId());
-    	this.setNombre(dt.getNombre());
-    	this.setTransporte(dt.getTransporte());
-    	this.setHabilitado(dt.getHabilitado());
-    	this.setTarifaBase(dt.getTarifaBase());
-    	this.setPrecioPorKm(dt.getPrecioPorKm());
-    	this.setPrecioPorHora(dt.getPrecioPorHora());
-    	 
-    }
-    
-//    public DataConfiguracionVertical getDatatype(){
-//    	DataConfiguracionVertical result = new DataConfiguracionVertical();
-//    	result.setId(this.getId());
-//    	result.setNombre(this.getNombre());
-//    	result.setTransporte(this.getTransporte());
-//    	result.setHabilitado(this.getHabilitado());
-//    	result.setTarifaBase(this.getTarifaBase());
-//    	result.setPrecioPorKm(this.getPrecioPorKm());
-//    	result.setPrecioPorHora(this.getPrecioPorHora());
-//    	 
-//    	return result;
-//    }
     
     public void setId(String val){
         this.id = val;

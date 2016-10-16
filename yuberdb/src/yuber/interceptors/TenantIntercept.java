@@ -19,12 +19,12 @@ public class TenantIntercept {
 	@AroundInvoke
 	public Object mdbInterceptor(InvocationContext ctx) throws Exception
 	{ 
-		/*int l = ctx.getParameters().length;
+		int l = ctx.getParameters().length;
 		DataTenant tenant = (DataTenant) ctx.getParameters()[l - 1];
 		log.debug(tenant.getName());
 		em.createNativeQuery("SET SCHEMA '"+ tenant.getName()+"'").executeUpdate();
 		em.createNativeQuery("SET search_path TO "+ tenant.getName()).executeUpdate();
-		*/
+		
 	   return ctx.proceed();
 	}
 		
