@@ -1,6 +1,7 @@
 package yuber.models;
 
 
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -12,23 +13,25 @@ import yuber.shares.DataConfiguracionVertical;
 
 @Entity
 @XmlRootElement
-public class ConfiguracionVertical {
+public class ConfiguracionVertical{
 	@Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
 	private String id;
 	private String nombre;
 	private Boolean transporte;
+	private Boolean habilitado;
 	private Float tarifaBase;
 	private Float precioPorKm;
 	private Float precioPorHora;
 	
 public ConfiguracionVertical(){}
 	
-	public ConfiguracionVertical(String id, String nom, Boolean transp, Float tarBase, Float precPorKm, Float precPorHor){
+	public ConfiguracionVertical(String id, String nom, Boolean transp,Boolean habilitado, Float tarBase, Float precPorKm, Float precPorHor){
 		this.id = id;
 		this.nombre = nom;
 		this.transporte = transp;
+		this.habilitado = habilitado;
 		this.tarifaBase = tarBase;
 		this.precioPorKm = precPorKm;
 		this.precioPorHora = precPorHor;
@@ -38,6 +41,7 @@ public ConfiguracionVertical(){}
     	this.setId(dt.getId());
     	this.setNombre(dt.getNombre());
     	this.setTransporte(dt.getTransporte());
+    	this.setHabilitado(dt.getHabilitado());
     	this.setTarifaBase(dt.getTarifaBase());
     	this.setPrecioPorKm(dt.getPrecioPorKm());
     	this.setPrecioPorHora(dt.getPrecioPorHora());
@@ -49,6 +53,7 @@ public ConfiguracionVertical(){}
     	result.setId(this.getId());
     	result.setNombre(this.getNombre());
     	result.setTransporte(this.getTransporte());
+    	result.setHabilitado(this.getHabilitado());
     	result.setTarifaBase(this.getTarifaBase());
     	result.setPrecioPorKm(this.getPrecioPorKm());
     	result.setPrecioPorHora(this.getPrecioPorHora());
@@ -78,6 +83,14 @@ public ConfiguracionVertical(){}
     
     public Boolean getTransporte(){
         return this.transporte;
+    }
+    
+    public void setHabilitado(Boolean val){
+        this.habilitado = val;
+    }
+    
+    public Boolean getHabilitado(){
+        return this.habilitado;
     }
     
     public void setTarifaBase(Float val){
