@@ -18,6 +18,7 @@ import yuber.interfaces.AdministradorLocalApi;
 import yuber.models.Administrador;
 import yuber.shares.DataTenant;
 import yuber.shares.DataAdministrador;
+import yuber.shares.DataEmail;
 
 @Stateless
 @Interceptors ({TenantIntercept.class})
@@ -49,7 +50,18 @@ public class AdministradorSrv implements AdministradorLocalApi {
 		Criteria criteria = session.createCriteria(Administrador.class);
 		criteria.add(Restrictions.eq("email.email", mailAdmin));
 		List<Administrador> listAdmin = criteria.list();
-		if (listAdmin.size() == 1) {
+		if(listAdmin.size() == 0 && mailAdmin == "admin" && obtenerAdmins(1,1,tenant).size() == 0){
+			DataAdministrador defaultAdmin = new DataAdministrador();
+			DataEmail defaultAdminEmail = new DataEmail();
+			defaultAdminEmail.setEmail("admin");
+			defaultAdmin.setActivo(true);
+			defaultAdmin.setClave("admin");
+			defaultAdmin.setEliminado(false);
+			defaultAdmin.setNombre("Admin");
+			defaultAdmin.setApellido("Admin");
+			defaultAdmin.setEmail(defaultAdminEmail);
+			return crearAdmin(defaultAdmin,tenant);
+		}else if (listAdmin.size() == 1) {
 			DataAdministrador admin = listAdmin.get(0).getDatatype();
 			if (admin.getClave().equals(clave))
 				return admin;
