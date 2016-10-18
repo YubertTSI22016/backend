@@ -79,15 +79,6 @@ public class VerticalApi extends BaseApi{
 		return verticalRepo.altaProveedor(proveedor, tenant);
 	}
 	
-	@POST 
-	@Path("/loginproveedor/")
-	public DataProveedor loginproveedor(String data){
-		
-		JSONObject obj = new JSONObject(data);
-		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
-		return verticalRepo.loginProveedor(obj.getString("usuario"), obj.getString("clave"), tenant);
-	}
-	
 	@GET
 	@Path("/listarproveedores/")
 	public List<DataProveedor> listarproveedores(){

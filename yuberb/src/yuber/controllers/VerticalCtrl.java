@@ -73,12 +73,6 @@ public class VerticalCtrl implements IUsuario, IProveedor, IAdministrador, IConf
 	}
 	
 	@Override
-	public DataProveedor loginProveedor(String usuario, String clave, DataTenant tenant){
-		
-		return srvProveedor.loginProveedor(usuario, clave, tenant);
-	}
-	
-	@Override
 	public DataProveedor getProveedor(String id, DataTenant tenant){
 		return srvProveedor.getProveedor(id, tenant);
 	}

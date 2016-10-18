@@ -4,7 +4,9 @@ import java.util.Date;
 import java.util.List;
 
 
-public class DataProveedor extends DataPersona{
+public class DataProveedor{
+	private String id;
+	private DataUsuario usuario;
     private Boolean activo;
     private List<DataJornadaLaboral> jornadas;
 
@@ -12,20 +14,29 @@ public class DataProveedor extends DataPersona{
 
     public DataProveedor() {}
     
-    public DataProveedor(String id, String nom, String ape, DataEmail mail, List<DataTelefono> tels, Date fecNac, Boolean elim, List<DataServicio> srv, String nomMos, Boolean activo, String clv, List<DataJornadaLaboral> jor) {
-    	super.setId(id);
-        super.setNombre(nom);
-        super.setApellido(ape);
-        super.setEmail(mail);
-        super.setTelefonosContacto(tels);
-        super.setFechaNacimiento(fecNac);
-        super.setEliminado(elim);
-        super.setClave(clv);
-        super.setServicios(srv);
+    public DataProveedor(String id, DataUsuario usu, Boolean activo, String clv, List<DataJornadaLaboral> jor) {
+    	this.id = id;
+    	this.usuario = usu;
         this.activo = activo;
         this.jornadas = jor;
     }
 
+    public void setId(String val){
+        this.id = val;
+    }
+    
+    public String getId(){
+        return this.id;
+    }
+    
+    public void setUsuario(DataUsuario val){
+        this.usuario = val;
+    }
+    
+    public DataUsuario getUsuario(){
+        return this.usuario;
+    }
+    
     public void setActivo(Boolean val){
         this.activo = val;
     }

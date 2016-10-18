@@ -6,7 +6,11 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import org.hibernate.annotations.IndexColumn;
 
 import yuber.shares.DataTelefono;
 import yuber.shares.DataUsuario;
@@ -20,14 +24,20 @@ public class Usuario extends Persona implements Serializable{
     
     private String redSocialUsada;
     private String idRedSocial;
+    @OneToMany
+	@IndexColumn(name="LIST_INDEX")
+    private List<Servicio> servicios;
+    @OneToOne
+    private Proveedor proveedor;
     
 
     public Usuario() {}
     
-    public Usuario(String id, String nom, String ape, Email mail, List<Telefono> tels, Date fecNac, Boolean elim, List<Servicio> srv, String clave, String redSoc, String idRedsoc) {
-        super(id,clave, nom, ape, mail, tels, fecNac, elim, srv);
+    public Usuario(String id, String nom, String ape, Email mail, List<Telefono> tels, Date fecNac, Boolean elim, List<Servicio> srv, String clave, String redSoc, String idRedsoc, Proveedor prov) {
+        super(id,clave, nom, ape, mail, tels, fecNac, elim);
         this.redSocialUsada = redSoc;
-        this.idRedSocial = idRedsoc; 
+        this.idRedSocial = idRedsoc;
+        this.proveedor = prov;
     }
     
     public Usuario(DataUsuario dt){
@@ -49,6 +59,7 @@ public class Usuario extends Persona implements Serializable{
     	this.setClave(dt.getClave());
     	this.setRedSocialUsada(dt.getRedSocialUsada());
     	this.setIdRedSocial(dt.getIdRedSocial());
+    	this.setProveedor(new Proveedor(dt.getProveedor()));
     	 
     }
     
@@ -71,6 +82,8 @@ public class Usuario extends Persona implements Serializable{
     	result.setClave(this.getClave());
     	result.setRedSocialUsada(this.getRedSocialUsada());
     	this.setIdRedSocial(this.getIdRedSocial());
+    	if(this.getProveedor()!=null)
+    		result.setProveedor(this.getProveedor().getDatatype(true));
     	 
     	return result;
     }
@@ -91,6 +104,14 @@ public class Usuario extends Persona implements Serializable{
     
     public String getIdRedSocial(){
         return this.idRedSocial;
+    }
+    
+    public void setProveedor(Proveedor val){
+        this.proveedor = val;
+    }
+    
+    public Proveedor getProveedor(){
+        return this.proveedor;
     }
 
    

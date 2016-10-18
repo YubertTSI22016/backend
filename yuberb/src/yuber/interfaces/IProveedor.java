@@ -11,8 +11,6 @@ public interface IProveedor {
 	
 	public List<DataProveedor> obtenerProveedores(Integer pagina, Integer elementosPagina, DataTenant tenant);
 	
-	public DataProveedor loginProveedor (String usuario, String clave, DataTenant tenant);
-	
 	public DataProveedor getProveedor (String id, DataTenant tenant);
 	
 	public void modificarProveedor (DataProveedor proveedor, DataTenant tenant);

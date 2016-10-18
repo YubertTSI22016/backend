@@ -6,12 +6,13 @@ import java.util.List;
 public class DataUsuario extends DataPersona{
     private String redSocialUsada;
     private String idRedSocial; 
+    private DataProveedor proveedor;
 
  
 
     public DataUsuario() {}
     
-    public DataUsuario(String id, String nom, String ape, DataEmail mail, List<DataTelefono> tels, Date fecNac, Boolean elim, List<DataServicio> srv, String nomMos, String redSoc, String idRedsoc, String clv) {
+    public DataUsuario(String id, String nom, String ape, DataEmail mail, List<DataTelefono> tels, Date fecNac, Boolean elim, List<DataServicio> srv, String nomMos, String redSoc, String idRedsoc, String clv, DataProveedor prov) {
     	super.setId(id);
         super.setNombre(nom);
         super.setApellido(ape);
@@ -20,9 +21,9 @@ public class DataUsuario extends DataPersona{
         super.setFechaNacimiento(fecNac);
         super.setEliminado(elim);
         super.setClave(clv);
-        super.setServicios(srv);
         this.redSocialUsada = redSoc;
         this.idRedSocial = idRedsoc; 
+        this.proveedor = prov;
     }
 
     public void setRedSocialUsada(String val){
@@ -39,6 +40,14 @@ public class DataUsuario extends DataPersona{
     
     public String getIdRedSocial(){
         return this.idRedSocial;
+    }
+    
+    public void setProveedor(DataProveedor val){
+        this.proveedor = val;
+    }
+    
+    public DataProveedor getProveedor(){
+        return this.proveedor;
     }
 
 }

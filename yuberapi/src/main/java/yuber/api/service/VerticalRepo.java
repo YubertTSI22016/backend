@@ -59,10 +59,6 @@ public class VerticalRepo {
 		return ctrProveedor.obtenerProveedores(pagina, elementosPagina, tenant);
 	}
 
-	public DataProveedor loginProveedor(String usuario, String clave, DataTenant tenant) {
-		return ctrProveedor.loginProveedor(usuario, clave, tenant);
-	}
-	
 	public DataProveedor getProveedor(String id, DataTenant tenant) {
 		return ctrProveedor.getProveedor(id, tenant);
 	}

@@ -49,19 +49,6 @@ public class ProveedorSrv implements ProveedorLocalApi {
 		return proveedores;
 	}
 
-	public DataProveedor loginProveedor(String mailProveedor, String clave, DataTenant tenant) {
-		Session session = (Session) em.getDelegate();
-		Criteria criteria = session.createCriteria(Proveedor.class);
-		criteria.add(Restrictions.eq("email.email", mailProveedor));
-		List<Proveedor> listPrv = criteria.list();
-		if (listPrv.size() == 1) {
-			DataProveedor proveedor = listPrv.get(0).getDatatype(true);
-			if (proveedor.getClave().equals(clave))
-				return proveedor;
-		}
-		return null;
-	}
-
 	public void modificarProveedor(DataProveedor prv, DataTenant tenant) {
 		Proveedor realObj = new Proveedor(prv);
 		if (em.find(Proveedor.class, realObj.getId()) == null) {
@@ -78,7 +65,7 @@ public class ProveedorSrv implements ProveedorLocalApi {
 
 	public DataProveedor crearProveedor(DataProveedor prv, DataTenant tenant) {
 		Proveedor realObj = new Proveedor(prv);
-		realObj.setEliminado(false);
+		realObj.setActivo(true);
 		// guardo el proveedor en bd
 		em.persist(realObj);
 		return realObj.getDatatype(true);
@@ -86,7 +73,7 @@ public class ProveedorSrv implements ProveedorLocalApi {
 
 	public void darBajaProveedor(String idProveedor, DataTenant tenant) {
 		DataProveedor prv = getProveedor(idProveedor, tenant);
-		prv.setEliminado(true);
+		prv.setActivo(false);
 		this.modificarProveedor(prv, tenant);
 	}
 

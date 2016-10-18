@@ -6,56 +6,45 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.IndexColumn;
 
 import yuber.shares.*;
 
 @Entity
 @XmlRootElement
-public class Proveedor extends Persona implements Serializable {
+public class Proveedor implements Serializable {
 	private static final long serialVersionUID = 1L; 
-	
+	@Id
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+	private String id;
     private Boolean activo;
     @OneToMany
 	@IndexColumn(name="LIST_INDEX")
     private List<JornadaLaboral> jornadas;
+    @OneToOne
+    private Usuario usuario;
     
 
     public Proveedor() {}
     
-    public Proveedor(String id, String nom, String ape, Email mail, List<Telefono> tels, Date fecNac, Boolean elim, List<Servicio> srv, String clave, Boolean activo, List<JornadaLaboral> jl) {
-        super(id,clave, nom, ape, mail, tels, fecNac, elim, srv);
+    public Proveedor(Usuario usu, Boolean activo, List<JornadaLaboral> jl) {
+    	this.id = id;
+    	this.usuario = usu;
         this.activo = activo;
         this.jornadas = jl;
     }
     
     public Proveedor(DataProveedor dt){
     	this.setId(dt.getId());
-    	this.setNombre(dt.getNombre());
-    	this.setApellido(dt.getApellido());
-    	if(dt.getEmail() != null){
-    		this.setEmail(new Email(dt.getEmail()));
-    	}
-    	if(dt.getTelefonosContacto() != null){
-	    	List<Telefono> aux = new ArrayList<Telefono>();
-	    	dt.getTelefonosContacto().stream().forEach((tel) -> {
-	    		aux.add(new Telefono(tel));
-	        });
-	    	this.setTelefonosContacto(aux);
-    	}
-    	this.setFechaNacimiento(dt.getFechaNacimiento());
-    	this.setEliminado(dt.getEliminado());
-    	if(dt.getServicios() != null){
-	    	List<Servicio> aux = new ArrayList<Servicio>();
-	    	dt.getServicios().stream().forEach((srv) -> {
-	    		aux.add(new Servicio(srv));
-	        });
-	    	this.setServicios(aux);
-    	}
-    	this.setClave(dt.getClave());
+    	this.setUsuario(new Usuario(dt.getUsuario()));
     	this.setActivo(dt.getActivo());
     	if(dt.getJornadas() != null){
 	    	List<JornadaLaboral> aux = new ArrayList<JornadaLaboral>();
@@ -71,27 +60,8 @@ public class Proveedor extends Persona implements Serializable {
     public DataProveedor getDatatype(Boolean conHijos){
     	DataProveedor result = new DataProveedor();
     	result.setId(this.getId());
-    	result.setNombre(this.getNombre());
-    	result.setApellido(this.getApellido());
-    	if(this.getEmail()!=null)
-    		result.setEmail(this.getEmail().getDatatype());
-    	if(this.getTelefonosContacto()!=null && conHijos){
-	    	List<DataTelefono> aux = new ArrayList<DataTelefono>();
-	    	this.getTelefonosContacto().stream().forEach((tel) -> {
-	    		aux.add(tel.getDatatype());
-	        });
-	    	result.setTelefonosContacto(aux);
-    	}
-    	result.setFechaNacimiento(this.getFechaNacimiento());
-    	result.setEliminado(this.getEliminado());
-    	if(this.getServicios()!=null && conHijos){
-	    	List<DataServicio> aux = new ArrayList<DataServicio>();
-	    	this.getServicios().stream().forEach((srv) -> {
-	    		aux.add(srv.getDatatype());
-	        });
-	    	result.setServicios(aux);
-    	}
-    	result.setClave(this.getClave());
+    	if(this.getUsuario() != null)
+    		result.setUsuario(this.getUsuario().getDatatype(true));
     	result.setActivo(this.getActivo());
     	if(this.getJornadas() != null){
 	    	List<DataJornadaLaboral> aux = new ArrayList<DataJornadaLaboral>();
@@ -104,7 +74,21 @@ public class Proveedor extends Persona implements Serializable {
     	return result;
     }
     
-   
+    public void setId(String val){
+        this.id = val;
+    }
+    
+    public String getId(){
+        return this.id;
+    }
+    
+    public void setUsuario(Usuario val){
+        this.usuario = val;
+    }
+    
+    public Usuario getUsuario(){
+        return this.usuario;
+    }
 
     public void setActivo(Boolean val){
         this.activo = val;

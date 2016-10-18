@@ -38,14 +38,11 @@ public abstract class Persona implements Serializable{
     @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
     private Boolean eliminado;
-    @OneToMany
-	@IndexColumn(name="LIST_INDEX")
-    private List<Servicio> servicios;
      
 
     public Persona() {}
     
-    public Persona(String id, String clave, String nom, String ape, Email mail, List<Telefono> tels, Date fecNac, Boolean elim, List<Servicio> srv) {
+    public Persona(String id, String clave, String nom, String ape, Email mail, List<Telefono> tels, Date fecNac, Boolean elim) {
         this.id = id;
         this.clave = clave;
         this.nombre = nom;
@@ -54,7 +51,6 @@ public abstract class Persona implements Serializable{
         this.telefonosContacto = tels;
         this.fechaNacimiento = fecNac;
         this.eliminado = elim;
-        this.servicios = srv;
     }
     
     public void setId(String val){
@@ -119,13 +115,5 @@ public abstract class Persona implements Serializable{
     
     public void setClave(String val){
     	this.clave = val;
-    }
-    
-    public List<Servicio> getServicios(){
-    	return this.servicios;
-    }
-    
-    public void setServicios(List<Servicio> val){
-    	this.servicios = val;
     }
 }
