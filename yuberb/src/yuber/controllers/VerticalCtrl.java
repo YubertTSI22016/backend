@@ -12,12 +12,9 @@ import yuber.interfaces.IConfiguracionVertical;
 import yuber.interfaces.IProveedor;
 import yuber.interfaces.IUsuario;
 import yuber.interfaces.ProveedorLocalApi;
+import yuber.interfaces.ServicioLocalApi;
 import yuber.interfaces.UsuarioLocalApi;
-import yuber.shares.DataAdministrador;
-import yuber.shares.DataConfiguracionVertical;
-import yuber.shares.DataProveedor;
-import yuber.shares.DataTenant;
-import yuber.shares.DataUsuario;
+import yuber.shares.*;
 
 @Stateless
 public class VerticalCtrl implements IUsuario, IProveedor, IAdministrador, IConfiguracionVertical{
@@ -29,6 +26,8 @@ public class VerticalCtrl implements IUsuario, IProveedor, IAdministrador, IConf
 	AdministradorLocalApi srvAdmin;
 	@EJB(lookup = "java:app/yuberdb/UsuarioSrv!yuber.interfaces.UsuarioLocalApi")
 	UsuarioLocalApi srvUsuario;
+	@EJB(lookup = "java:app/yuberdb/ServicioSrv!yuber.interfaces.ServicioLocalApi")
+	ServicioLocalApi srvServicio;
 
 	//USUARIO
 	@Override
@@ -130,5 +129,27 @@ public class VerticalCtrl implements IUsuario, IProveedor, IAdministrador, IConf
 		
 		
 		return srvConfiguracionVertical.crearConfiguracionVertical(conf, tenant);
+	}
+	
+	//@Override
+	public DataServicio pedirServicio(DataUsuario usuario, String ubicacion, String destinoOMensaje, DataTenant tenant){
+		DataServicio servicio = new DataServicio();
+		servicio.setUsuario(usuario);
+		servicio.setCoordenadasOrigen(ubicacion);
+		DataConfiguracionVertical conf = srvConfiguracionVertical.getConfiguracionVertical(tenant);
+		if(conf.getTransporte()){
+			servicio.setCoordenadasDestino(destinoOMensaje);
+		}else{
+			servicio.setDescripcion(destinoOMensaje);
+		}
+		return srvServicio.crearServicio(servicio, tenant);
+	}
+	
+	//@Override
+	public DataServicio ofrecerServicio(String idServicio, DataProveedor proveedor, DataTenant tenant){
+		DataServicio servicio = srvServicio.getServicio(idServicio, tenant);
+		servicio.setProveedor(proveedor);
+		srvServicio.modificarServicio(servicio, tenant);
+		return servicio;
 	}
 }

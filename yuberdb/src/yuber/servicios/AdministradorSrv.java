@@ -50,7 +50,7 @@ public class AdministradorSrv implements AdministradorLocalApi {
 		Criteria criteria = session.createCriteria(Administrador.class);
 		criteria.add(Restrictions.eq("email.email", mailAdmin));
 		List<Administrador> listAdmin = criteria.list();
-		if(listAdmin.size() == 0 && mailAdmin == "admin" && obtenerAdmins(1,1,tenant).size() == 0){
+		if(listAdmin.size() == 0 && mailAdmin.equals("admin") && obtenerAdmins(1,1,tenant).size() == 0){
 			DataAdministrador defaultAdmin = new DataAdministrador();
 			DataEmail defaultAdminEmail = new DataEmail();
 			defaultAdminEmail.setEmail("admin");

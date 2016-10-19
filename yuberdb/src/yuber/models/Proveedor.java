@@ -44,7 +44,8 @@ public class Proveedor implements Serializable {
     
     public Proveedor(DataProveedor dt){
     	this.setId(dt.getId());
-    	this.setUsuario(new Usuario(dt.getUsuario()));
+    	if(dt.getUsuario() != null)
+    		this.setUsuario(new Usuario(dt.getUsuario()));
     	this.setActivo(dt.getActivo());
     	if(dt.getJornadas() != null){
 	    	List<JornadaLaboral> aux = new ArrayList<JornadaLaboral>();
