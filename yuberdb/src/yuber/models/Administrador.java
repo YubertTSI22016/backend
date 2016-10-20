@@ -48,7 +48,7 @@ public class Administrador extends Persona implements Serializable{
 		result.setId(super.getId());
 		result.setNombre(super.getNombre());
 		result.setApellido(super.getApellido());
-		if (result.getEmail() != null){
+		if (super.getEmail() != null){
 			result.setEmail(super.getEmail().getDatatype());
 		}
 		result.setClave(super.getClave());
