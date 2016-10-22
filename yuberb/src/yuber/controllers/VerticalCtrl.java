@@ -163,4 +163,10 @@ public class VerticalCtrl implements IVertical{
         pusher.trigger(tenant+"-proveedores", "solicitud-recibida", Collections.singletonMap("message", servicio.getId()));
         return servicio;
 	}
+
+
+	@Override
+	public List<DataProveedor> reporteRatingProveedores(Integer pagina, Integer elementosPagina, Integer rating, DataTenant tenant) {
+		return srvProveedor.reporteRatingProveedores(pagina, elementosPagina, rating, tenant);
+	}
 }

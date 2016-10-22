@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import yuber.interceptors.TenantIntercept;
@@ -38,7 +39,6 @@ public class ProveedorSrv implements ProveedorLocalApi {
 		// obtengo todos los usuarios de la bd
 		Session session = (Session) em.getDelegate();
 		Criteria criteria = session.createCriteria(Proveedor.class);
-		criteria.add(Restrictions.eq("eliminado", false));
 		criteria.setFirstResult((pagina - 1) * elementosPagina);
 		criteria.setMaxResults(elementosPagina);
 		List<Proveedor> listProv = new ArrayList<Proveedor>(new LinkedHashSet(criteria.list()));
@@ -87,6 +87,23 @@ public class ProveedorSrv implements ProveedorLocalApi {
 			return proveedor;
 		}
 		return null;
+	}
+
+	@Override
+	public List<DataProveedor> reporteRatingProveedores(Integer pagina, Integer elementosPagina, Integer rating, DataTenant tenant) {
+		List<DataProveedor> result = new ArrayList<DataProveedor>();
+		Session session = (Session) em.getDelegate();
+		Criteria criteria = session.createCriteria(Proveedor.class);
+		criteria.add(Restrictions.le("rating", Float.valueOf(rating)));
+		criteria.addOrder(Order.asc("rating"));
+		criteria.setFirstResult((pagina - 1) * elementosPagina);
+		criteria.setMaxResults(elementosPagina);
+		List<Proveedor> listProv = new ArrayList<Proveedor>(new LinkedHashSet(criteria.list()));
+
+		listProv.stream().forEach((prv) -> {
+			result.add(prv.getDatatype(true));
+		});
+		return result;
 	}
 
 }

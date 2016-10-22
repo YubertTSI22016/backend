@@ -99,4 +99,8 @@ public class VerticalRepo {
 	        return ctrVertical.ofrecerServicio(idServicio, idProveedor, tenant);
 	}
 
+	public List<DataProveedor> reporteRatingProveedores(Integer pagina, Integer elementosPagina, Integer rating, DataTenant tenant) {
+		return ctrVertical.reporteRatingProveedores(pagina, elementosPagina, rating, tenant);
+	}
+
 }

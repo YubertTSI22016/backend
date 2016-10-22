@@ -185,4 +185,11 @@ public class VerticalApi extends BaseApi{
 		JSONObject obj = new JSONObject(data);
 		return verticalRepo.ofrecerServicio(obj.getString("idServicio"), obj.getString("idProveedor"), tenant);
 	}
+	
+	@GET
+	@Path("/reporteratingprov/{pagina:[0-9][0-9]*}/{elementosPagina:[0-9][0-9]*}/{rating:[0-5][0-5]*}")
+	public List<DataProveedor> reporteRatingProveedores(@PathParam("pagina") final Integer pagina,@PathParam("elementosPagina") final Integer ElementosPagina, @PathParam("rating") final Integer rating){
+		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
+		return verticalRepo.reporteRatingProveedores(pagina, ElementosPagina, rating, tenant);
+	}
 }

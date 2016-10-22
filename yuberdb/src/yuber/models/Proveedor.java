@@ -31,15 +31,17 @@ public class Proveedor implements Serializable {
     private List<JornadaLaboral> jornadas;
     @OneToOne
     private Usuario usuario;
+    private Float rating;
     
 
     public Proveedor() {}
     
-    public Proveedor(Usuario usu, Boolean activo, List<JornadaLaboral> jl) {
+    public Proveedor(String id, Usuario usu, Boolean activo, List<JornadaLaboral> jl, Float rat) {
     	this.id = id;
     	this.usuario = usu;
         this.activo = activo;
         this.jornadas = jl;
+        this.rating = rat;
     }
     
     public Proveedor(DataProveedor dt){
@@ -54,7 +56,7 @@ public class Proveedor implements Serializable {
 	        });
 	    	this.setJornadas(aux);
     	}
-    	
+    	this.setRating(dt.getRating());
     	 
     }
     
@@ -71,7 +73,7 @@ public class Proveedor implements Serializable {
 	        });
 	    	result.setJornadas(aux);
     	}
-    	 
+    	result.setRating(this.getRating());
     	return result;
     }
     
@@ -105,5 +107,13 @@ public class Proveedor implements Serializable {
     
     public List<JornadaLaboral> getJornadas(){
         return this.jornadas;
+    }
+    
+    public Float getRating(){
+        return this.rating;
+    }
+
+    public void setRating(Float val){
+        this.rating = val;
     }
 }

@@ -53,4 +53,6 @@ public interface IVertical {
     
 	public DataServicio ofrecerServicio(String idServicio, String idProveedor, DataTenant tenant);
 
+	public List<DataProveedor> reporteRatingProveedores(Integer pagina, Integer elementosPagina, Integer rating, DataTenant tenant);
+
 }

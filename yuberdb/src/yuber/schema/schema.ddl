@@ -71,6 +71,7 @@ ALTER TABLE public.persona_telefonoscontacto OWNER TO yuberadmin;
 CREATE TABLE proveedor (
     id character varying(255) NOT NULL,
     activo boolean,
+    rating real,
     usuario_id character varying(255)
 );
 

@@ -15,4 +15,5 @@ public interface ProveedorLocalApi {
 	public DataProveedor crearProveedor(DataProveedor usu, DataTenant tenant);
 	public void darBajaProveedor(String idProveedor, DataTenant tenant);
 	public DataProveedor buscarProveedorPorMail(String mailProveedor, DataTenant tenant);
+	public List<DataProveedor> reporteRatingProveedores(Integer pagina, Integer elementosPagina, Integer rating,DataTenant tenant);
 }
