@@ -10,6 +10,7 @@ import yuber.interfaces.IVertical;
 import yuber.shares.DataAdministrador;
 import yuber.shares.DataConfiguracionVertical;
 import yuber.shares.DataProveedor;
+import yuber.shares.DataServicio;
 import yuber.shares.DataTenant;
 import yuber.shares.DataUsuario;
 
@@ -89,6 +90,13 @@ public class VerticalRepo {
 	
 	public DataConfiguracionVertical crearConfiguracionVertical(DataConfiguracionVertical conf, DataTenant tenant){
 		return ctrVertical.crearConfiguracionVertical(conf, tenant);
+	}
+	
+	public DataServicio pedirServicio(String idUsuario, String ubicacion, String destinoOMensaje, DataTenant tenant){
+        return ctrVertical.pedirServicio(idUsuario, ubicacion, destinoOMensaje, tenant);
+	}
+	public DataServicio ofrecerServicio(String idServicio, String idProveedor, DataTenant tenant){
+	        return ctrVertical.ofrecerServicio(idServicio, idProveedor, tenant);
 	}
 
 }

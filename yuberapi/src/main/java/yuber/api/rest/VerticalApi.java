@@ -17,6 +17,7 @@ import yuber.api.service.VerticalRepo;
 import yuber.shares.DataAdministrador;
 import yuber.shares.DataConfiguracionVertical;
 import yuber.shares.DataProveedor;
+import yuber.shares.DataServicio;
 import yuber.shares.DataTenant;
 import yuber.shares.DataUsuario;
 
@@ -167,5 +168,21 @@ public class VerticalApi extends BaseApi{
 		
 		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
 		return verticalRepo.crearConfiguracionVertical(conf, tenant);
+	}
+	
+	@POST
+	@Path("/pedirservicio/")
+	public DataServicio pedirServicio(String data){
+		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
+		JSONObject obj = new JSONObject(data);
+		return verticalRepo.pedirServicio(obj.getString("idUsuario"), obj.getString("ubicacion"), obj.getString("destinoOMensaje"), tenant);
+	}
+	
+	@POST
+	@Path("/ofrecerservicio/")
+	public DataServicio ofrecerServicio(String data){
+		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
+		JSONObject obj = new JSONObject(data);
+		return verticalRepo.ofrecerServicio(obj.getString("idServicio"), obj.getString("idProveedor"), tenant);
 	}
 }

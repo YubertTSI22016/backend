@@ -54,8 +54,10 @@ public class Servicio {
 	public Servicio(DataServicio dt){
     	this.setId(dt.getId());
     	this.setFecha(dt.getFecha());
-    	this.setProveedor(new Proveedor(dt.getProveedor()));
-    	this.setUsuario(new Usuario(dt.getUsuario()));
+    	if(dt.getProveedor() != null)
+    		this.setProveedor(new Proveedor(dt.getProveedor()));
+    	if(dt.getUsuario() != null)
+    		this.setUsuario(new Usuario(dt.getUsuario()));
     	this.setRating(dt.getRating());
     	this.setComentario(dt.getComentario());
     	this.setEstado(dt.getEstado());
@@ -70,8 +72,10 @@ public class Servicio {
     	DataServicio result = new DataServicio();
     	result.setId(this.getId());
     	result.setFecha(this.getFecha());
-    	result.setProveedor(this.getProveedor().getDatatype(true));
-    	result.setUsuario(this.getUsuario().getDatatype(true));
+    	if(this.getProveedor() != null)
+    		result.setProveedor(this.getProveedor().getDatatype(true));
+    	if(this.getProveedor() != null)
+    		result.setUsuario(this.getUsuario().getDatatype(true));
     	result.setRating(this.getRating());
     	result.setComentario(this.getComentario());
     	result.setEstado(this.getEstado());

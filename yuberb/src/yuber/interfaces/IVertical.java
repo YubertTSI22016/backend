@@ -5,6 +5,7 @@ import java.util.List;
 import yuber.shares.DataAdministrador;
 import yuber.shares.DataConfiguracionVertical;
 import yuber.shares.DataProveedor;
+import yuber.shares.DataServicio;
 import yuber.shares.DataTenant;
 import yuber.shares.DataUsuario;
 
@@ -47,5 +48,9 @@ public interface IVertical {
 	public void modificarConfiguracionVertical(DataConfiguracionVertical conf, DataTenant tenant);
 	
 	public DataConfiguracionVertical crearConfiguracionVertical(DataConfiguracionVertical conf, DataTenant tenant);
+	
+	public DataServicio pedirServicio(String idUsuario, String ubicacion, String destinoOMensaje, DataTenant tenant);
+    
+	public DataServicio ofrecerServicio(String idServicio, String idProveedor, DataTenant tenant);
 
 }

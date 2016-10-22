@@ -221,17 +221,10 @@
       <version>1.1.1.Final</version>
     </dependency>
     <dependency>
-      <groupId>yuber</groupId>
-      <artifactId>yuberdb</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
-      <type>ejb</type>
-    </dependency>
-    <dependency>
-      <groupId>yuber</groupId>
-      <artifactId>yuberdb</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
-      <type>ejb</type>
-    </dependency>
+	  <groupId>com.pusher</groupId>
+	  <artifactId>pusher-http-java</artifactId>
+	  <version>1.0.0</version>
+	</dependency>
   </dependencies>
   <repositories>
   	<repository>
@@ -265,6 +258,34 @@
           <target>1.8</target>
         </configuration>
       </plugin>
+      <plugin>
+         <artifactId>maven-jar-plugin</artifactId>
+         <configuration>
+           <archive>
+             <manifest>
+               <addClasspath>true</addClasspath>
+               <classpathPrefix>lib</classpathPrefix>
+               <mainClass>com.pusher.rest.Pusher</mainClass>
+             </manifest>
+           </archive>
+         </configuration>
+      </plugin>
+      <plugin>
+           <groupId>org.apache.maven.plugins</groupId>
+           <artifactId>maven-ear-plugin</artifactId>
+           <version>2.8</version>
+           <configuration>
+               <defaultLibBundleDir>lib</defaultLibBundleDir>
+               <modules>
+                   <webModule>
+                       <groupId>${project.groupId}</groupId>
+                       <artifactId>pusher-http-java</artifactId>
+                       <bundleDir>lib</bundleDir>
+                       <includeInApplicationXml>true</includeInApplicationXml>
+                   </webModule>
+               </modules>
+           </configuration>
+       </plugin>
     </plugins>
   </build>
 </project>

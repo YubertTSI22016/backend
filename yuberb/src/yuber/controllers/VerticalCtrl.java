@@ -1,9 +1,12 @@
 package yuber.controllers;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+
+import com.pusher.rest.Pusher;
 
 import yuber.interfaces.AdministradorLocalApi;
 import yuber.interfaces.ConfiguracionVerticalLocalApi;
@@ -128,10 +131,10 @@ public class VerticalCtrl implements IVertical{
 		return srvConfiguracionVertical.crearConfiguracionVertical(conf, tenant);
 	}
 	
-	//@Override
-	public DataServicio pedirServicio(DataUsuario usuario, String ubicacion, String destinoOMensaje, DataTenant tenant){
+	@Override
+	public DataServicio pedirServicio(String idUsuario, String ubicacion, String destinoOMensaje, DataTenant tenant){
 		DataServicio servicio = new DataServicio();
-		servicio.setUsuario(usuario);
+		servicio.setUsuario(srvUsuario.getUsuario(idUsuario, tenant));
 		servicio.setCoordenadasOrigen(ubicacion);
 		DataConfiguracionVertical conf = srvConfiguracionVertical.getConfiguracionVertical(tenant);
 		if(conf.getTransporte()){
@@ -139,14 +142,25 @@ public class VerticalCtrl implements IVertical{
 		}else{
 			servicio.setDescripcion(destinoOMensaje);
 		}
-		return srvServicio.crearServicio(servicio, tenant);
+		DataServicio srv = srvServicio.crearServicio(servicio, tenant);
+        
+        Pusher pusher = new Pusher("259107", "c2f52caa39102181e99f", "805644b0daae68d5a848");
+        pusher.setEncrypted(true);
+
+        pusher.trigger(tenant+"-proveedores", "solicitud-recibida", Collections.singletonMap("message", srv.getId()));
+        return srv;
 	}
 	
-	//@Override
-	public DataServicio ofrecerServicio(String idServicio, DataProveedor proveedor, DataTenant tenant){
+	@Override
+	public DataServicio ofrecerServicio(String idServicio, String idProveedor, DataTenant tenant){
 		DataServicio servicio = srvServicio.getServicio(idServicio, tenant);
-		servicio.setProveedor(proveedor);
+		servicio.setProveedor(srvProveedor.getProveedor(idProveedor, tenant));
 		srvServicio.modificarServicio(servicio, tenant);
-		return servicio;
+        
+        Pusher pusher = new Pusher("259107", "c2f52caa39102181e99f", "805644b0daae68d5a848");
+        pusher.setEncrypted(true);
+
+        pusher.trigger(tenant+"-proveedores", "solicitud-recibida", Collections.singletonMap("message", servicio.getId()));
+        return servicio;
 	}
 }
