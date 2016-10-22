@@ -7,17 +7,14 @@ import javax.ejb.Stateless;
 
 import yuber.interfaces.AdministradorLocalApi;
 import yuber.interfaces.ConfiguracionVerticalLocalApi;
-import yuber.interfaces.IAdministrador;
-import yuber.interfaces.IConfiguracionVertical;
-import yuber.interfaces.IProveedor;
-import yuber.interfaces.IUsuario;
+import yuber.interfaces.IVertical;
 import yuber.interfaces.ProveedorLocalApi;
 import yuber.interfaces.ServicioLocalApi;
 import yuber.interfaces.UsuarioLocalApi;
 import yuber.shares.*;
 
 @Stateless
-public class VerticalCtrl implements IUsuario, IProveedor, IAdministrador, IConfiguracionVertical{
+public class VerticalCtrl implements IVertical{
 	@EJB(lookup = "java:app/yuberdb/ConfiguracionVerticalSrv!yuber.interfaces.ConfiguracionVerticalLocalApi")
 	ConfiguracionVerticalLocalApi srvConfiguracionVertical;
 	@EJB(lookup = "java:app/yuberdb/ProveedorSrv!yuber.interfaces.ProveedorLocalApi")
