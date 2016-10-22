@@ -8,17 +8,19 @@ public class DataProveedor{
 	private String id;
 	private DataUsuario usuario;
     private Boolean activo;
+    private Boolean eliminado;
     private List<DataJornadaLaboral> jornadas;
 
  
 
     public DataProveedor() {}
     
-    public DataProveedor(String id, DataUsuario usu, Boolean activo, String clv, List<DataJornadaLaboral> jor) {
+    public DataProveedor(String id, DataUsuario usu, Boolean activo,Boolean eliminado, String clv, List<DataJornadaLaboral> jor) {
     	this.id = id;
     	this.usuario = usu;
         this.activo = activo;
         this.jornadas = jor;
+        this.eliminado = false;
     }
 
     public void setId(String val){
@@ -43,6 +45,14 @@ public class DataProveedor{
     
     public Boolean getActivo(){
         return this.activo;
+    }
+    
+    public void setEliminado(Boolean val){
+        this.eliminado = val;
+    }
+    
+    public Boolean getEliminado(){
+        return this.eliminado;
     }
     
     public void setJornadas(List<DataJornadaLaboral> val){
