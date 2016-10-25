@@ -57,4 +57,8 @@ public interface IVertical {
 
 	public DataUsuario loginAltaUsuarioFacebook(String email, String nombre, String uid, DataTenant tenant);
 
+	public void calificarServicio(String idServicio, Float calificacion, String comentario, DataTenant tenant);
+
+	DataServicio finalizarServicio(String idServicio, Float float1, DataTenant tenant);
+
 }

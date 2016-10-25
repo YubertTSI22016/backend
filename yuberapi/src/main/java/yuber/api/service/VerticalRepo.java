@@ -107,4 +107,12 @@ public class VerticalRepo {
 		return ctrVertical.loginAltaUsuarioFacebook(email, nombre, uid, tenant);
 	}
 
+	public void calificarServicio(String idServicio, Float calificacion, String comentario, DataTenant tenant) {
+		ctrVertical.calificarServicio(idServicio, calificacion, comentario, tenant);
+	}
+	
+	public DataServicio finalizarServicio(String idServicio, Float float1, DataTenant tenant){
+		return ctrVertical.finalizarServicio(idServicio, float1, tenant);
+	}
+
 }

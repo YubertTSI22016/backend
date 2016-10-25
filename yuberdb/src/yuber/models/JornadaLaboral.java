@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -36,15 +37,18 @@ public class JornadaLaboral {
 	@OneToMany
 	@IndexColumn(name="LIST_INDEX")
     private List<Servicio> servicios;
+	@OneToOne(targetEntity=Servicio.class)
+	private Servicio servicioActivo;
 	
 	public JornadaLaboral(){}
 	
-	public JornadaLaboral(String id, Proveedor prov, Date ini, Date fin, List<Servicio> serv){
+	public JornadaLaboral(String id, Proveedor prov, Date ini, Date fin, List<Servicio> serv, Servicio sa){
 		this.id = id;
 		this.proveedor = prov;
 		this.inicio = ini;
 		this.fin = fin;
 		this.servicios = serv;
+		this.servicioActivo = sa;
 	}
 	
 	public JornadaLaboral(DataJornadaLaboral dt){
@@ -59,6 +63,8 @@ public class JornadaLaboral {
 	        });
 	    	this.setServicios(aux);
     	}
+    	if(dt.getServicioActivo() != null)
+    		this.setServicioActivo(new Servicio(dt.getServicioActivo()));
     }
     
     public DataJornadaLaboral getDatatype(){
@@ -74,6 +80,8 @@ public class JornadaLaboral {
 	        });
 	    	result.setServicios(aux);
     	}
+    	if(this.getServicioActivo() != null)
+    		result.setServicioActivo(this.getServicioActivo().getDatatype());
     	return result;
     }
 	
@@ -115,5 +123,13 @@ public class JornadaLaboral {
     
     public List<Servicio> getServicios(){
         return this.servicios;
+    }
+    
+    public void setServicioActivo(Servicio val){
+        this.servicioActivo = val;
+    }
+    
+    public Servicio getServicioActivo(){
+        return this.servicioActivo;
     }
 }

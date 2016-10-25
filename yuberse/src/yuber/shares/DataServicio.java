@@ -10,7 +10,7 @@ public class DataServicio {
 	private Date fecha;
 	private DataUsuario usuario;
 	private DataProveedor proveedor;
-	private Integer rating;
+	private Float rating;
 	private String comentario;
 	private String estado;
 	private String descripcion;
@@ -20,7 +20,7 @@ public class DataServicio {
 	
 	public DataServicio(){}
 	
-	public DataServicio(String id, Date fec, DataUsuario usu, DataProveedor prov, Integer rat, String coment, String est, String desc, String coordOri, String coordDest,Float prec){
+	public DataServicio(String id, Date fec, DataUsuario usu, DataProveedor prov, Float rat, String coment, String est, String desc, String coordOri, String coordDest,Float prec){
 		this.id = id;
 		this.fecha = fec;
 		this.usuario = usu;
@@ -66,11 +66,11 @@ public class DataServicio {
         return this.usuario;
     }
     
-    public void setRating(Integer val){
+    public void setRating(Float val){
         this.rating = val;
     }
     
-    public Integer getRating(){
+    public Float getRating(){
         return this.rating;
     }
     

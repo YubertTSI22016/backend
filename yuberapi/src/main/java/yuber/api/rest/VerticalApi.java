@@ -200,4 +200,20 @@ public class VerticalApi extends BaseApi{
 		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
 		return verticalRepo.loginAltaUsuarioFacebook(obj.getString("email"), obj.getString("nombre"), obj.getString("uid"), tenant);
 	}
+	
+	@POST
+	@Path("/calificarservicio/")
+	public void calificarServicio(String data){
+		JSONObject obj = new JSONObject(data);
+		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
+		verticalRepo.calificarServicio(obj.getString("idServicio"), Float.valueOf(obj.getString("calificacion")), obj.getString("comentario"), tenant);
+	}
+	
+	@POST
+	@Path("/finalizarservicio/")
+	public DataServicio finalizarServicio(String data){
+		JSONObject obj = new JSONObject(data);
+		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
+		return verticalRepo.finalizarServicio(obj.getString("idServicio"), Float.valueOf(obj.getString("precio")), tenant);
+	}
 }

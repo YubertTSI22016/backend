@@ -27,7 +27,7 @@ public class Servicio {
 	private Usuario usuario;
 	@ManyToOne
 	private Proveedor proveedor;
-	private Integer rating;
+	private Float rating;
 	private String comentario;
 	private String estado;
 	private String descripcion;
@@ -37,7 +37,7 @@ public class Servicio {
 	
 	public Servicio(){}
 	
-	public Servicio(String id, Date fec, Usuario usu, Proveedor prov, Integer rat, String coment, String est, String desc, String coordOri, String coordDest,Float prec){
+	public Servicio(String id, Date fec, Usuario usu, Proveedor prov, Float rat, String coment, String est, String desc, String coordOri, String coordDest,Float prec){
 		this.id = id;
 		this.fecha = fec;
 		this.usuario = usu;
@@ -119,11 +119,11 @@ public class Servicio {
         return this.usuario;
     }
     
-    public void setRating(Integer val){
+    public void setRating(Float val){
         this.rating = val;
     }
     
-    public Integer getRating(){
+    public Float getRating(){
         return this.rating;
     }
     

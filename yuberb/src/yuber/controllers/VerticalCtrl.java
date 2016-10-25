@@ -134,7 +134,8 @@ public class VerticalCtrl implements IVertical{
 	@Override
 	public DataServicio pedirServicio(String idUsuario, String ubicacion, String destinoOMensaje, DataTenant tenant){
 		DataServicio servicio = new DataServicio();
-		servicio.setUsuario(srvUsuario.getUsuario(idUsuario, tenant));
+		DataUsuario usuario = srvUsuario.getUsuario(idUsuario, tenant);
+		servicio.setUsuario(usuario);
 		servicio.setCoordenadasOrigen(ubicacion);
 		DataConfiguracionVertical conf = srvConfiguracionVertical.getConfiguracionVertical(tenant);
 		if(conf.getTransporte()){
@@ -142,7 +143,10 @@ public class VerticalCtrl implements IVertical{
 		}else{
 			servicio.setDescripcion(destinoOMensaje);
 		}
+		servicio.setEstado("Solicitado");
 		DataServicio srv = srvServicio.crearServicio(servicio, tenant);
+		usuario.setServicioActivo(srv);
+		srvUsuario.modificarUsuario(usuario, tenant);
         
         Pusher pusher = new Pusher("259107", "c2f52caa39102181e99f", "805644b0daae68d5a848");
         pusher.setEncrypted(true);
@@ -154,13 +158,28 @@ public class VerticalCtrl implements IVertical{
 	@Override
 	public DataServicio ofrecerServicio(String idServicio, String idProveedor, DataTenant tenant){
 		DataServicio servicio = srvServicio.getServicio(idServicio, tenant);
-		servicio.setProveedor(srvProveedor.getProveedor(idProveedor, tenant));
+		DataProveedor proveedor = srvProveedor.getProveedor(idProveedor, tenant);
+		servicio.setProveedor(proveedor);
+		servicio.setEstado("Aceptado");
 		srvServicio.modificarServicio(servicio, tenant);
+		DataJornadaLaboral jornadaActual = proveedor.getJornadaActual();
+		jornadaActual.setServicioActivo(servicio);
+		proveedor.setJornadaActual(jornadaActual);
+		srvProveedor.modificarProveedor(proveedor, tenant);
         
         Pusher pusher = new Pusher("259107", "c2f52caa39102181e99f", "805644b0daae68d5a848");
         pusher.setEncrypted(true);
 
         pusher.trigger(tenant+"-proveedores", "solicitud-recibida", Collections.singletonMap("message", servicio.getId()));
+        return servicio;
+	}
+	
+	@Override
+	public DataServicio finalizarServicio(String idServicio, Float precio, DataTenant tenant){
+		DataServicio servicio = srvServicio.getServicio(idServicio, tenant);
+		servicio.setEstado("Finalizado");
+		servicio.setPrecio(precio);
+		srvServicio.modificarServicio(servicio, tenant);
         return servicio;
 	}
 
@@ -187,5 +206,14 @@ public class VerticalCtrl implements IVertical{
 			}
 		}
 		return null;
+	}
+
+
+	@Override
+	public void calificarServicio(String idServicio, Float calificacion, String comentario, DataTenant tenant) {
+		DataServicio serv = srvServicio.getServicio(idServicio, tenant);
+		serv.setRating(calificacion);
+		serv.setComentario(comentario);
+		srvServicio.modificarServicio(serv, tenant);
 	}
 }

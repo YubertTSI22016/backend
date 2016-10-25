@@ -29,6 +29,8 @@ public class Proveedor implements Serializable {
     @OneToMany
 	@IndexColumn(name="LIST_INDEX")
     private List<JornadaLaboral> jornadas;
+    @OneToOne(targetEntity=JornadaLaboral.class)
+    private JornadaLaboral jornadaActual;
     @OneToOne
     private Usuario usuario;
     private Float rating;
@@ -36,11 +38,12 @@ public class Proveedor implements Serializable {
 
     public Proveedor() {}
     
-    public Proveedor(String id, Usuario usu, Boolean activo, List<JornadaLaboral> jl, Float rat) {
+    public Proveedor(String id, Usuario usu, Boolean activo, List<JornadaLaboral> jls, JornadaLaboral jl, Float rat) {
     	this.id = id;
     	this.usuario = usu;
         this.activo = activo;
-        this.jornadas = jl;
+        this.jornadas = jls;
+        this.jornadaActual = jl;
         this.rating = rat;
     }
     
@@ -56,6 +59,8 @@ public class Proveedor implements Serializable {
 	        });
 	    	this.setJornadas(aux);
     	}
+    	if(dt.getJornadaActual() != null)
+    		this.setJornadaActual(new JornadaLaboral(dt.getJornadaActual()));
     	this.setRating(dt.getRating());
     	 
     }
@@ -73,6 +78,8 @@ public class Proveedor implements Serializable {
 	        });
 	    	result.setJornadas(aux);
     	}
+    	if(this.getJornadaActual() != null)
+    		result.setJornadaActual(this.getJornadaActual().getDatatype());
     	result.setRating(this.getRating());
     	return result;
     }
@@ -107,6 +114,14 @@ public class Proveedor implements Serializable {
     
     public List<JornadaLaboral> getJornadas(){
         return this.jornadas;
+    }
+    
+    public void setJornadaActual(JornadaLaboral val){
+        this.jornadaActual = val;
+    }
+    
+    public JornadaLaboral getJornadaActual(){
+        return this.jornadaActual;
     }
     
     public Float getRating(){
