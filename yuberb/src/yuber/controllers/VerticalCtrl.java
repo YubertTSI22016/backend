@@ -180,6 +180,20 @@ public class VerticalCtrl implements IVertical{
 		servicio.setEstado("Finalizado");
 		servicio.setPrecio(precio);
 		srvServicio.modificarServicio(servicio, tenant);
+		DataUsuario usuario = servicio.getUsuario();
+		List<DataServicio> servicios = usuario.getServicios();
+		servicios.add(servicio);
+		usuario.setServicios(servicios);
+		usuario.setServicioActivo(null);
+		srvUsuario.modificarUsuario(usuario, tenant);
+		DataProveedor proveedor = servicio.getProveedor();
+		DataJornadaLaboral jornada = proveedor.getJornadaActual();
+		List<DataServicio> serviciosp = jornada.getServicios();
+		servicios.add(servicio);
+		jornada.setServicios(serviciosp);
+		jornada.setServicioActivo(null);
+		proveedor.setJornadaActual(jornada);
+		srvProveedor.modificarProveedor(proveedor, tenant);
         return servicio;
 	}
 
