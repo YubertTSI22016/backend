@@ -55,10 +55,27 @@ public class UsuarioSrv implements UsuarioLocalApi {
 		List<Usuario> listUsu = criteria.list();
 		if (listUsu.size() == 1) {
 			DataUsuario usuario = listUsu.get(0).getDatatype(true);
+			if(usuario.getEliminado())
+				return null;
 			if (usuario.getClave().equals(clave))
 				return usuario;
 		}
 		return null;
+	}
+	
+	public DataUsuario loginFacebook(String mailUsuario, String uid, DataTenant tenant) {
+		Session session = (Session) em.getDelegate();
+		Criteria criteria = session.createCriteria(Usuario.class);
+		criteria.add(Restrictions.eq("email.email", mailUsuario));
+		List<Usuario> listUsu = criteria.list();
+		if (listUsu.size() == 1) {
+			DataUsuario usuario = listUsu.get(0).getDatatype(true);
+			if(usuario.getEliminado())
+				return null;
+			if (usuario.getRedSocialUsada().equals("Facebook") && usuario.getIdRedSocial().equals(uid))
+				return usuario;
+		}
+		return new DataUsuario();
 	}
 
 	public void modificarUsuario(DataUsuario usu, DataTenant tenant) {

@@ -55,4 +55,6 @@ public interface IVertical {
 
 	public List<DataProveedor> reporteRatingProveedores(Integer pagina, Integer elementosPagina, Integer rating, DataTenant tenant);
 
+	public DataUsuario loginAltaUsuarioFacebook(String email, String nombre, String uid, DataTenant tenant);
+
 }

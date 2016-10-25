@@ -169,4 +169,23 @@ public class VerticalCtrl implements IVertical{
 	public List<DataProveedor> reporteRatingProveedores(Integer pagina, Integer elementosPagina, Integer rating, DataTenant tenant) {
 		return srvProveedor.reporteRatingProveedores(pagina, elementosPagina, rating, tenant);
 	}
+	
+	@Override
+	public DataUsuario loginAltaUsuarioFacebook(String email, String nombre, String uid, DataTenant tenant){
+		DataUsuario result = srvUsuario.loginFacebook(email, uid, tenant);
+		if(result != null){
+			if(result.getId() != null){
+				return result;
+			}else{
+				result.setNombre(nombre);
+				result.setRedSocialUsada("Facebook");
+				DataEmail mail = new DataEmail();
+				mail.setEmail(email);
+				result.setEmail(mail);
+				result.setIdRedSocial(uid);
+				return srvUsuario.crearUsuario(result, tenant);
+			}
+		}
+		return null;
+	}
 }

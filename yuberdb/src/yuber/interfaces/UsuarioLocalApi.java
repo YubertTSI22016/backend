@@ -16,4 +16,5 @@ public interface UsuarioLocalApi {
 	public DataUsuario crearUsuario(DataUsuario usu, DataTenant tenant);
 	public void darBajaUsuario(String idUsuario, DataTenant tenant);
 	public DataUsuario buscarUsuarioPorMail(String mailUsuario, DataTenant tenant);
+	public DataUsuario loginFacebook(String mailUsuario, String uid, DataTenant tenant);
 }

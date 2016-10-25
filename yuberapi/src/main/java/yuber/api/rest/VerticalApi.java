@@ -192,4 +192,12 @@ public class VerticalApi extends BaseApi{
 		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
 		return verticalRepo.reporteRatingProveedores(pagina, ElementosPagina, rating, tenant);
 	}
+	
+	@POST
+	@Path("/loginaltafacebook/")
+	public DataUsuario loginAltaUsuarioFacebook(String data){
+		JSONObject obj = new JSONObject(data);
+		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
+		return verticalRepo.loginAltaUsuarioFacebook(obj.getString("email"), obj.getString("nombre"), obj.getString("uid"), tenant);
+	}
 }

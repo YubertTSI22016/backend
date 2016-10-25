@@ -102,5 +102,9 @@ public class VerticalRepo {
 	public List<DataProveedor> reporteRatingProveedores(Integer pagina, Integer elementosPagina, Integer rating, DataTenant tenant) {
 		return ctrVertical.reporteRatingProveedores(pagina, elementosPagina, rating, tenant);
 	}
+	
+	public DataUsuario loginAltaUsuarioFacebook(String email, String nombre, String uid, DataTenant tenant){
+		return ctrVertical.loginAltaUsuarioFacebook(email, nombre, uid, tenant);
+	}
 
 }
