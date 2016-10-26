@@ -168,20 +168,6 @@ public class UsuarioSrv implements UsuarioLocalApi {
 	 	  //Charge charge = Charge.create(chargeParams);
 	 	  Charge.create(chargeParams);
 	 	  
-		} catch (CardException e) {
-			  // Since it's a decline, CardException will be caught
-			  System.out.println("Status is: " + e.getCode());
-			  System.out.println("Message is: " + e.getMessage());
-		} catch (InvalidRequestException e) {
-			  // Invalid parameters were supplied to Stripe's API
-		} catch (AuthenticationException e) {
-			  // Authentication with Stripe's API failed
-			  // (maybe you changed API keys recently)
-		} catch (APIConnectionException e) {
-			  // Network communication with Stripe failed
-		} catch (StripeException e) {
-			  // Display a very generic error to the user, and maybe send
-			  // yourself an email
 		} catch (Exception e) {
 			  // Something else happened, completely unrelated to Stripe
 		}
