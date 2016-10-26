@@ -235,6 +235,11 @@
     	<artifactId>hibernate-c3p0</artifactId>
     	<version>5.2.0.Final</version>
     </dependency>
+    <dependency>
+  		<groupId>com.stripe</groupId>
+  		<artifactId>stripe-java</artifactId>
+ 		<version>3.2.0</version>
+	</dependency>
   </dependencies>
    <repositories>
   	<repository>

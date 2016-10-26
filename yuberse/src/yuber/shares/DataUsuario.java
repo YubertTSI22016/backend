@@ -9,12 +9,13 @@ public class DataUsuario extends DataPersona{
     private DataProveedor proveedor;
     private List<DataServicio> servicios;
     private DataServicio servicioActivo;
+    private String tokenTarjeta;
 
  
 
     public DataUsuario() {}
     
-    public DataUsuario(String id, String nom, String ape, DataEmail mail, DataTelefono tel, Date fecNac, Boolean elim, List<DataServicio> srv, DataServicio sa, String nomMos, String redSoc, String idRedsoc, String clv, DataProveedor prov) {
+    public DataUsuario(String id, String nom, String ape, DataEmail mail, DataTelefono tel, Date fecNac, Boolean elim, List<DataServicio> srv, DataServicio sa, String nomMos, String redSoc, String idRedsoc, String clv, DataProveedor prov, String token) {
     	super.setId(id);
         super.setNombre(nom);
         super.setApellido(ape);
@@ -28,6 +29,7 @@ public class DataUsuario extends DataPersona{
         this.proveedor = prov;
         this.servicios = srv;
         this.servicioActivo = sa;
+        this.tokenTarjeta = token;
     }
 
     public void setRedSocialUsada(String val){
@@ -69,5 +71,12 @@ public class DataUsuario extends DataPersona{
     public DataServicio getServicioActivo(){
         return this.servicioActivo;
     }
+    
+    public void setTokenTarjeta(String token){
+    	this.tokenTarjeta = token;
+    }
 
+    public String getTokenTarjeta(){
+    	return this.tokenTarjeta;
+    }
 }

@@ -17,4 +17,7 @@ public interface UsuarioLocalApi {
 	public void darBajaUsuario(String idUsuario, DataTenant tenant);
 	public DataUsuario buscarUsuarioPorMail(String mailUsuario, DataTenant tenant);
 	public DataUsuario loginFacebook(String mailUsuario, String uid, DataTenant tenant);
+	public void guardarToken(String idUsuario, String token, DataTenant tenant);
+	public void eliminarToken(String idUsuario, DataTenant tenant);
+	public void cargarTarjetaUsuario (String idUsuario, Float cargo, DataTenant tenant);
 }

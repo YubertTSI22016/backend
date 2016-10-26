@@ -230,4 +230,22 @@ public class VerticalCtrl implements IVertical{
 		serv.setComentario(comentario);
 		srvServicio.modificarServicio(serv, tenant);
 	}
+	
+	@Override
+	public void guardarToken(String idUsuario, String token, DataTenant tenant) {
+		  
+		srvUsuario.guardarToken(idUsuario, token, tenant);
+	}
+
+	@Override
+	public void eliminarToken(String idUsuario, DataTenant tenant) {
+	  
+		srvUsuario.eliminarToken(idUsuario, tenant);
+	}
+
+	@Override
+	public void cargarTarjeta(String idUsuario,Float carga, DataTenant tenant) {
+	  
+		srvUsuario.cargarTarjetaUsuario(idUsuario, carga, tenant);
+	}
 }

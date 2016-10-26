@@ -34,17 +34,19 @@ public class Usuario extends Persona implements Serializable{
     private Servicio servicioActivo;
     @OneToOne(fetch=FetchType.LAZY,cascade = {CascadeType.ALL})
     private Proveedor proveedor;
+    private String tokenTarjeta;
     
 
     public Usuario() {}
     
-    public Usuario(String id, String nom, String ape, Email mail, Telefono tel, Date fecNac, Boolean elim, List<Servicio> srv, Servicio sa, String clave, String redSoc, String idRedsoc, Proveedor prov) {
+    public Usuario(String id, String nom, String ape, Email mail, Telefono tel, Date fecNac, Boolean elim, List<Servicio> srv, Servicio sa, String clave, String redSoc, String idRedsoc, Proveedor prov, String token) {
         super(id,clave, nom, ape, mail, tel, fecNac, elim);
         this.redSocialUsada = redSoc;
         this.idRedSocial = idRedsoc;
         this.proveedor = prov;
         this.servicios = srv;
         this.servicioActivo = sa;
+        this.tokenTarjeta = token;
     }
     
     public Usuario(DataUsuario dt){
@@ -72,6 +74,7 @@ public class Usuario extends Persona implements Serializable{
     	}
     	if(dt.getServicioActivo() != null)
     		this.setServicioActivo(new Servicio(dt.getServicioActivo()));
+    	this.setTokenTarjeta(dt.getTokenTarjeta());
     	 
     }
     
@@ -100,6 +103,7 @@ public class Usuario extends Persona implements Serializable{
     	}
     	if(this.getServicioActivo()!=null)
     		result.setServicioActivo(this.getServicioActivo().getDatatype()); 
+    	result.setTokenTarjeta(this.getTokenTarjeta());
     	return result;
     }
     
@@ -145,5 +149,12 @@ public class Usuario extends Persona implements Serializable{
         return this.servicioActivo;
     }
 
+    public void setTokenTarjeta(String token){
+    	this.tokenTarjeta= token;
+    }
+    
+    public String getTokenTarjeta(){
+    	return this.tokenTarjeta;
+    }
    
 }

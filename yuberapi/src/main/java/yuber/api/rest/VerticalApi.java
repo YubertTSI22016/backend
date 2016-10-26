@@ -216,4 +216,27 @@ public class VerticalApi extends BaseApi{
 		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
 		return verticalRepo.finalizarServicio(obj.getString("idServicio"), Float.valueOf(obj.getString("precio")), tenant);
 	}
+	
+	//PAGOS
+	@POST
+	@Path("/guardartoken/")
+	public void guardartoken(String data){
+		JSONObject obj = new JSONObject(data);
+		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
+		verticalRepo.guardarToken(obj.getString("idUsuario"), obj.getString("tenant"), tenant);
+	}
+
+	@POST
+	@Path("/eliminartoken/")
+	public void eliminartoken(String idUsuario){
+		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
+		verticalRepo.eliminarToken(idUsuario, tenant);
+	}
+
+//	@POST
+//	@Path("/cargartarjeta/")
+//	public void cargartarjeta(DataUsuario usuario, Float carga){
+//		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
+//		verticalRepo.cargarTarjeta(usuario, carga, tenant);
+//	}
 }

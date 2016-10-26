@@ -114,5 +114,17 @@ public class VerticalRepo {
 	public DataServicio finalizarServicio(String idServicio, Float float1, DataTenant tenant){
 		return ctrVertical.finalizarServicio(idServicio, float1, tenant);
 	}
+	
+	public void guardarToken(String idUsuario, String token, DataTenant tenant) {
+		ctrVertical.guardarToken(idUsuario, token, tenant);
+	}
+
+	public void eliminarToken(String idUsuario, DataTenant tenant) {
+		ctrVertical.eliminarToken(idUsuario, tenant);
+	}
+
+	public void cargarTarjeta(String idUsuario, Float carga, DataTenant tenant){
+		ctrVertical.cargarTarjeta(idUsuario, carga, tenant);
+	}
 
 }
