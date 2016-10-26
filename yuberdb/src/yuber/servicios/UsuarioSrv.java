@@ -149,7 +149,7 @@ public class UsuarioSrv implements UsuarioLocalApi {
 	public void cargarTarjetaUsuario (String idUsuario, Float cargo, DataTenant tenant) {
 		// Set your secret key: remember to change this to your live secret key in production
 		// See your keys here: https://dashboard.stripe.com/account/apikeys
-		Stripe.apiKey = "sk_test_0GH1eXDiz1lErEC4qT7PW658";
+		Stripe.apiKey = "sk_test_7EZ8SFryAQ9k8jrdQplMBlYk";
 	
 		// Get the credit card details submitted by the form
 		//String token = request.getParameter("stripeToken");
