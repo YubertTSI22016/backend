@@ -54,8 +54,8 @@ public class VerticalCtrl implements IVertical{
 	}
 	
 	@Override
-	public void modificarUsuario(DataUsuario usuario, DataTenant tenant){
-		srvUsuario.modificarUsuario(usuario, tenant);
+	public DataUsuario modificarUsuario(DataUsuario usuario, DataTenant tenant){
+		return srvUsuario.modificarUsuario(usuario, tenant);
 	}
 	
 	//PROVEEDOR

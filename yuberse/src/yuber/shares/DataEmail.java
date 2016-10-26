@@ -1,23 +1,23 @@
 package yuber.shares;
 
 public class DataEmail{
-	private String descripcion;
+	private String descripcionMail;
     private String email;
     
 
     public DataEmail(){}
     
     public DataEmail(String desc, String em) {
-    	this.descripcion = desc;
+    	this.descripcionMail = desc;
     	this.email = em;
     }
     
-    public void setDescripcion(String val){
-        this.descripcion = val;
+    public void setDescripcionMail(String val){
+        this.descripcionMail = val;
     }
     
-    public String getDescripcion(){
-        return this.descripcion;
+    public String getDescripcionMail(){
+        return this.descripcionMail;
     }
     
     public void setEmail(String val){

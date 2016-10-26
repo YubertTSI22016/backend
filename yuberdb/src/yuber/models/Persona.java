@@ -32,9 +32,7 @@ public abstract class Persona implements Serializable{
     @Embedded
     private Email email;
     @Embedded
-    @ElementCollection
-    @IndexColumn(name="LIST_INDEX")
-    private List<Telefono> telefonosContacto;
+    private Telefono telefonoContacto;
     @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
     private Boolean eliminado;
@@ -42,13 +40,13 @@ public abstract class Persona implements Serializable{
 
     public Persona() {}
     
-    public Persona(String id, String clave, String nom, String ape, Email mail, List<Telefono> tels, Date fecNac, Boolean elim) {
+    public Persona(String id, String clave, String nom, String ape, Email mail, Telefono tel, Date fecNac, Boolean elim) {
         this.id = id;
         this.clave = clave;
         this.nombre = nom;
         this.apellido = ape;
         this.email = mail;
-        this.telefonosContacto = tels;
+        this.telefonoContacto = tel;
         this.fechaNacimiento = fecNac;
         this.eliminado = elim;
     }
@@ -85,12 +83,12 @@ public abstract class Persona implements Serializable{
         return this.email;
     }
 
-    public void setTelefonosContacto(List<Telefono> val){
-        this.telefonosContacto = val;
+    public void setTelefonoContacto(Telefono val){
+        this.telefonoContacto = val;
     }
     
-    public List<Telefono> getTelefonosContacto(){
-        return this.telefonosContacto;
+    public Telefono getTelefonoContacto(){
+        return this.telefonoContacto;
     }
 
     public void setFechaNacimiento(Date val){

@@ -37,8 +37,8 @@ public class VerticalRepo {
 		return ctrVertical.getUsuario(id, tenant);
 	}
 	
-	public void modificarUsuario(DataUsuario usuario, DataTenant tenant){
-		ctrVertical.modificarUsuario(usuario, tenant);
+	public DataUsuario modificarUsuario(DataUsuario usuario, DataTenant tenant){
+		return ctrVertical.modificarUsuario(usuario, tenant);
 	}
 	
 	//PROVEEDOR

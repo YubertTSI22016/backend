@@ -14,12 +14,12 @@ public class DataUsuario extends DataPersona{
 
     public DataUsuario() {}
     
-    public DataUsuario(String id, String nom, String ape, DataEmail mail, List<DataTelefono> tels, Date fecNac, Boolean elim, List<DataServicio> srv, DataServicio sa, String nomMos, String redSoc, String idRedsoc, String clv, DataProveedor prov) {
+    public DataUsuario(String id, String nom, String ape, DataEmail mail, DataTelefono tel, Date fecNac, Boolean elim, List<DataServicio> srv, DataServicio sa, String nomMos, String redSoc, String idRedsoc, String clv, DataProveedor prov) {
     	super.setId(id);
         super.setNombre(nom);
         super.setApellido(ape);
         super.setEmail(mail);
-        super.setTelefonosContacto(tels);
+        super.setTelefonoContacto(tel);
         super.setFechaNacimiento(fecNac);
         super.setEliminado(elim);
         super.setClave(clv);

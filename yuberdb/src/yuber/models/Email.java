@@ -14,31 +14,31 @@ import yuber.shares.DataEmail;
 @XmlRootElement
 public class Email implements Serializable{
     private static final long serialVersionUID = 1L;
-    private String descripcion;
+    private String descripcionMail;
     private String email;
     public Email() {
-        descripcion = "";
+        descripcionMail = "";
     	email = "";
     }
     
     public Email(DataEmail dt){
-    	this.descripcion = dt.getDescripcion();
+    	this.descripcionMail = dt.getDescripcionMail();
     	this.email = dt.getEmail();
     }
     
     public DataEmail getDatatype(){
        	DataEmail result = new DataEmail();
-       	result.setDescripcion(this.descripcion);
+       	result.setDescripcionMail(this.descripcionMail);
     	result.setEmail(this.email);
     	return result;
     }
     
-    public void setDescripcion(String val){
-        this.descripcion = val;
+    public void setDescripcionMail(String val){
+        this.descripcionMail = val;
     }
     
-    public String getDescripcion(){
-        return this.descripcion;
+    public String getDescripcionMail(){
+        return this.descripcionMail;
     }
     
     public void setEmail(String val){

@@ -65,10 +65,10 @@ public class VerticalApi extends BaseApi{
 	
 	@POST
 	@Path("/modificarusuario/")
-	public void modificarusuario(DataUsuario usuario){
+	public DataUsuario modificarusuario(DataUsuario usuario){
 		
 		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
-		verticalRepo.modificarUsuario(usuario, tenant);
+		return verticalRepo.modificarUsuario(usuario, tenant);
 	}
 	
 	//PROVEEDOR

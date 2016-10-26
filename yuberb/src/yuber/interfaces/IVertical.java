@@ -20,7 +20,7 @@ public interface IVertical {
 	 
 	public DataUsuario getUsuario(String id, DataTenant tenant);
 	
-	public void modificarUsuario(DataUsuario usuario, DataTenant tenant);
+	public DataUsuario modificarUsuario(DataUsuario usuario, DataTenant tenant);
 	
 	//PROVEEDOR
 	public DataProveedor altaProveedor (DataProveedor proveedor, DataTenant tenant);

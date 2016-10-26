@@ -11,7 +11,7 @@ import yuber.shares.DataUsuario;
 public interface UsuarioLocalApi {
 	public List<DataUsuario> obtenerUsuarios(Integer pagina, Integer elementosPagina, DataTenant tenant);
 	public DataUsuario loginUsuario(String mailUsuario, String clave, DataTenant tenant);
-	public void modificarUsuario(DataUsuario usu, DataTenant tenant);
+	public DataUsuario modificarUsuario(DataUsuario usu, DataTenant tenant);
 	public DataUsuario getUsuario(String usu, DataTenant tenant);
 	public DataUsuario crearUsuario(DataUsuario usu, DataTenant tenant);
 	public void darBajaUsuario(String idUsuario, DataTenant tenant);

@@ -15,29 +15,29 @@ import yuber.shares.DataTelefono;
 public class Telefono implements Serializable{
     private static final long serialVersionUID = 1L;
     
-    private String descripcion;
+    private String descripcionTel;
     private String telefono;
     
     public Telefono() {}
     
     public Telefono(DataTelefono dt){
-    	this.setDescripcion(dt.getDescripcion());
+    	this.setDescripcionTel(dt.getDescripcionTel());
     	this.setTelefono(dt.getTelefono());
     }
     
     public DataTelefono getDatatype(){
     	DataTelefono result = new DataTelefono();
-    	result.setDescripcion(this.getDescripcion());
+    	result.setDescripcionTel(this.getDescripcionTel());
     	result.setTelefono(this.getTelefono());
     	return result;
     }
     
-    public void setDescripcion(String val){
-        this.descripcion = val;
+    public void setDescripcionTel(String val){
+        this.descripcionTel = val;
     }
     
-    public String getDescripcion(){
-        return this.descripcion;
+    public String getDescripcionTel(){
+        return this.descripcionTel;
     }    
   
     public void setTelefono(String val){

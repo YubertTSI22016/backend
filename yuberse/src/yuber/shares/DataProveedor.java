@@ -12,12 +12,15 @@ public class DataProveedor{
     private List<DataJornadaLaboral> jornadas;
     private DataJornadaLaboral jornadaActual;
     private Float rating;
+    private DataTelefono telefono;
+    private String descripcion;
+    private String nombre;
 
  
 
     public DataProveedor() {}
     
-    public DataProveedor(String id, DataUsuario usu, Boolean activo, Boolean eliminado, String clv, List<DataJornadaLaboral> jor, DataJornadaLaboral jl, Float rat) {
+    public DataProveedor(String id, DataUsuario usu, Boolean activo, Boolean eliminado, String clv, List<DataJornadaLaboral> jor, DataJornadaLaboral jl, Float rat, DataTelefono tel, String desc, String nom) {
     	this.id = id;
     	this.usuario = usu;
         this.activo = activo;
@@ -25,6 +28,9 @@ public class DataProveedor{
         this.jornadaActual = jl;
         this.eliminado = false;
         this.rating = rat;
+        this.telefono = tel;
+        this.descripcion = desc;
+        this.nombre = nom;
     }
 
     public void setId(String val){
@@ -81,6 +87,30 @@ public class DataProveedor{
     
     public Float getRating(){
         return this.rating;
+    }
+    
+    public DataTelefono getTelefono(){
+        return this.telefono;
+    }
+
+    public void setTelefono(DataTelefono val){
+        this.telefono = val;
+    }
+    
+    public String getDescripcion(){
+        return this.descripcion;
+    }
+
+    public void setDescripcion(String val){
+        this.descripcion = val;
+    }
+    
+    public String getNombre(){
+        return this.nombre;
+    }
+
+    public void setNombre(String val){
+        this.nombre = val;
     }
 
 }

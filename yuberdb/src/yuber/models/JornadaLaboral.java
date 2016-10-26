@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -34,10 +36,10 @@ public class JornadaLaboral {
 	private Date inicio;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date fin;
-	@OneToMany
+	@OneToMany(fetch=FetchType.LAZY,cascade = {CascadeType.ALL})
 	@IndexColumn(name="LIST_INDEX")
     private List<Servicio> servicios;
-	@OneToOne(targetEntity=Servicio.class)
+	@OneToOne(targetEntity=Servicio.class,fetch=FetchType.LAZY,cascade = {CascadeType.ALL})
 	private Servicio servicioActivo;
 	
 	public JornadaLaboral(){}

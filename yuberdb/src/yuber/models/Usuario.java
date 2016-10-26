@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
@@ -31,14 +32,14 @@ public class Usuario extends Persona implements Serializable{
     private List<Servicio> servicios;
     @OneToOne(targetEntity=Servicio.class)
     private Servicio servicioActivo;
-    @OneToOne
+    @OneToOne(fetch=FetchType.LAZY,cascade = {CascadeType.ALL})
     private Proveedor proveedor;
     
 
     public Usuario() {}
     
-    public Usuario(String id, String nom, String ape, Email mail, List<Telefono> tels, Date fecNac, Boolean elim, List<Servicio> srv, Servicio sa, String clave, String redSoc, String idRedsoc, Proveedor prov) {
-        super(id,clave, nom, ape, mail, tels, fecNac, elim);
+    public Usuario(String id, String nom, String ape, Email mail, Telefono tel, Date fecNac, Boolean elim, List<Servicio> srv, Servicio sa, String clave, String redSoc, String idRedsoc, Proveedor prov) {
+        super(id,clave, nom, ape, mail, tel, fecNac, elim);
         this.redSocialUsada = redSoc;
         this.idRedSocial = idRedsoc;
         this.proveedor = prov;
@@ -53,13 +54,8 @@ public class Usuario extends Persona implements Serializable{
     	if(dt.getEmail() != null){
     		this.setEmail(new Email(dt.getEmail()));
     	}
-    	if(dt.getTelefonosContacto() != null){
-	    	List<Telefono> aux = new ArrayList<Telefono>();
-	    	dt.getTelefonosContacto().stream().forEach((tel) -> {
-	    		aux.add(new Telefono(tel));
-	        });
-	    	this.setTelefonosContacto(aux);
-    	}
+    	if(dt.getTelefonoContacto() != null)
+    		this.setTelefonoContacto(new Telefono(dt.getTelefonoContacto()));
     	this.setFechaNacimiento(dt.getFechaNacimiento());
     	this.setEliminado(dt.getEliminado());
     	this.setClave(dt.getClave());
@@ -86,13 +82,8 @@ public class Usuario extends Persona implements Serializable{
     	result.setApellido(this.getApellido());
     	if(this.getEmail()!=null)
     		result.setEmail(this.getEmail().getDatatype());
-    	if(this.getTelefonosContacto()!=null && conHijos){
-	    	List<DataTelefono> aux = new ArrayList<DataTelefono>();
-	    	this.getTelefonosContacto().stream().forEach((tel) -> {
-	    		aux.add(tel.getDatatype());
-	        });
-	    	result.setTelefonosContacto(aux);
-    	}
+    	if(this.getTelefonoContacto()!=null)
+    		result.setTelefonoContacto(this.getTelefonoContacto().getDatatype());
     	result.setFechaNacimiento(this.getFechaNacimiento());
     	result.setEliminado(this.getEliminado());
     	result.setClave(this.getClave());

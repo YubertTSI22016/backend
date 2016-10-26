@@ -78,12 +78,13 @@ public class UsuarioSrv implements UsuarioLocalApi {
 		return new DataUsuario();
 	}
 
-	public void modificarUsuario(DataUsuario usu, DataTenant tenant) {
+	public DataUsuario modificarUsuario(DataUsuario usu, DataTenant tenant) {
 		Usuario realObj = new Usuario(usu);
 		if (em.find(Usuario.class, realObj.getId()) == null) {
 			throw new IllegalArgumentException("El usuario no existe");
 		}
 		em.merge(realObj);
+		return realObj.getDatatype(true);
 	}
 
 	public DataUsuario getUsuario(String id, DataTenant tenant) {

@@ -2,7 +2,7 @@ package yuber.shares;
 
 public class DataTelefono{
     
-	private String descripcion;
+	private String descripcionTel;
 	private String telefono;
     
  
@@ -10,21 +10,21 @@ public class DataTelefono{
     public DataTelefono() {}
     
     public DataTelefono(String tel){
-    	this.descripcion = "Contacto";
+    	this.descripcionTel = "Contacto";
     	this.telefono = tel;
     }
     
     public DataTelefono(String desc, String tel) {
-    	this.descripcion = desc;
+    	this.descripcionTel = desc;
     	this.telefono = tel;
     }
     
-    public void setDescripcion(String val){
-        this.descripcion = val;
+    public void setDescripcionTel(String val){
+        this.descripcionTel = val;
     }
     
-    public String getDescripcion(){
-        return this.descripcion;
+    public String getDescripcionTel(){
+        return this.descripcionTel;
     }
 
     public void setTelefono(String val){

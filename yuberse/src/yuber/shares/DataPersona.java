@@ -14,7 +14,7 @@ public abstract class DataPersona{
     private String apellido;
     private DataEmail email;
     private String clave;
-    private List<DataTelefono> telefonosContacto;
+    private DataTelefono telefonoContacto;
     @XmlElement
     @XmlJavaTypeAdapter(DateAdapter.class)
     private Date fechaNacimiento;
@@ -60,12 +60,12 @@ public abstract class DataPersona{
         return this.email;
     }
 
-    public void setTelefonosContacto(List<DataTelefono> val){
-        this.telefonosContacto = val;
+    public void setTelefonoContacto(DataTelefono val){
+        this.telefonoContacto = val;
     }
     
-    public List<DataTelefono> getTelefonosContacto(){
-        return this.telefonosContacto;
+    public DataTelefono getTelefonoContacto(){
+        return this.telefonoContacto;
     }
 
     public void setFechaNacimiento(Date val){

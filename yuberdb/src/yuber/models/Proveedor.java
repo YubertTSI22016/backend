@@ -5,7 +5,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -26,25 +29,32 @@ public class Proveedor implements Serializable {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
 	private String id;
     private Boolean activo;
-    @OneToMany
+    @OneToMany(fetch=FetchType.LAZY,cascade = {CascadeType.ALL})
 	@IndexColumn(name="LIST_INDEX")
     private List<JornadaLaboral> jornadas;
-    @OneToOne(targetEntity=JornadaLaboral.class)
+    @OneToOne(targetEntity=JornadaLaboral.class,fetch=FetchType.LAZY,cascade = {CascadeType.ALL})
     private JornadaLaboral jornadaActual;
     @OneToOne
     private Usuario usuario;
     private Float rating;
+    @Embedded
+    private Telefono telefono;
+    private String descripcion;
+    private String nombre;
     
 
     public Proveedor() {}
     
-    public Proveedor(String id, Usuario usu, Boolean activo, List<JornadaLaboral> jls, JornadaLaboral jl, Float rat) {
+    public Proveedor(String id, Usuario usu, Boolean activo, List<JornadaLaboral> jls, JornadaLaboral jl, Float rat, Telefono tel, String desc, String nom) {
     	this.id = id;
     	this.usuario = usu;
         this.activo = activo;
         this.jornadas = jls;
         this.jornadaActual = jl;
         this.rating = rat;
+        this.telefono = tel;
+        this.descripcion = desc;
+        this.nombre = nom;
     }
     
     public Proveedor(DataProveedor dt){
@@ -62,7 +72,10 @@ public class Proveedor implements Serializable {
     	if(dt.getJornadaActual() != null)
     		this.setJornadaActual(new JornadaLaboral(dt.getJornadaActual()));
     	this.setRating(dt.getRating());
-    	 
+    	if(dt.getTelefono() != null)
+    		this.setTelefono(new Telefono(dt.getTelefono()));
+    	this.setDescripcion(dt.getDescripcion());
+    	this.setNombre(dt.getNombre());
     }
     
     public DataProveedor getDatatype(Boolean conHijos){
@@ -81,6 +94,10 @@ public class Proveedor implements Serializable {
     	if(this.getJornadaActual() != null)
     		result.setJornadaActual(this.getJornadaActual().getDatatype());
     	result.setRating(this.getRating());
+    	if(this.getTelefono() != null)
+    		result.setTelefono(this.getTelefono().getDatatype());
+    	result.setDescripcion(this.getDescripcion());
+    	result.setNombre(this.getNombre());
     	return result;
     }
     
@@ -130,5 +147,29 @@ public class Proveedor implements Serializable {
 
     public void setRating(Float val){
         this.rating = val;
+    }
+    
+    public Telefono getTelefono(){
+        return this.telefono;
+    }
+
+    public void setTelefono(Telefono val){
+        this.telefono = val;
+    }
+    
+    public String getDescripcion(){
+        return this.descripcion;
+    }
+
+    public void setDescripcion(String val){
+        this.descripcion = val;
+    }
+    
+    public String getNombre(){
+        return this.nombre;
+    }
+
+    public void setNombre(String val){
+        this.nombre = val;
     }
 }
