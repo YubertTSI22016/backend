@@ -155,6 +155,7 @@ public class VerticalCtrl implements IVertical{
 			servicio.setDescripcion(destinoOMensaje);
 		}
 		servicio.setEstado("Solicitado");
+		servicio = srvServicio.crearServicio(servicio, tenant);
 		usuario.setServicioActivo(servicio);
 		usuario = srvUsuario.modificarUsuario(usuario, tenant);
         
@@ -162,7 +163,7 @@ public class VerticalCtrl implements IVertical{
         ///pusher.setEncrypted(true);
 
         //pusher.trigger(tenant+"-proveedores", "solicitud-recibida", Collections.singletonMap("message", servicio.getId()));
-        return usuario.getServicioActivo();
+        return servicio;
 	}
 	
 	@Override

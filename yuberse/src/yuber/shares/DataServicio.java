@@ -113,7 +113,7 @@ public class DataServicio {
     }
     
     public void setCoordenadasDestino(String val){
-        this.id = coordenadasDestino;
+        this.coordenadasDestino = val;
     }
     
     public String getCoordenadasDestino(){
