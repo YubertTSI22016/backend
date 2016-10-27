@@ -115,8 +115,8 @@ public class VerticalRepo {
 		return ctrVertical.finalizarServicio(idServicio, float1, tenant);
 	}
 	
-	public void guardarToken(String idUsuario, String token, DataTenant tenant) {
-		ctrVertical.guardarToken(idUsuario, token, tenant);
+	public void guardarToken(String idUsuario, String token, Integer ultimosDigitosTarjeta, DataTenant tenant) {
+		ctrVertical.guardarToken(idUsuario, token, ultimosDigitosTarjeta, tenant);
 	}
 
 	public void eliminarToken(String idUsuario, DataTenant tenant) {

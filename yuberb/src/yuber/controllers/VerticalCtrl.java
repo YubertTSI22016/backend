@@ -2,12 +2,22 @@ package yuber.controllers;
 
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import com.pusher.rest.Pusher;
+
+import com.stripe.Stripe;
+import com.stripe.exception.APIConnectionException;
+import com.stripe.exception.AuthenticationException;
+import com.stripe.exception.CardException;
+import com.stripe.exception.InvalidRequestException;
+import com.stripe.exception.StripeException;
+import com.stripe.model.Charge;
 
 import yuber.interfaces.AdministradorLocalApi;
 import yuber.interfaces.ConfiguracionVerticalLocalApi;
@@ -236,6 +246,7 @@ public class VerticalCtrl implements IVertical{
 		jornada.setServicioActivo(null);
 		proveedor.setJornadaActual(jornada);
 		srvProveedor.modificarProveedor(proveedor, tenant);
+		cargarTarjeta (usuario.getId(), precio,tenant);
         return servicio;
 	}
 
@@ -273,21 +284,55 @@ public class VerticalCtrl implements IVertical{
 		srvServicio.modificarServicio(serv, tenant);
 	}
 	
+	//PAGOS
+	//GUARDO EL TOKEN EN EL USUARIO
 	@Override
-	public void guardarToken(String idUsuario, String token, DataTenant tenant) {
-		  
-		srvUsuario.guardarToken(idUsuario, token, tenant);
+	public void guardarToken(String idUsuario, String token, Integer ultimosDigitosTarjeta, DataTenant tenant){
+
+		DataUsuario usu = getUsuario(idUsuario, tenant);
+		usu.setTokenTarjeta(token);
+		usu.setUltimosNumerosTarjeta(ultimosDigitosTarjeta);
+		srvUsuario.modificarUsuario(usu, tenant);
 	}
 
+	//ELIMINO EL TOKEN DEL USUARIO
 	@Override
-	public void eliminarToken(String idUsuario, DataTenant tenant) {
-	  
-		srvUsuario.eliminarToken(idUsuario, tenant);
+	public void eliminarToken(String idUsuario, DataTenant tenant){
+
+		DataUsuario usu = getUsuario(idUsuario, tenant);
+		usu.setTokenTarjeta(null);
+		usu.setUltimosNumerosTarjeta(null);
+		srvUsuario.modificarUsuario(usu, tenant);
+	}	
+
+	//CARGO LA TARJETA DEL USUARIO
+	@Override
+	public void cargarTarjeta (String idUsuario, Float cargo, DataTenant tenant) {
+		// Set your secret key: remember to change this to your live secret key in production
+		// See your keys here: https://dashboard.stripe.com/account/apikeys
+		Stripe.apiKey = "sk_test_7EZ8SFryAQ9k8jrdQplMBlYk";
+	
+		// Get the credit card details submitted by the form
+		//String token = request.getParameter("stripeToken");
+		DataUsuario usu = getUsuario(idUsuario, tenant);
+		String token = usu.getTokenTarjeta();
+		String emailUsuario = usu.getEmail().getEmail();
+	
+		// Create a charge: this will charge the user's card
+		try {
+		  Map<String, Object> chargeParams = new HashMap<String, Object>();
+		  chargeParams.put("amount", cargo); // Amount in cents
+	 	  chargeParams.put("currency", "usd");
+		  chargeParams.put("source", token);
+		  chargeParams.put("description", "Cargo para: " + emailUsuario);
+	
+	 	  //Charge charge = Charge.create(chargeParams);
+	 	  Charge.create(chargeParams);
+	 	  
+		} catch (Exception e) {
+			  // Something else happened, completely unrelated to Stripe
+		}
+
 	}
 
-	@Override
-	public void cargarTarjeta(String idUsuario,Float carga, DataTenant tenant) {
-	  
-		srvUsuario.cargarTarjetaUsuario(idUsuario, carga, tenant);
-	}
 }

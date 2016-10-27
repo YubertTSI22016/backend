@@ -21,13 +21,6 @@ import yuber.models.Usuario;
 import yuber.shares.DataTenant;
 import yuber.shares.DataUsuario;
 
-import com.stripe.Stripe;
-import com.stripe.exception.APIConnectionException;
-import com.stripe.exception.AuthenticationException;
-import com.stripe.exception.CardException;
-import com.stripe.exception.InvalidRequestException;
-import com.stripe.exception.StripeException;
-import com.stripe.model.Charge;
 /**
  * Session Bean implementation class UsuarioSrv
  */
@@ -128,50 +121,4 @@ public class UsuarioSrv implements UsuarioLocalApi {
 		return null;
 	}
 	
-	//PAGOS
-	//GUARDO EL TOKEN EN EL USUARIO
-	public void guardarToken(String idUsuario, String token, DataTenant tenant){
-
-		DataUsuario usu = getUsuario(idUsuario, tenant);
-		usu.setTokenTarjeta(token);
-		this.modificarUsuario(usu, tenant);
-	}
-
-	//ELIMINO EL TOKEN DEL USUARIO
-	public void eliminarToken(String idUsuario, DataTenant tenant){
-
-		DataUsuario usu = getUsuario(idUsuario, tenant);
-		usu.setTokenTarjeta(null);
-		this.modificarUsuario(usu, tenant);
-	}	
-
-	//CARGO LA TARJETA DEL USUARIO
-	public void cargarTarjetaUsuario (String idUsuario, Float cargo, DataTenant tenant) {
-		// Set your secret key: remember to change this to your live secret key in production
-		// See your keys here: https://dashboard.stripe.com/account/apikeys
-		Stripe.apiKey = "sk_test_7EZ8SFryAQ9k8jrdQplMBlYk";
-	
-		// Get the credit card details submitted by the form
-		//String token = request.getParameter("stripeToken");
-		DataUsuario usu = getUsuario(idUsuario, tenant);
-		String token = usu.getTokenTarjeta();
-		String emailUsuario = usu.getEmail().getEmail();
-	
-		// Create a charge: this will charge the user's card
-		try {
-		  Map<String, Object> chargeParams = new HashMap<String, Object>();
-		  chargeParams.put("amount", cargo); // Amount in cents
-	 	  chargeParams.put("currency", "usd");
-		  chargeParams.put("source", token);
-		  chargeParams.put("description", "Cargo para: " + emailUsuario);
-	
-	 	  //Charge charge = Charge.create(chargeParams);
-	 	  Charge.create(chargeParams);
-	 	  
-		} catch (Exception e) {
-			  // Something else happened, completely unrelated to Stripe
-		}
-
-	}
-
 }

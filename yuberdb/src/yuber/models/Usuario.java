@@ -35,11 +35,12 @@ public class Usuario extends Persona implements Serializable{
     @OneToOne
     private Proveedor proveedor;
     private String tokenTarjeta;
+    private Integer ultimosNumerosTarjeta;
     
 
     public Usuario() {}
     
-    public Usuario(String id, String nom, String ape, Email mail, Telefono tel, Date fecNac, Boolean elim, List<Servicio> srv, Servicio sa, String clave, String redSoc, String idRedsoc, Proveedor prov, String token) {
+    public Usuario(String id, String nom, String ape, Email mail, Telefono tel, Date fecNac, Boolean elim, List<Servicio> srv, Servicio sa, String clave, String redSoc, String idRedsoc, Proveedor prov, String token, Integer unt) {
         super(id,clave, nom, ape, mail, tel, fecNac, elim);
         this.redSocialUsada = redSoc;
         this.idRedSocial = idRedsoc;
@@ -47,6 +48,7 @@ public class Usuario extends Persona implements Serializable{
         this.servicios = srv;
         this.servicioActivo = sa;
         this.tokenTarjeta = token;
+        this.ultimosNumerosTarjeta = unt;
     }
     
     public Usuario(DataUsuario dt, Boolean conHijos){
@@ -75,7 +77,7 @@ public class Usuario extends Persona implements Serializable{
     	if(dt.getServicioActivo() != null && conHijos)
     		this.setServicioActivo(new Servicio(dt.getServicioActivo()));
     	this.setTokenTarjeta(dt.getTokenTarjeta());
-    	 
+    	this.setUltimosNumerosTarjeta(dt.getUltimosNumerosTarjeta());
     }
     
     public DataUsuario getDatatype(Boolean conHijos){
@@ -104,6 +106,7 @@ public class Usuario extends Persona implements Serializable{
     	if(this.getServicioActivo()!=null)
     		result.setServicioActivo(this.getServicioActivo().getDatatype()); 
     	result.setTokenTarjeta(this.getTokenTarjeta());
+    	result.setUltimosNumerosTarjeta(this.getUltimosNumerosTarjeta());
     	return result;
     }
     
@@ -149,12 +152,20 @@ public class Usuario extends Persona implements Serializable{
         return this.servicioActivo;
     }
 
-    public void setTokenTarjeta(String token){
-    	this.tokenTarjeta= token;
+    public void setTokenTarjeta(String val){
+    	this.tokenTarjeta= val;
     }
     
     public String getTokenTarjeta(){
     	return this.tokenTarjeta;
+    }
+    
+    public void setUltimosNumerosTarjeta(Integer val){
+    	this.ultimosNumerosTarjeta= val;
+    }
+    
+    public Integer getUltimosNumerosTarjeta(){
+    	return this.ultimosNumerosTarjeta;
     }
    
 }

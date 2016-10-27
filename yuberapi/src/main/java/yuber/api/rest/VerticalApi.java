@@ -223,7 +223,7 @@ public class VerticalApi extends BaseApi{
 	public void guardartoken(String data){
 		JSONObject obj = new JSONObject(data);
 		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
-		verticalRepo.guardarToken(obj.getString("idUsuario"), obj.getString("tenant"), tenant);
+		verticalRepo.guardarToken(obj.getString("idUsuario"),obj.getString("token"),Integer.valueOf(obj.getString("ultimosDiegitosTarjeta")), tenant);
 	}
 
 	@POST

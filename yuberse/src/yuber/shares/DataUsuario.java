@@ -10,12 +10,13 @@ public class DataUsuario extends DataPersona{
     private List<DataServicio> servicios;
     private DataServicio servicioActivo;
     private String tokenTarjeta;
+    private Integer ultimosNumerosTarjeta;
 
  
 
     public DataUsuario() {}
     
-    public DataUsuario(String id, String nom, String ape, DataEmail mail, DataTelefono tel, Date fecNac, Boolean elim, List<DataServicio> srv, DataServicio sa, String nomMos, String redSoc, String idRedsoc, String clv, DataProveedor prov, String token) {
+    public DataUsuario(String id, String nom, String ape, DataEmail mail, DataTelefono tel, Date fecNac, Boolean elim, List<DataServicio> srv, DataServicio sa, String nomMos, String redSoc, String idRedsoc, String clv, DataProveedor prov, String token, Integer unt) {
     	super.setId(id);
         super.setNombre(nom);
         super.setApellido(ape);
@@ -30,6 +31,7 @@ public class DataUsuario extends DataPersona{
         this.servicios = srv;
         this.servicioActivo = sa;
         this.tokenTarjeta = token;
+        this.ultimosNumerosTarjeta = unt;
     }
 
     public void setRedSocialUsada(String val){
@@ -78,5 +80,13 @@ public class DataUsuario extends DataPersona{
 
     public String getTokenTarjeta(){
     	return this.tokenTarjeta;
+    }
+    
+    public void setUltimosNumerosTarjeta(Integer val){
+    	this.ultimosNumerosTarjeta= val;
+    }
+    
+    public Integer getUltimosNumerosTarjeta(){
+    	return this.ultimosNumerosTarjeta;
     }
 }

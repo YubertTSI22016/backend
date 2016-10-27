@@ -62,7 +62,7 @@ public interface IVertical {
 	DataServicio finalizarServicio(String idServicio, Float float1, DataTenant tenant);
 
 	//PAGOS
-	public void guardarToken(String idUsuario, String token, DataTenant tenant);
+	public void guardarToken(String idUsuario, String token, Integer ultimosDigitosTarjeta, DataTenant tenant);
 	
 	public void eliminarToken(String idUsuario, DataTenant tenant);
 	
