@@ -75,7 +75,7 @@ public class Servicio {
     	if(this.getProveedor() != null)
     		result.setProveedor(this.getProveedor().getDatatype(true));
     	if(this.getUsuario() != null)
-    		result.setUsuario(this.getUsuario().getDatatype(true));
+    		result.setUsuario(this.getUsuario().getDatatype(false));
     	result.setRating(this.getRating());
     	result.setComentario(this.getComentario());
     	result.setEstado(this.getEstado());

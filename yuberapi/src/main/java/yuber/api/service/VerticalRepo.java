@@ -142,5 +142,9 @@ public class VerticalRepo {
 	public DataServicio obtenerServicio(String idServicio, DataTenant tenant){
 		return ctrVertical.obtenerServicio(idServicio, tenant);
 	}
+	
+	public List<DataServicio> listarServicios(String idUsuProv, DataTenant tenant){
+		return ctrVertical.listarServicios(idUsuProv, tenant);
+	}
 
 }

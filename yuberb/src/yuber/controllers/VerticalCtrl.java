@@ -158,10 +158,10 @@ public class VerticalCtrl implements IVertical{
 		usuario.setServicioActivo(servicio);
 		usuario = srvUsuario.modificarUsuario(usuario, tenant);
         
-        Pusher pusher = new Pusher("259107", "c2f52caa39102181e99f", "805644b0daae68d5a848");
-        pusher.setEncrypted(true);
+        //Pusher pusher = new Pusher("259107", "c2f52caa39102181e99f", "805644b0daae68d5a848");
+        ///pusher.setEncrypted(true);
 
-        pusher.trigger(tenant+"-proveedores", "solicitud-recibida", Collections.singletonMap("message", servicio.getId()));
+        //pusher.trigger(tenant+"-proveedores", "solicitud-recibida", Collections.singletonMap("message", servicio.getId()));
         return usuario.getServicioActivo();
 	}
 	
@@ -177,10 +177,10 @@ public class VerticalCtrl implements IVertical{
 		proveedor.setJornadaActual(jornadaActual);
 		srvProveedor.modificarProveedor(proveedor, tenant);
         
-        Pusher pusher = new Pusher("259107", "c2f52caa39102181e99f", "805644b0daae68d5a848");
-        pusher.setEncrypted(true);
+        //Pusher pusher = new Pusher("259107", "c2f52caa39102181e99f", "805644b0daae68d5a848");
+        //pusher.setEncrypted(true);
 
-        pusher.trigger(tenant+"-proveedores", "solicitud-recibida", Collections.singletonMap("message", servicio.getId()));
+        //pusher.trigger(tenant+"-proveedores", "solicitud-recibida", Collections.singletonMap("message", servicio.getId()));
         return servicio;
 	}
 	
@@ -333,6 +333,19 @@ public class VerticalCtrl implements IVertical{
 			  // Something else happened, completely unrelated to Stripe
 		}
 
+	}
+	
+	@Override
+	public List<DataServicio> listarServicios(String idUsuProv, DataTenant tenant){
+		DataUsuario usuario = srvUsuario.getUsuario(idUsuProv, tenant);
+		if(usuario!=null){
+			return usuario.getServicios();
+		}
+		DataProveedor proveedor = srvProveedor.getProveedor(idUsuProv, tenant);
+		if(proveedor != null){
+			return srvServicio.listarServiciosPorProveedor(idUsuProv, tenant);
+		}
+		return null;
 	}
 
 }

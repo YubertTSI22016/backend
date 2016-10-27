@@ -13,4 +13,5 @@ public interface ServicioLocalApi {
 	public void modificarServicio(DataServicio srv, DataTenant tenant);
 	public DataServicio getServicio(String id, DataTenant tenant);
 	public DataServicio crearServicio(DataServicio srv, DataTenant tenant);
+	public List<DataServicio> listarServiciosPorProveedor(String idUsuProv, DataTenant tenant);
 }

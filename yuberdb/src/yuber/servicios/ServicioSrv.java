@@ -67,4 +67,19 @@ public class ServicioSrv implements ServicioLocalApi {
 		em.persist(realObj);
 		return realObj.getDatatype();
 	}
+
+	@Override
+	public List<DataServicio> listarServiciosPorProveedor(String idUsuProv, DataTenant tenant) {
+		List<DataServicio> servicios = new ArrayList();
+		// obtengo todos los servicios de la bd
+		Session session = (Session) em.getDelegate();
+		Criteria criteria = session.createCriteria(Servicio.class);
+		criteria.add(Restrictions.eq("proveedor.id", idUsuProv));
+		List<Servicio> listSrv = new ArrayList<Servicio>(new LinkedHashSet(criteria.list()));
+
+		listSrv.stream().forEach((srv) -> {
+			servicios.add(srv.getDatatype());
+		});
+		return servicios;
+	}
 }

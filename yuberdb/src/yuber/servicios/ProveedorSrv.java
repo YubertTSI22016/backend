@@ -61,6 +61,8 @@ public class ProveedorSrv implements ProveedorLocalApi {
 	public DataProveedor getProveedor(String id, DataTenant tenant) {
 		Session session = (Session) em.getDelegate();
 		Proveedor realObj = (Proveedor) session.get(Proveedor.class, id);
+		if(realObj == null)
+			return null;
 		return realObj.getDatatype(true);
 	}
 

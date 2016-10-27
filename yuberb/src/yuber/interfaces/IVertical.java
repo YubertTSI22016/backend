@@ -75,4 +75,6 @@ public interface IVertical {
 	public DataProveedor finalizarJornadaLaboral(String idProveedor, DataTenant tenant);
 
 	public DataServicio obtenerServicio(String idServicio, DataTenant tenant);
+	
+	public List<DataServicio> listarServicios(String idUsuProv, DataTenant tenant);
 }

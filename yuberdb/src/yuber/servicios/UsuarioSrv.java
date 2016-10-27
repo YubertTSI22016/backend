@@ -92,6 +92,8 @@ public class UsuarioSrv implements UsuarioLocalApi {
 	public DataUsuario getUsuario(String id, DataTenant tenant) {
 		Session session = (Session) em.getDelegate();
 		Usuario realObj = (Usuario) session.get(Usuario.class, id);
+		if(realObj == null)
+			return null;
 		return realObj.getDatatype(true);
 	}
 

@@ -103,7 +103,7 @@ public class Usuario extends Persona implements Serializable{
 	        });
 	    	result.setServicios(aux);
     	}
-    	if(this.getServicioActivo()!=null)
+    	if(this.getServicioActivo()!=null && conHijos)
     		result.setServicioActivo(this.getServicioActivo().getDatatype()); 
     	result.setTokenTarjeta(this.getTokenTarjeta());
     	result.setUltimosNumerosTarjeta(this.getUltimosNumerosTarjeta());
