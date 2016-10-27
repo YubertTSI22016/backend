@@ -49,12 +49,13 @@ public class ProveedorSrv implements ProveedorLocalApi {
 		return proveedores;
 	}
 
-	public void modificarProveedor(DataProveedor prv, DataTenant tenant) {
+	public DataProveedor modificarProveedor(DataProveedor prv, DataTenant tenant) {
 		Proveedor realObj = new Proveedor(prv);
 		if (em.find(Proveedor.class, realObj.getId()) == null) {
 			throw new IllegalArgumentException("El proveedor no existe");
 		}
 		em.merge(realObj);
+		return realObj.getDatatype(true);
 	}
 
 	public DataProveedor getProveedor(String id, DataTenant tenant) {

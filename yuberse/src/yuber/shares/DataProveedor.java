@@ -15,12 +15,13 @@ public class DataProveedor{
     private DataTelefono telefono;
     private String descripcion;
     private String nombre;
+    private String cuentaBancaria;
 
  
 
     public DataProveedor() {}
     
-    public DataProveedor(String id, DataUsuario usu, Boolean activo, Boolean eliminado, String clv, List<DataJornadaLaboral> jor, DataJornadaLaboral jl, Float rat, DataTelefono tel, String desc, String nom) {
+    public DataProveedor(String id, DataUsuario usu, Boolean activo, Boolean eliminado, String clv, List<DataJornadaLaboral> jor, DataJornadaLaboral jl, Float rat, DataTelefono tel, String desc, String nom, String cba) {
     	this.id = id;
     	this.usuario = usu;
         this.activo = activo;
@@ -31,6 +32,7 @@ public class DataProveedor{
         this.telefono = tel;
         this.descripcion = desc;
         this.nombre = nom;
+        this.cuentaBancaria = cba;
     }
 
     public void setId(String val){
@@ -111,6 +113,14 @@ public class DataProveedor{
 
     public void setNombre(String val){
         this.nombre = val;
+    }
+    
+    public String getCuentaBancaria(){
+        return this.cuentaBancaria;
+    }
+
+    public void setCuentaBancaria(String val){
+        this.cuentaBancaria = val;
     }
 
 }

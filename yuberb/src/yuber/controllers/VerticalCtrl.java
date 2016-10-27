@@ -1,6 +1,7 @@
 package yuber.controllers;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -144,15 +145,14 @@ public class VerticalCtrl implements IVertical{
 			servicio.setDescripcion(destinoOMensaje);
 		}
 		servicio.setEstado("Solicitado");
-		DataServicio srv = srvServicio.crearServicio(servicio, tenant);
-		usuario.setServicioActivo(srv);
-		srvUsuario.modificarUsuario(usuario, tenant);
+		usuario.setServicioActivo(servicio);
+		usuario = srvUsuario.modificarUsuario(usuario, tenant);
         
         Pusher pusher = new Pusher("259107", "c2f52caa39102181e99f", "805644b0daae68d5a848");
         pusher.setEncrypted(true);
 
         pusher.trigger(tenant+"-proveedores", "solicitud-recibida", Collections.singletonMap("message", srv.getId()));
-        return srv;
+        return usuario.getServicioActivo();
 	}
 	
 	@Override
@@ -172,6 +172,48 @@ public class VerticalCtrl implements IVertical{
 
         pusher.trigger(tenant+"-proveedores", "solicitud-recibida", Collections.singletonMap("message", servicio.getId()));
         return servicio;
+	}
+	
+	@Override
+	public DataServicio cancelarServicio(String idServicio, DataTenant tenant){
+		DataServicio servicio = srvServicio.getServicio(idServicio, tenant);
+		servicio.setEstado("Cancelado");
+		srvServicio.modificarServicio(servicio, tenant);
+        return servicio;
+	}
+	
+	@Override
+	public DataServicio obtenerServicio(String idServicio, DataTenant tenant){
+		return srvServicio.getServicio(idServicio, tenant);
+	}
+	
+	@Override
+	public DataProveedor iniciarJornadaLaboral(String idProveedor, DataTenant tenant){
+		DataProveedor proveedor = srvProveedor.getProveedor(idProveedor, tenant);
+		DataJornadaLaboral jornada = proveedor.getJornadaActual();
+		if(jornada != null){
+			return null;
+		}
+		jornada = new DataJornadaLaboral();
+		jornada.setInicio(new Date());
+		jornada.setProveedor(proveedor);
+		proveedor.setJornadaActual(jornada);
+		return srvProveedor.modificarProveedor(proveedor, tenant);
+	}
+	
+	@Override
+	public DataProveedor finalizarJornadaLaboral(String idProveedor, DataTenant tenant){
+		DataProveedor proveedor = srvProveedor.getProveedor(idProveedor, tenant);
+		DataJornadaLaboral jornada = proveedor.getJornadaActual();
+		if(jornada == null){
+			return null;
+		}
+		jornada.setFin(new Date());
+		proveedor.setJornadaActual(null);
+		List<DataJornadaLaboral> historialJornadas = proveedor.getJornadas();
+		historialJornadas.add(jornada);
+		proveedor.setJornadas(historialJornadas);
+        return srvProveedor.modificarProveedor(proveedor, tenant);
 	}
 	
 	@Override

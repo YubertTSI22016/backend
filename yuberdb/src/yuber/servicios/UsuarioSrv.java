@@ -88,7 +88,7 @@ public class UsuarioSrv implements UsuarioLocalApi {
 	}
 
 	public DataUsuario modificarUsuario(DataUsuario usu, DataTenant tenant) {
-		Usuario realObj = new Usuario(usu);
+		Usuario realObj = new Usuario(usu, true);
 		if (em.find(Usuario.class, realObj.getId()) == null) {
 			throw new IllegalArgumentException("El usuario no existe");
 		}
@@ -103,7 +103,7 @@ public class UsuarioSrv implements UsuarioLocalApi {
 	}
 
 	public DataUsuario crearUsuario(DataUsuario usu, DataTenant tenant) {
-		Usuario realObj = new Usuario(usu);
+		Usuario realObj = new Usuario(usu, true);
 		realObj.setEliminado(false);
 		// guardo el usuario en bd
 		em.persist(realObj);

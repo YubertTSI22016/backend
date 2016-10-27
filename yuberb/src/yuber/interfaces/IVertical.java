@@ -67,4 +67,12 @@ public interface IVertical {
 	public void eliminarToken(String idUsuario, DataTenant tenant);
 	
 	public void cargarTarjeta(String idUsuario, Float cargo, DataTenant tenant);
+
+	public DataServicio cancelarServicio(String idServicio, DataTenant tenant);
+
+	public DataProveedor iniciarJornadaLaboral(String idProveedor, DataTenant tenant);
+	
+	public DataProveedor finalizarJornadaLaboral(String idProveedor, DataTenant tenant);
+
+	public DataServicio obtenerServicio(String idServicio, DataTenant tenant);
 }

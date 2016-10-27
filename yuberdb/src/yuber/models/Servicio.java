@@ -57,7 +57,7 @@ public class Servicio {
     	if(dt.getProveedor() != null)
     		this.setProveedor(new Proveedor(dt.getProveedor()));
     	if(dt.getUsuario() != null)
-    		this.setUsuario(new Usuario(dt.getUsuario()));
+    		this.setUsuario(new Usuario(dt.getUsuario(), false));
     	this.setRating(dt.getRating());
     	this.setComentario(dt.getComentario());
     	this.setEstado(dt.getEstado());
@@ -74,7 +74,7 @@ public class Servicio {
     	result.setFecha(this.getFecha());
     	if(this.getProveedor() != null)
     		result.setProveedor(this.getProveedor().getDatatype(true));
-    	if(this.getProveedor() != null)
+    	if(this.getUsuario() != null)
     		result.setUsuario(this.getUsuario().getDatatype(true));
     	result.setRating(this.getRating());
     	result.setComentario(this.getComentario());

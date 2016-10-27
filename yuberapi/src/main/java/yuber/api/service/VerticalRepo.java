@@ -126,5 +126,21 @@ public class VerticalRepo {
 	public void cargarTarjeta(String idUsuario, Float carga, DataTenant tenant){
 		ctrVertical.cargarTarjeta(idUsuario, carga, tenant);
 	}
+	
+	public DataServicio cancelarServicio(String idServicio, DataTenant tenant){
+		return ctrVertical.cancelarServicio(idServicio, tenant);
+	}
+	
+	public DataProveedor iniciarJornadaLaboral(String idProveedor, DataTenant tenant){
+		return ctrVertical.iniciarJornadaLaboral(idProveedor, tenant);
+	}
+	
+	public DataProveedor finalizarJornadaLaboral(String idProveedor, DataTenant tenant){
+		return ctrVertical.finalizarJornadaLaboral(idProveedor, tenant);
+	}
+	
+	public DataServicio obtenerServicio(String idServicio, DataTenant tenant){
+		return ctrVertical.obtenerServicio(idServicio, tenant);
+	}
 
 }

@@ -41,11 +41,12 @@ public class Proveedor implements Serializable {
     private Telefono telefono;
     private String descripcion;
     private String nombre;
+    private String cuentaBancaria;
     
 
     public Proveedor() {}
     
-    public Proveedor(String id, Usuario usu, Boolean activo, List<JornadaLaboral> jls, JornadaLaboral jl, Float rat, Telefono tel, String desc, String nom) {
+    public Proveedor(String id, Usuario usu, Boolean activo, List<JornadaLaboral> jls, JornadaLaboral jl, Float rat, Telefono tel, String desc, String nom, String cba) {
     	this.id = id;
     	this.usuario = usu;
         this.activo = activo;
@@ -55,12 +56,13 @@ public class Proveedor implements Serializable {
         this.telefono = tel;
         this.descripcion = desc;
         this.nombre = nom;
+        this.cuentaBancaria = cba;
     }
     
     public Proveedor(DataProveedor dt){
     	this.setId(dt.getId());
     	if(dt.getUsuario() != null)
-    		this.setUsuario(new Usuario(dt.getUsuario()));
+    		this.setUsuario(new Usuario(dt.getUsuario(), true));
     	this.setActivo(dt.getActivo());
     	if(dt.getJornadas() != null){
 	    	List<JornadaLaboral> aux = new ArrayList<JornadaLaboral>();
@@ -76,6 +78,7 @@ public class Proveedor implements Serializable {
     		this.setTelefono(new Telefono(dt.getTelefono()));
     	this.setDescripcion(dt.getDescripcion());
     	this.setNombre(dt.getNombre());
+    	this.setCuentaBancaria(dt.getCuentaBancaria());
     }
     
     public DataProveedor getDatatype(Boolean conHijos){
@@ -98,6 +101,7 @@ public class Proveedor implements Serializable {
     		result.setTelefono(this.getTelefono().getDatatype());
     	result.setDescripcion(this.getDescripcion());
     	result.setNombre(this.getNombre());
+    	result.setCuentaBancaria(this.getCuentaBancaria());
     	return result;
     }
     
@@ -171,5 +175,13 @@ public class Proveedor implements Serializable {
 
     public void setNombre(String val){
         this.nombre = val;
+    }
+    
+    public String getCuentaBancaria(){
+        return this.cuentaBancaria;
+    }
+
+    public void setCuentaBancaria(String val){
+        this.cuentaBancaria = val;
     }
 }

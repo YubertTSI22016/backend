@@ -232,6 +232,34 @@ public class VerticalApi extends BaseApi{
 		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
 		verticalRepo.eliminarToken(idUsuario, tenant);
 	}
+	
+	@POST
+	@Path("/cancelarservicio/")
+	public DataServicio cancelarServicio(String idServicio){
+		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
+		return verticalRepo.cancelarServicio(idServicio, tenant);
+	}
+	
+	@POST
+	@Path("/iniciarjornadalaboral/")
+	public DataProveedor iniciarJornadaLaboral(String idProveedor){
+		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
+		return verticalRepo.iniciarJornadaLaboral(idProveedor, tenant);
+	}
+	
+	@POST
+	@Path("/finalizarjornadalaboral/")
+	public DataProveedor finalizarJornadaLaboral(String idProveedor){
+		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
+		return verticalRepo.finalizarJornadaLaboral(idProveedor, tenant);
+	}
+	
+	@POST
+	@Path("/obtenerservicio/")
+	public DataServicio obtenerServicio(String idServicio){
+		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
+		return verticalRepo.obtenerServicio(idServicio, tenant);
+	}
 
 //	@POST
 //	@Path("/cargartarjeta/")

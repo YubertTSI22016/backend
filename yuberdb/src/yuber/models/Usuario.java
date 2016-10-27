@@ -30,9 +30,9 @@ public class Usuario extends Persona implements Serializable{
     @OneToMany
 	@IndexColumn(name="LIST_INDEX")
     private List<Servicio> servicios;
-    @OneToOne(targetEntity=Servicio.class)
+    @OneToOne(targetEntity=Servicio.class, cascade = {CascadeType.ALL})
     private Servicio servicioActivo;
-    @OneToOne(fetch=FetchType.LAZY,cascade = {CascadeType.ALL})
+    @OneToOne
     private Proveedor proveedor;
     private String tokenTarjeta;
     
@@ -49,7 +49,7 @@ public class Usuario extends Persona implements Serializable{
         this.tokenTarjeta = token;
     }
     
-    public Usuario(DataUsuario dt){
+    public Usuario(DataUsuario dt, Boolean conHijos){
     	this.setId(dt.getId());
     	this.setNombre(dt.getNombre());
     	this.setApellido(dt.getApellido());
@@ -72,7 +72,7 @@ public class Usuario extends Persona implements Serializable{
 	        });
 	    	this.setServicios(aux);
     	}
-    	if(dt.getServicioActivo() != null)
+    	if(dt.getServicioActivo() != null && conHijos)
     		this.setServicioActivo(new Servicio(dt.getServicioActivo()));
     	this.setTokenTarjeta(dt.getTokenTarjeta());
     	 
