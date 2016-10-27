@@ -254,9 +254,9 @@ public class VerticalApi extends BaseApi{
 		return verticalRepo.finalizarJornadaLaboral(idProveedor, tenant);
 	}
 	
-	@POST
-	@Path("/obtenerservicio/")
-	public DataServicio obtenerServicio(String idServicio){
+	@GET
+	@Path("/obtenerservicio/{idServicio}")
+	public DataServicio obtenerServicio(@PathParam("idServicio") final String idServicio){
 		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
 		return verticalRepo.obtenerServicio(idServicio, tenant);
 	}
