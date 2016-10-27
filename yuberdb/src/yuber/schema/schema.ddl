@@ -8,7 +8,6 @@ CREATE TABLE configuracionvertical (
     transporte boolean
 );
 
-
 ALTER TABLE public.configuracionvertical OWNER TO yuberadmin;
 
 CREATE TABLE jornadalaboral (
@@ -19,7 +18,6 @@ CREATE TABLE jornadalaboral (
     servicioactivo_id character varying(255)
 );
 
-
 ALTER TABLE public.jornadalaboral OWNER TO yuberadmin;
 
 CREATE TABLE jornadalaboral_servicio (
@@ -27,7 +25,6 @@ CREATE TABLE jornadalaboral_servicio (
     servicios_id character varying(255) NOT NULL,
     list_index integer NOT NULL
 );
-
 
 ALTER TABLE public.jornadalaboral_servicio OWNER TO yuberadmin;
 
@@ -46,11 +43,11 @@ CREATE TABLE persona (
     idredsocial character varying(255),
     redsocialusada character varying(255),
     tokentarjeta character varying(255),
+    ultimosnumerostarjeta integer,
     activo boolean,
     proveedor_id character varying(255),
     servicioactivo_id character varying(255)
 );
-
 
 ALTER TABLE public.persona OWNER TO yuberadmin;
 
@@ -59,7 +56,6 @@ CREATE TABLE persona_servicio (
     servicios_id character varying(255) NOT NULL,
     list_index integer NOT NULL
 );
-
 
 ALTER TABLE public.persona_servicio OWNER TO yuberadmin;
 
@@ -76,7 +72,6 @@ CREATE TABLE proveedor (
     usuario_id character varying(255)
 );
 
-
 ALTER TABLE public.proveedor OWNER TO yuberadmin;
 
 CREATE TABLE proveedor_jornadalaboral (
@@ -84,7 +79,6 @@ CREATE TABLE proveedor_jornadalaboral (
     jornadas_id character varying(255) NOT NULL,
     list_index integer NOT NULL
 );
-
 
 ALTER TABLE public.proveedor_jornadalaboral OWNER TO yuberadmin;
 
@@ -101,7 +95,6 @@ CREATE TABLE servicio (
     proveedor_id character varying(255),
     usuario_id character varying(255)
 );
-
 
 ALTER TABLE public.servicio OWNER TO yuberadmin;
 

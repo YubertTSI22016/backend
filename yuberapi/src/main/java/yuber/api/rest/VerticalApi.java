@@ -228,30 +228,34 @@ public class VerticalApi extends BaseApi{
 
 	@POST
 	@Path("/eliminartoken/")
-	public void eliminartoken(String idUsuario){
+	public void eliminartoken(String data){
+		JSONObject obj = new JSONObject(data);
 		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
-		verticalRepo.eliminarToken(idUsuario, tenant);
+		verticalRepo.eliminarToken(obj.getString("idUsuario"), tenant);
 	}
 	
 	@POST
 	@Path("/cancelarservicio/")
-	public DataServicio cancelarServicio(String idServicio){
+	public DataServicio cancelarServicio(String data){
+		JSONObject obj = new JSONObject(data);
 		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
-		return verticalRepo.cancelarServicio(idServicio, tenant);
+		return verticalRepo.cancelarServicio(obj.getString("idServicio"), tenant);
 	}
 	
 	@POST
 	@Path("/iniciarjornadalaboral/")
-	public DataProveedor iniciarJornadaLaboral(String idProveedor){
+	public DataProveedor iniciarJornadaLaboral(String data){
+		JSONObject obj = new JSONObject(data);
 		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
-		return verticalRepo.iniciarJornadaLaboral(idProveedor, tenant);
+		return verticalRepo.iniciarJornadaLaboral(obj.getString("idProveedor"), tenant);
 	}
 	
 	@POST
 	@Path("/finalizarjornadalaboral/")
-	public DataProveedor finalizarJornadaLaboral(String idProveedor){
+	public DataProveedor finalizarJornadaLaboral(String data){
+		JSONObject obj = new JSONObject(data);
 		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
-		return verticalRepo.finalizarJornadaLaboral(idProveedor, tenant);
+		return verticalRepo.finalizarJornadaLaboral(obj.getString("idProveedor"), tenant);
 	}
 	
 	@GET

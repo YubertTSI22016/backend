@@ -53,9 +53,10 @@ public class JornadaLaboral {
 		this.servicioActivo = sa;
 	}
 	
-	public JornadaLaboral(DataJornadaLaboral dt){
+	public JornadaLaboral(DataJornadaLaboral dt, Boolean conHijos){
     	this.setId(dt.getId());
-    	this.setProveedor(new Proveedor(dt.getProveedor()));
+    	if(dt.getProveedor() != null && conHijos)
+    		this.setProveedor(new Proveedor(dt.getProveedor()));
     	this.setInicio(dt.getInicio());
     	this.setFin(dt.getFin());
     	if(dt.getServicios() != null){
@@ -72,7 +73,8 @@ public class JornadaLaboral {
     public DataJornadaLaboral getDatatype(){
     	DataJornadaLaboral result = new DataJornadaLaboral();
     	result.setId(this.getId());
-    	result.setProveedor(this.getProveedor().getDatatype(true));
+    	if(this.getProveedor() != null)
+    		result.setProveedor(this.getProveedor().getDatatype(true));
     	result.setInicio(this.getInicio());
     	result.setFin(this.getFin());
     	if(this.getServicios()!=null){

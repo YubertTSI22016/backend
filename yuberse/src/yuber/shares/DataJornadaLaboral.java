@@ -3,12 +3,19 @@ package yuber.shares;
 import java.util.Date;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
 import yuber.shares.DataProveedor;
 
 public class DataJornadaLaboral {
 	private String id;
 	private DataProveedor proveedor;
+	@XmlElement
+    @XmlJavaTypeAdapter(DateAdapter.class)
 	private Date inicio;
+	@XmlElement
+    @XmlJavaTypeAdapter(DateAdapter.class)
 	private Date fin;
 	private List<DataServicio> servicios;
 	private DataServicio servicioActivo;
