@@ -42,13 +42,13 @@ public class ServicioSrv implements ServicioLocalApi {
 		List<Servicio> listSrv = new ArrayList<Servicio>(new LinkedHashSet(criteria.list()));
 
 		listSrv.stream().forEach((srv) -> {
-			servicios.add(srv.getDatatype());
+			servicios.add(srv.getDatatype(true));
 		});
 		return servicios;
 	}
 
 	public void modificarServicio(DataServicio srv, DataTenant tenant) {
-		Servicio realObj = new Servicio(srv);
+		Servicio realObj = new Servicio(srv, true);
 		if (em.find(Servicio.class, realObj.getId()) == null) {
 			throw new IllegalArgumentException("El servicio no existe");
 		}
@@ -58,14 +58,16 @@ public class ServicioSrv implements ServicioLocalApi {
 	public DataServicio getServicio(String id, DataTenant tenant) {
 		Session session = (Session) em.getDelegate();
 		Servicio realObj = (Servicio) session.get(Servicio.class, id);
-		return realObj.getDatatype();
+		if(realObj == null)
+			return null;
+		return realObj.getDatatype(true);
 	}
 
 	public DataServicio crearServicio(DataServicio srv, DataTenant tenant) {
-		Servicio realObj = new Servicio(srv);
+		Servicio realObj = new Servicio(srv, true);
 		// guardo el servicio en bd
 		em.persist(realObj);
-		return realObj.getDatatype();
+		return realObj.getDatatype(true);
 	}
 
 	@Override
@@ -78,7 +80,7 @@ public class ServicioSrv implements ServicioLocalApi {
 		List<Servicio> listSrv = new ArrayList<Servicio>(new LinkedHashSet(criteria.list()));
 
 		listSrv.stream().forEach((srv) -> {
-			servicios.add(srv.getDatatype());
+			servicios.add(srv.getDatatype(true));
 		});
 		return servicios;
 	}

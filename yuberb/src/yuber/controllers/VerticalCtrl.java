@@ -1,5 +1,6 @@
 package yuber.controllers;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -235,6 +236,8 @@ public class VerticalCtrl implements IVertical{
 		srvServicio.modificarServicio(servicio, tenant);
 		DataUsuario usuario = servicio.getUsuario();
 		List<DataServicio> servicios = usuario.getServicios();
+		if(servicios == null)
+			servicios = new ArrayList<DataServicio>();
 		servicios.add(servicio);
 		usuario.setServicios(servicios);
 		usuario.setServicioActivo(null);

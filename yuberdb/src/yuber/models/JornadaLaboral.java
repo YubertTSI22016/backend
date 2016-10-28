@@ -62,30 +62,30 @@ public class JornadaLaboral {
     	if(dt.getServicios() != null){
 	    	List<Servicio> aux = new ArrayList<Servicio>();
 	    	dt.getServicios().stream().forEach((srv) -> {
-	    		aux.add(new Servicio(srv));
+	    		aux.add(new Servicio(srv, false));
 	        });
 	    	this.setServicios(aux);
     	}
     	if(dt.getServicioActivo() != null)
-    		this.setServicioActivo(new Servicio(dt.getServicioActivo()));
+    		this.setServicioActivo(new Servicio(dt.getServicioActivo(), false));
     }
     
-    public DataJornadaLaboral getDatatype(){
+    public DataJornadaLaboral getDatatype(Boolean conHijos){
     	DataJornadaLaboral result = new DataJornadaLaboral();
     	result.setId(this.getId());
-    	if(this.getProveedor() != null)
-    		result.setProveedor(this.getProveedor().getDatatype(true));
+    	if(this.getProveedor() != null && conHijos)
+    		result.setProveedor(this.getProveedor().getDatatype(false));
     	result.setInicio(this.getInicio());
     	result.setFin(this.getFin());
-    	if(this.getServicios()!=null){
+    	if(this.getServicios()!=null && conHijos){
 	    	List<DataServicio> aux = new ArrayList<DataServicio>();
 	    	this.getServicios().stream().forEach((srv) -> {
-	    		aux.add(srv.getDatatype());
+	    		aux.add(srv.getDatatype(false));
 	        });
 	    	result.setServicios(aux);
     	}
-    	if(this.getServicioActivo() != null)
-    		result.setServicioActivo(this.getServicioActivo().getDatatype());
+    	if(this.getServicioActivo() != null && conHijos)
+    		result.setServicioActivo(this.getServicioActivo().getDatatype(false));
     	return result;
     }
 	

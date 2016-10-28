@@ -84,18 +84,18 @@ public class Proveedor implements Serializable {
     public DataProveedor getDatatype(Boolean conHijos){
     	DataProveedor result = new DataProveedor();
     	result.setId(this.getId());
-    	if(this.getUsuario() != null)
+    	if(this.getUsuario() != null && conHijos)
     		result.setUsuario(this.getUsuario().getDatatype(true));
     	result.setActivo(this.getActivo());
-    	if(this.getJornadas() != null){
+    	if(this.getJornadas() != null && conHijos){
 	    	List<DataJornadaLaboral> aux = new ArrayList<DataJornadaLaboral>();
 	    	this.getJornadas().stream().forEach((jor) -> {
-	    		aux.add(jor.getDatatype());
+	    		aux.add(jor.getDatatype(false));
 	        });
 	    	result.setJornadas(aux);
     	}
-    	if(this.getJornadaActual() != null)
-    		result.setJornadaActual(this.getJornadaActual().getDatatype());
+    	if(this.getJornadaActual() != null && conHijos)
+    		result.setJornadaActual(this.getJornadaActual().getDatatype(false));
     	result.setRating(this.getRating());
     	if(this.getTelefono() != null)
     		result.setTelefono(this.getTelefono().getDatatype());

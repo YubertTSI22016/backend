@@ -51,12 +51,12 @@ public class Servicio {
 		this.precio = prec;
 	}
 	
-	public Servicio(DataServicio dt){
+	public Servicio(DataServicio dt, Boolean conHijos){
     	this.setId(dt.getId());
     	this.setFecha(dt.getFecha());
-    	if(dt.getProveedor() != null)
+    	if(dt.getProveedor() != null && conHijos)
     		this.setProveedor(new Proveedor(dt.getProveedor()));
-    	if(dt.getUsuario() != null)
+    	if(dt.getUsuario() != null && conHijos)
     		this.setUsuario(new Usuario(dt.getUsuario(), false));
     	this.setRating(dt.getRating());
     	this.setComentario(dt.getComentario());
@@ -68,13 +68,13 @@ public class Servicio {
     	 
     }
     
-    public DataServicio getDatatype(){
+    public DataServicio getDatatype(Boolean conHijos){
     	DataServicio result = new DataServicio();
     	result.setId(this.getId());
     	result.setFecha(this.getFecha());
-    	if(this.getProveedor() != null)
-    		result.setProveedor(this.getProveedor().getDatatype(true));
-    	if(this.getUsuario() != null)
+    	if(this.getProveedor() != null && conHijos)
+    		result.setProveedor(this.getProveedor().getDatatype(false));
+    	if(this.getUsuario() != null && conHijos)
     		result.setUsuario(this.getUsuario().getDatatype(false));
     	result.setRating(this.getRating());
     	result.setComentario(this.getComentario());
@@ -160,7 +160,7 @@ public class Servicio {
     }
     
     public void setCoordenadasDestino(String val){
-        this.id = coordenadasDestino;
+        this.coordenadasDestino = val;
     }
     
     public String getCoordenadasDestino(){

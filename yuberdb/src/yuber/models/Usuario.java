@@ -30,7 +30,7 @@ public class Usuario extends Persona implements Serializable{
     @OneToMany
 	@IndexColumn(name="LIST_INDEX")
     private List<Servicio> servicios;
-    @OneToOne(targetEntity=Servicio.class, cascade = {CascadeType.ALL})
+    @OneToOne(targetEntity=Servicio.class)
     private Servicio servicioActivo;
     @OneToOne
     private Proveedor proveedor;
@@ -70,12 +70,12 @@ public class Usuario extends Persona implements Serializable{
     	if(dt.getServicios() != null){
 	    	List<Servicio> aux = new ArrayList<Servicio>();
 	    	dt.getServicios().stream().forEach((srv) -> {
-	    		aux.add(new Servicio(srv));
+	    		aux.add(new Servicio(srv, false));
 	        });
 	    	this.setServicios(aux);
     	}
     	if(dt.getServicioActivo() != null && conHijos)
-    		this.setServicioActivo(new Servicio(dt.getServicioActivo()));
+    		this.setServicioActivo(new Servicio(dt.getServicioActivo(), false));
     	this.setTokenTarjeta(dt.getTokenTarjeta());
     	this.setUltimosNumerosTarjeta(dt.getUltimosNumerosTarjeta());
     }
@@ -99,12 +99,12 @@ public class Usuario extends Persona implements Serializable{
     	if(this.getServicios()!=null && conHijos){
 	    	List<DataServicio> aux = new ArrayList<DataServicio>();
 	    	this.getServicios().stream().forEach((srv) -> {
-	    		aux.add(srv.getDatatype());
+	    		aux.add(srv.getDatatype(true));
 	        });
 	    	result.setServicios(aux);
     	}
     	if(this.getServicioActivo()!=null && conHijos)
-    		result.setServicioActivo(this.getServicioActivo().getDatatype()); 
+    		result.setServicioActivo(this.getServicioActivo().getDatatype(true)); 
     	result.setTokenTarjeta(this.getTokenTarjeta());
     	result.setUltimosNumerosTarjeta(this.getUltimosNumerosTarjeta());
     	return result;
