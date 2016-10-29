@@ -46,7 +46,7 @@ public class Proveedor implements Serializable {
 
     public Proveedor() {}
     
-    public Proveedor(String id, Usuario usu, Boolean activo, List<JornadaLaboral> jls, JornadaLaboral jl, Float rat, Telefono tel, String desc, String nom, String cba) {
+    public Proveedor(String id, Usuario usu, Boolean activo, List<JornadaLaboral> jls, JornadaLaboral jl, Float rat, Telefono tel, String desc, String nom, String cba, Integer cs) {
     	this.id = id;
     	this.usuario = usu;
         this.activo = activo;

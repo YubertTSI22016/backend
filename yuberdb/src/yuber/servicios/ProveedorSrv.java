@@ -98,7 +98,7 @@ public class ProveedorSrv implements ProveedorLocalApi {
 		Session session = (Session) em.getDelegate();
 		Criteria criteria = session.createCriteria(Proveedor.class);
 		criteria.add(Restrictions.le("rating", Float.valueOf(rating)));
-		criteria.addOrder(Order.asc("rating"));
+		criteria.addOrder(Order.desc("rating"));
 		criteria.setFirstResult((pagina - 1) * elementosPagina);
 		criteria.setMaxResults(elementosPagina);
 		List<Proveedor> listProv = new ArrayList<Proveedor>(new LinkedHashSet(criteria.list()));

@@ -11,12 +11,14 @@ public class DataUsuario extends DataPersona{
     private DataServicio servicioActivo;
     private String tokenTarjeta;
     private Integer ultimosNumerosTarjeta;
+    private Float rating;
+    private Integer cantidadServicios;
 
  
 
     public DataUsuario() {}
     
-    public DataUsuario(String id, String nom, String ape, DataEmail mail, DataTelefono tel, Date fecNac, Boolean elim, List<DataServicio> srv, DataServicio sa, String nomMos, String redSoc, String idRedsoc, String clv, DataProveedor prov, String token, Integer unt) {
+    public DataUsuario(String id, String nom, String ape, DataEmail mail, DataTelefono tel, Date fecNac, Boolean elim, List<DataServicio> srv, DataServicio sa, String nomMos, String redSoc, String idRedsoc, String clv, DataProveedor prov, String token, Integer unt, Float rt, Integer cs) {
     	super.setId(id);
         super.setNombre(nom);
         super.setApellido(ape);
@@ -32,6 +34,8 @@ public class DataUsuario extends DataPersona{
         this.servicioActivo = sa;
         this.tokenTarjeta = token;
         this.ultimosNumerosTarjeta = unt;
+        this.rating = rt;
+        this.cantidadServicios = cs;
     }
 
     public void setRedSocialUsada(String val){
@@ -88,5 +92,21 @@ public class DataUsuario extends DataPersona{
     
     public Integer getUltimosNumerosTarjeta(){
     	return this.ultimosNumerosTarjeta;
+    }
+    
+    public void setRating(Float val){
+    	this.rating= val;
+    }
+    
+    public Float getRating(){
+    	return this.rating;
+    }
+    
+    public void setCantidadServicios(Integer val){
+    	this.cantidadServicios= val;
+    }
+    
+    public Integer getCantidadServicios(){
+    	return this.cantidadServicios;
     }
 }

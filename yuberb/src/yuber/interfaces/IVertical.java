@@ -49,7 +49,7 @@ public interface IVertical {
 	
 	public DataConfiguracionVertical crearConfiguracionVertical(DataConfiguracionVertical conf, DataTenant tenant);
 	
-	public DataServicio pedirServicio(String idUsuario, String ubicacion, String destinoOMensaje, DataTenant tenant);
+	public DataServicio pedirServicio(String idUsuario, String ubicacion, String destino, String descripcion, DataTenant tenant);
     
 	public DataServicio ofrecerServicio(String idServicio, String idProveedor, DataTenant tenant);
 
@@ -59,7 +59,7 @@ public interface IVertical {
 
 	public void calificarServicio(String idServicio, Float calificacion, String comentario, DataTenant tenant);
 
-	DataServicio finalizarServicio(String idServicio, Float float1, DataTenant tenant);
+	public DataServicio finalizarServicio(String idServicio, Float precio, Float calificacionUsuario, DataTenant tenant);
 
 	//PAGOS
 	public void guardarToken(String idUsuario, String token, Integer ultimosDigitosTarjeta, DataTenant tenant);

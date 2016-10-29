@@ -175,7 +175,7 @@ public class VerticalApi extends BaseApi{
 	public DataServicio pedirServicio(String data){
 		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
 		JSONObject obj = new JSONObject(data);
-		return verticalRepo.pedirServicio(obj.getString("idUsuario"), obj.getString("ubicacion"), obj.getString("destinoOMensaje"), tenant);
+		return verticalRepo.pedirServicio(obj.getString("idUsuario"), obj.getString("ubicacion"), obj.getString("destino"), obj.getString("descripcion"), tenant);
 	}
 	
 	@POST
@@ -214,7 +214,7 @@ public class VerticalApi extends BaseApi{
 	public DataServicio finalizarServicio(String data){
 		JSONObject obj = new JSONObject(data);
 		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
-		return verticalRepo.finalizarServicio(obj.getString("idServicio"), Float.valueOf(obj.getString("precio")), tenant);
+		return verticalRepo.finalizarServicio(obj.getString("idServicio"), Float.valueOf(obj.getString("precio")), Float.valueOf(obj.getString("calificacionUsuario")), tenant);
 	}
 	
 	//PAGOS

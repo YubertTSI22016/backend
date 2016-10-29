@@ -36,11 +36,13 @@ public class Usuario extends Persona implements Serializable{
     private Proveedor proveedor;
     private String tokenTarjeta;
     private Integer ultimosNumerosTarjeta;
+    private Float rating;
+    private Integer cantidadServicios;
     
 
     public Usuario() {}
     
-    public Usuario(String id, String nom, String ape, Email mail, Telefono tel, Date fecNac, Boolean elim, List<Servicio> srv, Servicio sa, String clave, String redSoc, String idRedsoc, Proveedor prov, String token, Integer unt) {
+    public Usuario(String id, String nom, String ape, Email mail, Telefono tel, Date fecNac, Boolean elim, List<Servicio> srv, Servicio sa, String clave, String redSoc, String idRedsoc, Proveedor prov, String token, Integer unt, Float rt, Integer cs) {
         super(id,clave, nom, ape, mail, tel, fecNac, elim);
         this.redSocialUsada = redSoc;
         this.idRedSocial = idRedsoc;
@@ -49,6 +51,8 @@ public class Usuario extends Persona implements Serializable{
         this.servicioActivo = sa;
         this.tokenTarjeta = token;
         this.ultimosNumerosTarjeta = unt;
+        this.rating = rt;
+        this.cantidadServicios = cs;
     }
     
     public Usuario(DataUsuario dt, Boolean conHijos){
@@ -78,6 +82,8 @@ public class Usuario extends Persona implements Serializable{
     		this.setServicioActivo(new Servicio(dt.getServicioActivo(), false));
     	this.setTokenTarjeta(dt.getTokenTarjeta());
     	this.setUltimosNumerosTarjeta(dt.getUltimosNumerosTarjeta());
+    	this.setRating(dt.getRating());
+    	this.setCantidadServicios(dt.getCantidadServicios());
     }
     
     public DataUsuario getDatatype(Boolean conHijos){
@@ -166,6 +172,22 @@ public class Usuario extends Persona implements Serializable{
     
     public Integer getUltimosNumerosTarjeta(){
     	return this.ultimosNumerosTarjeta;
+    }
+    
+    public void setRating(Float val){
+    	this.rating= val;
+    }
+    
+    public Float getRating(){
+    	return this.rating;
+    }
+    
+    public void setCantidadServicios(Integer val){
+    	this.cantidadServicios= val;
+    }
+    
+    public Integer getCantidadServicios(){
+    	return this.cantidadServicios;
     }
    
 }

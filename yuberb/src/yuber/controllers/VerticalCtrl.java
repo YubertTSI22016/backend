@@ -147,7 +147,7 @@ public class VerticalCtrl implements IVertical{
 	}
 	
 	@Override
-	public DataServicio pedirServicio(String idUsuario, String ubicacion, String destinoOMensaje, DataTenant tenant){
+	public DataServicio pedirServicio(String idUsuario, String ubicacion, String destino, String descripcion, DataTenant tenant){
 		DataServicio servicio = new DataServicio();
 		DataUsuario usuario = srvUsuario.getUsuario(idUsuario, tenant);
 		servicio.setUsuario(usuario);
@@ -155,10 +155,9 @@ public class VerticalCtrl implements IVertical{
 		servicio.setFecha(new Date());
 		DataConfiguracionVertical conf = srvConfiguracionVertical.getConfiguracionVertical(tenant);
 		if(conf.getTransporte()){
-			servicio.setCoordenadasDestino(destinoOMensaje);
-		}else{
-			servicio.setDescripcion(destinoOMensaje);
+			servicio.setCoordenadasDestino(destino);
 		}
+		servicio.setDescripcion(descripcion);
 		servicio.setEstado("Solicitado");
 		servicio = srvServicio.crearServicio(servicio, tenant);
 		usuario.setServicioActivo(servicio);
@@ -233,7 +232,7 @@ public class VerticalCtrl implements IVertical{
 	}
 	
 	@Override
-	public DataServicio finalizarServicio(String idServicio, Float precio, DataTenant tenant){
+	public DataServicio finalizarServicio(String idServicio, Float precio, Float calificacionUsuario, DataTenant tenant){
 		DataServicio servicio = srvServicio.getServicio(idServicio, tenant);
 		servicio.setEstado("Finalizado");
 		servicio.setPrecio(precio);
@@ -245,6 +244,15 @@ public class VerticalCtrl implements IVertical{
 		servicios.add(servicio);
 		usuario.setServicios(servicios);
 		usuario.setServicioActivo(null);
+		if(usuario.getCantidadServicios() == 0){
+			usuario.setRating(calificacionUsuario);
+		}else{
+			Integer cs = usuario.getCantidadServicios();
+			cs = cs + 1;
+			usuario.setCantidadServicios(cs);
+			Float nuevoRating = (usuario.getRating()*usuario.getCantidadServicios()+calificacionUsuario)/cs;
+			usuario.setRating(nuevoRating);
+		}
 		srvUsuario.modificarUsuario(usuario, tenant);
 		DataProveedor proveedor = servicio.getProveedor();
 		DataJornadaLaboral jornada = proveedor.getJornadaActual();
@@ -290,6 +298,17 @@ public class VerticalCtrl implements IVertical{
 		DataServicio serv = srvServicio.getServicio(idServicio, tenant);
 		serv.setRating(calificacion);
 		serv.setComentario(comentario);
+		DataProveedor proveedor = serv.getProveedor();
+		if(proveedor.getCantidadServicios() == 0){
+			proveedor.setRating(calificacion);
+		}else{
+			Integer cs = proveedor.getCantidadServicios();
+			cs = cs + 1;
+			proveedor.setCantidadServicios(cs);
+			Float nuevoRating = (proveedor.getRating()*proveedor.getCantidadServicios()+calificacion)/cs;
+			proveedor.setRating(nuevoRating);
+		}
+		srvProveedor.modificarProveedor(proveedor, tenant);
 		srvServicio.modificarServicio(serv, tenant);
 	}
 	
