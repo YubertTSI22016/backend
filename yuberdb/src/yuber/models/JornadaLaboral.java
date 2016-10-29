@@ -56,17 +56,17 @@ public class JornadaLaboral {
 	public JornadaLaboral(DataJornadaLaboral dt, Boolean conHijos){
     	this.setId(dt.getId());
     	if(dt.getProveedor() != null && conHijos)
-    		this.setProveedor(new Proveedor(dt.getProveedor()));
+    		this.setProveedor(new Proveedor(dt.getProveedor(), false));
     	this.setInicio(dt.getInicio());
     	this.setFin(dt.getFin());
-    	if(dt.getServicios() != null){
+    	if(dt.getServicios() != null && conHijos){
 	    	List<Servicio> aux = new ArrayList<Servicio>();
 	    	dt.getServicios().stream().forEach((srv) -> {
 	    		aux.add(new Servicio(srv, false));
 	        });
 	    	this.setServicios(aux);
     	}
-    	if(dt.getServicioActivo() != null)
+    	if(dt.getServicioActivo() != null && conHijos)
     		this.setServicioActivo(new Servicio(dt.getServicioActivo(), false));
     }
     

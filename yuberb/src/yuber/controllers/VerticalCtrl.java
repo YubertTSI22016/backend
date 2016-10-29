@@ -10,6 +10,9 @@ import java.util.Map;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.pusher.rest.Pusher;
 
 import com.stripe.Stripe;
@@ -40,7 +43,7 @@ public class VerticalCtrl implements IVertical{
 	UsuarioLocalApi srvUsuario;
 	@EJB(lookup = "java:app/yuberdb/ServicioSrv!yuber.interfaces.ServicioLocalApi")
 	ServicioLocalApi srvServicio;
-
+	private static final Log log = LogFactory.getLog(VerticalCtrl.class);
 	//USUARIO
 	@Override
 	public DataUsuario AltaUsuario(DataUsuario usuario, DataTenant tenant) {
@@ -149,6 +152,7 @@ public class VerticalCtrl implements IVertical{
 		DataUsuario usuario = srvUsuario.getUsuario(idUsuario, tenant);
 		servicio.setUsuario(usuario);
 		servicio.setCoordenadasOrigen(ubicacion);
+		servicio.setFecha(new Date());
 		DataConfiguracionVertical conf = srvConfiguracionVertical.getConfiguracionVertical(tenant);
 		if(conf.getTransporte()){
 			servicio.setCoordenadasDestino(destinoOMensaje);
@@ -169,6 +173,7 @@ public class VerticalCtrl implements IVertical{
 	
 	@Override
 	public DataServicio ofrecerServicio(String idServicio, String idProveedor, DataTenant tenant){
+		log.info("#################################################################### 1");
 		DataServicio servicio = srvServicio.getServicio(idServicio, tenant);
 		DataProveedor proveedor = srvProveedor.getProveedor(idProveedor, tenant);
 		servicio.setProveedor(proveedor);
@@ -178,10 +183,9 @@ public class VerticalCtrl implements IVertical{
 		jornadaActual.setServicioActivo(servicio);
 		proveedor.setJornadaActual(jornadaActual);
 		srvProveedor.modificarProveedor(proveedor, tenant);
-        
         //Pusher pusher = new Pusher("259107", "c2f52caa39102181e99f", "805644b0daae68d5a848");
         //pusher.setEncrypted(true);
-
+		servicio = srvServicio.getServicio(idServicio, tenant);
         //pusher.trigger(tenant+"-proveedores", "solicitud-recibida", Collections.singletonMap("message", servicio.getId()));
         return servicio;
 	}
@@ -250,7 +254,8 @@ public class VerticalCtrl implements IVertical{
 		jornada.setServicioActivo(null);
 		proveedor.setJornadaActual(jornada);
 		srvProveedor.modificarProveedor(proveedor, tenant);
-		cargarTarjeta (usuario.getId(), precio,tenant);
+		servicio = srvServicio.getServicio(idServicio, tenant);
+		//cargarTarjeta (usuario.getId(), precio,tenant);
         return servicio;
 	}
 

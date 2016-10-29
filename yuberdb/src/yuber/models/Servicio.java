@@ -55,7 +55,7 @@ public class Servicio {
     	this.setId(dt.getId());
     	this.setFecha(dt.getFecha());
     	if(dt.getProveedor() != null && conHijos)
-    		this.setProveedor(new Proveedor(dt.getProveedor()));
+    		this.setProveedor(new Proveedor(dt.getProveedor(), false));
     	if(dt.getUsuario() != null && conHijos)
     		this.setUsuario(new Usuario(dt.getUsuario(), false));
     	this.setRating(dt.getRating());
@@ -73,9 +73,9 @@ public class Servicio {
     	result.setId(this.getId());
     	result.setFecha(this.getFecha());
     	if(this.getProveedor() != null && conHijos)
-    		result.setProveedor(this.getProveedor().getDatatype(false));
+    		result.setProveedor(this.getProveedor().getDatatype(true));
     	if(this.getUsuario() != null && conHijos)
-    		result.setUsuario(this.getUsuario().getDatatype(false));
+    		result.setUsuario(this.getUsuario().getDatatype(true));
     	result.setRating(this.getRating());
     	result.setComentario(this.getComentario());
     	result.setEstado(this.getEstado());

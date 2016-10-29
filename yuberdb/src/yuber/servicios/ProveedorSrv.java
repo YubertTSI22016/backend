@@ -50,7 +50,7 @@ public class ProveedorSrv implements ProveedorLocalApi {
 	}
 
 	public DataProveedor modificarProveedor(DataProveedor prv, DataTenant tenant) {
-		Proveedor realObj = new Proveedor(prv);
+		Proveedor realObj = new Proveedor(prv, true);
 		if (em.find(Proveedor.class, realObj.getId()) == null) {
 			throw new IllegalArgumentException("El proveedor no existe");
 		}
@@ -67,7 +67,7 @@ public class ProveedorSrv implements ProveedorLocalApi {
 	}
 
 	public DataProveedor crearProveedor(DataProveedor prv, DataTenant tenant) {
-		Proveedor realObj = new Proveedor(prv);
+		Proveedor realObj = new Proveedor(prv, true);
 		realObj.setActivo(true);
 		// guardo el proveedor en bd
 		em.persist(realObj);

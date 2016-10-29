@@ -66,7 +66,7 @@ public class Usuario extends Persona implements Serializable{
     	this.setRedSocialUsada(dt.getRedSocialUsada());
     	this.setIdRedSocial(dt.getIdRedSocial());
     	if(dt.getProveedor() != null)
-    		this.setProveedor(new Proveedor(dt.getProveedor()));
+    		this.setProveedor(new Proveedor(dt.getProveedor(),false));
     	if(dt.getServicios() != null){
 	    	List<Servicio> aux = new ArrayList<Servicio>();
 	    	dt.getServicios().stream().forEach((srv) -> {
@@ -95,7 +95,7 @@ public class Usuario extends Persona implements Serializable{
     	result.setRedSocialUsada(this.getRedSocialUsada());
     	result.setIdRedSocial(this.getIdRedSocial());
     	if(this.getProveedor()!=null)
-    		result.setProveedor(this.getProveedor().getDatatype(true));
+    		result.setProveedor(this.getProveedor().getDatatype(false));
     	if(this.getServicios()!=null && conHijos){
 	    	List<DataServicio> aux = new ArrayList<DataServicio>();
 	    	this.getServicios().stream().forEach((srv) -> {
@@ -104,7 +104,7 @@ public class Usuario extends Persona implements Serializable{
 	    	result.setServicios(aux);
     	}
     	if(this.getServicioActivo()!=null && conHijos)
-    		result.setServicioActivo(this.getServicioActivo().getDatatype(true)); 
+    		result.setServicioActivo(this.getServicioActivo().getDatatype(false)); 
     	result.setTokenTarjeta(this.getTokenTarjeta());
     	result.setUltimosNumerosTarjeta(this.getUltimosNumerosTarjeta());
     	return result;

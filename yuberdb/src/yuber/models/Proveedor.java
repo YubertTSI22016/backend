@@ -59,19 +59,19 @@ public class Proveedor implements Serializable {
         this.cuentaBancaria = cba;
     }
     
-    public Proveedor(DataProveedor dt){
+    public Proveedor(DataProveedor dt, Boolean conHijos){
     	this.setId(dt.getId());
-    	if(dt.getUsuario() != null)
-    		this.setUsuario(new Usuario(dt.getUsuario(), true));
+    	if(dt.getUsuario() != null && conHijos)
+    		this.setUsuario(new Usuario(dt.getUsuario(), false));
     	this.setActivo(dt.getActivo());
-    	if(dt.getJornadas() != null){
+    	if(dt.getJornadas() != null && conHijos){
 	    	List<JornadaLaboral> aux = new ArrayList<JornadaLaboral>();
 	    	dt.getJornadas().stream().forEach((jor) -> {
-	    		aux.add(new JornadaLaboral(jor, true));
+	    		aux.add(new JornadaLaboral(jor, false));
 	        });
 	    	this.setJornadas(aux);
     	}
-    	if(dt.getJornadaActual() != null)
+    	if(dt.getJornadaActual() != null && conHijos)
     		this.setJornadaActual(new JornadaLaboral(dt.getJornadaActual(), false));
     	this.setRating(dt.getRating());
     	if(dt.getTelefono() != null)
@@ -85,7 +85,7 @@ public class Proveedor implements Serializable {
     	DataProveedor result = new DataProveedor();
     	result.setId(this.getId());
     	if(this.getUsuario() != null && conHijos)
-    		result.setUsuario(this.getUsuario().getDatatype(true));
+    		result.setUsuario(this.getUsuario().getDatatype(false));
     	result.setActivo(this.getActivo());
     	if(this.getJornadas() != null && conHijos){
 	    	List<DataJornadaLaboral> aux = new ArrayList<DataJornadaLaboral>();
