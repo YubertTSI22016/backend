@@ -45,108 +45,107 @@ public class VerticalCtrl implements IVertical{
 	ServicioLocalApi srvServicio;
 	private static final Log log = LogFactory.getLog(VerticalCtrl.class);
 	//USUARIO
-	@Override
 	public DataUsuario AltaUsuario(DataUsuario usuario, DataTenant tenant) {
 	  
 		return srvUsuario.crearUsuario(usuario, tenant);
 	}
 
 
-	@Override
+	
 	public List<DataUsuario> obtenerUsuarios(Integer pagina, Integer elementosPagina, DataTenant tenant) {
 		return srvUsuario.obtenerUsuarios(pagina, elementosPagina, tenant);
 	}
 
 
-	@Override
+	
 	public DataUsuario loginUsuario(String usuario, String clave, DataTenant tenant) {
 		return srvUsuario.loginUsuario(usuario, clave, tenant);
 	}
 
-	@Override
+	
 	public DataUsuario getUsuario(String id, DataTenant tenant) {
 		return srvUsuario.getUsuario(id , tenant);
 	}
 	
-	@Override
+	
 	public DataUsuario modificarUsuario(DataUsuario usuario, DataTenant tenant){
 		return srvUsuario.modificarUsuario(usuario, tenant);
 	}
 	
 	//PROVEEDOR
-	@Override
+	
 	public DataProveedor altaProveedor(DataProveedor proveedor, DataTenant tenant){
 		
 		return srvProveedor.crearProveedor(proveedor, tenant);
 	}
 	
-	@Override
+	
 	public List<DataProveedor> obtenerProveedores(Integer pagina, Integer elementosPagina, DataTenant tenant){
 		
 		return srvProveedor.obtenerProveedores(pagina, elementosPagina, tenant);
 	}
 	
-	@Override
+	
 	public DataProveedor getProveedor(String id, DataTenant tenant){
 		return srvProveedor.getProveedor(id, tenant);
 	}
 	
-	@Override 
+	 
 	public void modificarProveedor(DataProveedor proveedor, DataTenant tenant){
 		
 		srvProveedor.modificarProveedor(proveedor, tenant);
 	}
 	
 	//ADMINISTRADOR
-	@Override
+	
 	public DataAdministrador altaAdmin(DataAdministrador admin, DataTenant tenant) {
 	  
 		return srvAdmin.crearAdmin(admin, tenant);
 	}
 
 
-	@Override
+	
 	public List<DataAdministrador> obtenerAdmins(Integer pagina, Integer elementosPagina, DataTenant tenant) {
 		return srvAdmin.obtenerAdmins(pagina, elementosPagina, tenant);
 	}
 
 
-	@Override
+	
 	public DataAdministrador loginAdmin(String usuario, String clave, DataTenant tenant) {
 		return srvAdmin.loginAdmin(usuario, clave, tenant);
 	}
 
-	@Override
+	
 	public DataAdministrador getAdmin(String id, DataTenant tenant) {
 		return srvAdmin.getAdmin(id , tenant);
 	}
 	
-	@Override
+	
 	public void modificarAdmin(DataAdministrador admin, DataTenant tenant) {
 		srvAdmin.modificarAdmin(admin, tenant);
 	}
 	
 	//CONFIGURACION VERTICAL
-	@Override
+	
 	public DataConfiguracionVertical getConfiguracionVertical(DataTenant tenant){
 		
 		return srvConfiguracionVertical.getConfiguracionVertical(tenant);
 	}
 	
-	@Override
+	
 	public void modificarConfiguracionVertical(DataConfiguracionVertical conf, DataTenant tenant){
 		
 		srvConfiguracionVertical.modificarConfiguracion(conf, tenant);
 	}
 	
-	@Override
+	
 	public DataConfiguracionVertical crearConfiguracionVertical(DataConfiguracionVertical conf, DataTenant tenant){
 		
 		
 		return srvConfiguracionVertical.crearConfiguracionVertical(conf, tenant);
 	}
 	
-	@Override
+	
 	public DataServicio pedirServicio(String idUsuario, String ubicacion, String destino, String descripcion, DataTenant tenant){
 		DataServicio servicio = new DataServicio();
 		DataUsuario usuario = srvUsuario.getUsuario(idUsuario, tenant);
@@ -163,14 +162,14 @@ public class VerticalCtrl implements IVertical{
 		usuario.setServicioActivo(servicio);
 		usuario = srvUsuario.modificarUsuario(usuario, tenant);
         
-        //Pusher pusher = new Pusher("259107", "c2f52caa39102181e99f", "805644b0daae68d5a848");
-        ///pusher.setEncrypted(true);
+        Pusher pusher = new Pusher("259107", "c2f52caa39102181e99f", "805644b0daae68d5a848");
+        pusher.setEncrypted(true);
 
-        //pusher.trigger(tenant+"-proveedores", "solicitud-recibida", Collections.singletonMap("message", servicio.getId()));
+        pusher.trigger(tenant+"-proveedores", "solicitud-recibida", Collections.singletonMap("message", servicio.getId()));
         return servicio;
 	}
 	
-	@Override
+	
 	public DataServicio ofrecerServicio(String idServicio, String idProveedor, DataTenant tenant){
 		log.info("#################################################################### 1");
 		DataServicio servicio = srvServicio.getServicio(idServicio, tenant);
@@ -182,14 +181,14 @@ public class VerticalCtrl implements IVertical{
 		jornadaActual.setServicioActivo(servicio);
 		proveedor.setJornadaActual(jornadaActual);
 		srvProveedor.modificarProveedor(proveedor, tenant);
-        //Pusher pusher = new Pusher("259107", "c2f52caa39102181e99f", "805644b0daae68d5a848");
-        //pusher.setEncrypted(true);
+        Pusher pusher = new Pusher("259107", "c2f52caa39102181e99f", "805644b0daae68d5a848");
+        pusher.setEncrypted(true);
 		servicio = srvServicio.getServicio(idServicio, tenant);
-        //pusher.trigger(tenant+"-proveedores", "solicitud-recibida", Collections.singletonMap("message", servicio.getId()));
+        pusher.trigger(tenant+"-proveedores", "solicitud-recibida", Collections.singletonMap("message", servicio.getId()));
         return servicio;
 	}
 	
-	@Override
+	
 	public DataServicio cancelarServicio(String idServicio, DataTenant tenant){
 		DataServicio servicio = srvServicio.getServicio(idServicio, tenant);
 		servicio.setEstado("Cancelado");
@@ -197,12 +196,12 @@ public class VerticalCtrl implements IVertical{
         return servicio;
 	}
 	
-	@Override
+	
 	public DataServicio obtenerServicio(String idServicio, DataTenant tenant){
 		return srvServicio.getServicio(idServicio, tenant);
 	}
 	
-	@Override
+	
 	public DataProveedor iniciarJornadaLaboral(String idProveedor, DataTenant tenant){
 		DataProveedor proveedor = srvProveedor.getProveedor(idProveedor, tenant);
 		DataJornadaLaboral jornada = proveedor.getJornadaActual();
@@ -216,7 +215,7 @@ public class VerticalCtrl implements IVertical{
 		return srvProveedor.modificarProveedor(proveedor, tenant);
 	}
 	
-	@Override
+	
 	public DataProveedor finalizarJornadaLaboral(String idProveedor, DataTenant tenant){
 		DataProveedor proveedor = srvProveedor.getProveedor(idProveedor, tenant);
 		DataJornadaLaboral jornada = proveedor.getJornadaActual();
@@ -231,7 +230,7 @@ public class VerticalCtrl implements IVertical{
         return srvProveedor.modificarProveedor(proveedor, tenant);
 	}
 	
-	@Override
+	
 	public DataServicio finalizarServicio(String idServicio, Float precio, Float calificacionUsuario, DataTenant tenant){
 		DataServicio servicio = srvServicio.getServicio(idServicio, tenant);
 		servicio.setEstado("Finalizado");
@@ -268,12 +267,12 @@ public class VerticalCtrl implements IVertical{
 	}
 
 
-	@Override
+	
 	public List<DataProveedor> reporteRatingProveedores(Integer pagina, Integer elementosPagina, Integer rating, DataTenant tenant) {
 		return srvProveedor.reporteRatingProveedores(pagina, elementosPagina, rating, tenant);
 	}
 	
-	@Override
+	
 	public DataUsuario loginAltaUsuarioFacebook(String email, String nombre, String uid, DataTenant tenant){
 		DataUsuario result = srvUsuario.loginFacebook(email, uid, tenant);
 		if(result != null){
@@ -293,7 +292,7 @@ public class VerticalCtrl implements IVertical{
 	}
 
 
-	@Override
+	
 	public void calificarServicio(String idServicio, Float calificacion, String comentario, DataTenant tenant) {
 		DataServicio serv = srvServicio.getServicio(idServicio, tenant);
 		serv.setRating(calificacion);
@@ -314,7 +313,7 @@ public class VerticalCtrl implements IVertical{
 	
 	//PAGOS
 	//GUARDO EL TOKEN EN EL USUARIO
-	@Override
+	
 	public void guardarToken(String idUsuario, String token, Integer ultimosDigitosTarjeta, DataTenant tenant){
 
 		DataUsuario usu = getUsuario(idUsuario, tenant);
@@ -324,7 +323,7 @@ public class VerticalCtrl implements IVertical{
 	}
 
 	//ELIMINO EL TOKEN DEL USUARIO
-	@Override
+	
 	public void eliminarToken(String idUsuario, DataTenant tenant){
 
 		DataUsuario usu = getUsuario(idUsuario, tenant);
@@ -334,7 +333,7 @@ public class VerticalCtrl implements IVertical{
 	}	
 
 	//CARGO LA TARJETA DEL USUARIO
-	@Override
+	
 	public void cargarTarjeta (String idUsuario, Float cargo, DataTenant tenant) {
 		// Set your secret key: remember to change this to your live secret key in production
 		// See your keys here: https://dashboard.stripe.com/account/apikeys
@@ -363,7 +362,7 @@ public class VerticalCtrl implements IVertical{
 
 	}
 	
-	@Override
+	
 	public List<DataServicio> listarServicios(String idUsuProv, DataTenant tenant){
 		DataUsuario usuario = srvUsuario.getUsuario(idUsuProv, tenant);
 		if(usuario!=null){

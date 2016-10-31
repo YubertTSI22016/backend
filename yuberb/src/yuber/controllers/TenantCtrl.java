@@ -50,11 +50,11 @@ public class TenantCtrl implements ITenant{
 	public boolean deactivate(DataTenant tenant) { 
 		return srvTenant.deactivate(tenant);
 	}
-	@Override
+	
 	public Boolean activate(DataTenant tenant) {
 		return srvTenant.activate(tenant);
 	}
-	@Override
+	
 	public List<DataTenant> list(DataTenant filter) {
 		return srvTenant.list(filter);
 	}
