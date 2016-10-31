@@ -164,14 +164,13 @@ public class VerticalCtrl implements IVertical{
         
         Pusher pusher = new Pusher("259107", "c2f52caa39102181e99f", "805644b0daae68d5a848");
         pusher.setEncrypted(true);
-
-        pusher.trigger(tenant+"-proveedores", "solicitud-recibida", Collections.singletonMap("message", servicio.getId()));
+        pusher.trigger(tenant.getId() + "-proveedores", "solicitud-recibida", Collections.singletonMap("message", servicio));
+        
         return servicio;
 	}
 	
 	
 	public DataServicio ofrecerServicio(String idServicio, String idProveedor, DataTenant tenant){
-		log.info("#################################################################### 1");
 		DataServicio servicio = srvServicio.getServicio(idServicio, tenant);
 		DataProveedor proveedor = srvProveedor.getProveedor(idProveedor, tenant);
 		servicio.setProveedor(proveedor);
@@ -181,10 +180,13 @@ public class VerticalCtrl implements IVertical{
 		jornadaActual.setServicioActivo(servicio);
 		proveedor.setJornadaActual(jornadaActual);
 		srvProveedor.modificarProveedor(proveedor, tenant);
+		
+		servicio = srvServicio.getServicio(idServicio, tenant);
+		
         Pusher pusher = new Pusher("259107", "c2f52caa39102181e99f", "805644b0daae68d5a848");
         pusher.setEncrypted(true);
-		servicio = srvServicio.getServicio(idServicio, tenant);
-        pusher.trigger(tenant+"-proveedores", "solicitud-recibida", Collections.singletonMap("message", servicio.getId()));
+        pusher.trigger(tenant.getId()+"-usuario", "solicitud-aceptada", Collections.singletonMap("message", servicio));
+        
         return servicio;
 	}
 	
