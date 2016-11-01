@@ -24,10 +24,11 @@ public class ConfiguracionVertical{
 	private Float tarifaBase;
 	private Float precioPorKm;
 	private Float precioPorHora;
+	private Float porcentajeRetencion;
 	
 public ConfiguracionVertical(){}
 	
-	public ConfiguracionVertical(String id, String nom, Boolean transp,Boolean habilitado, Float tarBase, Float precPorKm, Float precPorHor){
+	public ConfiguracionVertical(String id, String nom, Boolean transp,Boolean habilitado, Float tarBase, Float precPorKm, Float precPorHor, Float pr){
 		this.id = id;
 		this.nombre = nom;
 		this.transporte = transp;
@@ -35,6 +36,7 @@ public ConfiguracionVertical(){}
 		this.tarifaBase = tarBase;
 		this.precioPorKm = precPorKm;
 		this.precioPorHora = precPorHor;
+		this.porcentajeRetencion = pr;
 	}
 	
 	public ConfiguracionVertical(DataConfiguracionVertical dt){
@@ -45,6 +47,7 @@ public ConfiguracionVertical(){}
     	this.setTarifaBase(dt.getTarifaBase());
     	this.setPrecioPorKm(dt.getPrecioPorKm());
     	this.setPrecioPorHora(dt.getPrecioPorHora());
+    	this.setPorcentajeRetencion(dt.getPorcentajeRetencion());
     	 
     }
     
@@ -57,6 +60,7 @@ public ConfiguracionVertical(){}
     	result.setTarifaBase(this.getTarifaBase());
     	result.setPrecioPorKm(this.getPrecioPorKm());
     	result.setPrecioPorHora(this.getPrecioPorHora());
+    	result.setPorcentajeRetencion(this.getPorcentajeRetencion());
     	 
     	return result;
     }
@@ -115,5 +119,13 @@ public ConfiguracionVertical(){}
     
     public Float getPrecioPorHora(){
         return this.precioPorHora;
+    }
+    
+    public void setPorcentajeRetencion(Float val){
+        this.porcentajeRetencion = val;
+    }
+    
+    public Float getPorcentajeRetencion(){
+        return this.porcentajeRetencion;
     }
 }

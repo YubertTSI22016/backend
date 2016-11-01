@@ -4,6 +4,7 @@ import java.util.List;
 
 import yuber.shares.DataAdministrador;
 import yuber.shares.DataConfiguracionVertical;
+import yuber.shares.DataPagosProveedor;
 import yuber.shares.DataProveedor;
 import yuber.shares.DataServicio;
 import yuber.shares.DataTenant;
@@ -82,4 +83,6 @@ public interface IVertical {
 	public List<DataServicio> listarServicios(String idUsuProv, DataTenant tenant);
 
 	public DataServicio iniciarServicio(String idServicio, DataTenant tenant);
+	
+	public List<DataPagosProveedor> listarPagosPendientes(String idProveedor, Integer pagina, Integer elementosPagina, DataTenant tenant);
 }

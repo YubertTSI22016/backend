@@ -26,6 +26,7 @@ import com.stripe.model.Charge;
 import yuber.interfaces.AdministradorLocalApi;
 import yuber.interfaces.ConfiguracionVerticalLocalApi;
 import yuber.interfaces.IVertical;
+import yuber.interfaces.PagosProveedorLocalApi;
 import yuber.interfaces.ProveedorLocalApi;
 import yuber.interfaces.ServicioLocalApi;
 import yuber.interfaces.UsuarioLocalApi;
@@ -43,6 +44,8 @@ public class VerticalCtrl implements IVertical{
 	UsuarioLocalApi srvUsuario;
 	@EJB(lookup = "java:app/yuberdb/ServicioSrv!yuber.interfaces.ServicioLocalApi")
 	ServicioLocalApi srvServicio;
+	@EJB(lookup = "java:app/yuberdb/PagosProveedorSrv!yuber.interfaces.PagosProveedorLocalApi")
+	PagosProveedorLocalApi srvPagosProveedor;
 	private static final Log log = LogFactory.getLog(VerticalCtrl.class);
 	//USUARIO
 	public DataUsuario AltaUsuario(DataUsuario usuario, DataTenant tenant) {
@@ -179,7 +182,8 @@ public class VerticalCtrl implements IVertical{
 		servicio.setProveedor(proveedor);
 		servicio.setEstado("Aceptado");
 		srvServicio.modificarServicio(servicio, tenant);
-		DataJornadaLaboral jornadaActual = proveedor.getJornadaActual();DataConfiguracionVertical conf = srvConfiguracionVertical.getConfiguracionVertical(tenant);
+		DataJornadaLaboral jornadaActual = proveedor.getJornadaActual();
+		DataConfiguracionVertical conf = srvConfiguracionVertical.getConfiguracionVertical(tenant);
 		if(conf.getTransporte()){
 			jornadaActual.setServicioActivo(servicio);
 		}
@@ -282,10 +286,19 @@ public class VerticalCtrl implements IVertical{
 		srvProveedor.modificarProveedor(proveedor, tenant);
 		servicio = srvServicio.getServicio(idServicio, tenant);
 		//cargarTarjeta (usuario.getId(), precio,tenant);
+		DataConfiguracionVertical conf = srvConfiguracionVertical.getConfiguracionVertical(tenant);
+		DataPagosProveedor pagoAProveedor = new DataPagosProveedor();
+		pagoAProveedor.setProveedor(proveedor);
+		pagoAProveedor.setPago(false);
+		pagoAProveedor.setServicio(servicio);
+		pagoAProveedor.setPorcentageRetencion(conf.getPorcentajeRetencion());
+		srvPagosProveedor.crearPagosProveedor(pagoAProveedor, tenant);
         return servicio;
 	}
 
-
+	public List<DataPagosProveedor> listarPagosPendientes(String idProveedor, Integer pagina, Integer elementosPagina, DataTenant tenant){
+		return srvPagosProveedor.listarPagosPendientes(idProveedor, pagina, elementosPagina, tenant);
+	}
 	
 	public List<DataProveedor> reporteRatingProveedores(Integer pagina, Integer elementosPagina, Integer rating, DataTenant tenant) {
 		return srvProveedor.reporteRatingProveedores(pagina, elementosPagina, rating, tenant);

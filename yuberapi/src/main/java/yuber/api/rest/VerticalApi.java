@@ -16,6 +16,7 @@ import org.json.JSONObject;
 import yuber.api.service.VerticalRepo;
 import yuber.shares.DataAdministrador;
 import yuber.shares.DataConfiguracionVertical;
+import yuber.shares.DataPagosProveedor;
 import yuber.shares.DataProveedor;
 import yuber.shares.DataServicio;
 import yuber.shares.DataTenant;
@@ -293,6 +294,14 @@ public class VerticalApi extends BaseApi{
 	public List<DataServicio> listarServicios(@PathParam("idUsuProv") final String idUsuProv){
 		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
 		return verticalRepo.listarServicios(idUsuProv, tenant);
+	}
+	
+	@POST
+	@Path("/iniciarjornadalaboral/{pagina:[0-9][0-9]*}/{elementosAMostrar:[0-9][0-9]*}")
+	public List<DataPagosProveedor> listarPagosPendientes(String data, @PathParam("pagina") final Integer pagina, @PathParam("elementosAMostrar") final Integer elementosPagina){
+		JSONObject obj = new JSONObject(data);
+		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
+		return verticalRepo.listarPagosPendientes(obj.getString("idProveedor"), pagina, elementosPagina, tenant);
 	}
 
 //	@POST

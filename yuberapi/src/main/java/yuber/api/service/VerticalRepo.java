@@ -9,6 +9,7 @@ import javax.ejb.Stateless;
 import yuber.interfaces.IVertical;
 import yuber.shares.DataAdministrador;
 import yuber.shares.DataConfiguracionVertical;
+import yuber.shares.DataPagosProveedor;
 import yuber.shares.DataProveedor;
 import yuber.shares.DataServicio;
 import yuber.shares.DataTenant;
@@ -157,6 +158,10 @@ public class VerticalRepo {
 	
 	public DataServicio iniciarServicio(String idServicio, DataTenant tenant){
 		return ctrVertical.iniciarServicio(idServicio, tenant);
+	}
+	
+	public List<DataPagosProveedor> listarPagosPendientes(String idProveedor, Integer pagina, Integer elementosPagina, DataTenant tenant){
+		return ctrVertical.listarPagosPendientes(idProveedor, pagina, elementosPagina, tenant);
 	}
 
 }

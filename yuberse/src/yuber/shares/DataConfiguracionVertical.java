@@ -11,10 +11,11 @@ public class DataConfiguracionVertical {
 	private Float tarifaBase;
 	private Float precioPorKm;
 	private Float precioPorHora;
+	private Float porcentajeRetencion;
 	
 public DataConfiguracionVertical(){}
 	
-	public DataConfiguracionVertical(String id, String nom, Boolean transp, Boolean habilitado, Float tarBase, Float precPorKm, Float precPorHor){
+	public DataConfiguracionVertical(String id, String nom, Boolean transp, Boolean habilitado, Float tarBase, Float precPorKm, Float precPorHor, Float pr){
 		this.id = id;
 		this.nombre = nom;
 		this.transporte = transp;
@@ -22,6 +23,7 @@ public DataConfiguracionVertical(){}
 		this.tarifaBase = tarBase;
 		this.precioPorKm = precPorKm;
 		this.precioPorHora = precPorHor;
+		this.porcentajeRetencion = pr;
 	}
     
     public void setId(String val){
@@ -78,5 +80,13 @@ public DataConfiguracionVertical(){}
     
     public Float getPrecioPorHora(){
         return this.precioPorHora;
+    }
+    
+    public void setPorcentajeRetencion(Float val){
+        this.porcentajeRetencion = val;
+    }
+    
+    public Float getPorcentajeRetencion(){
+        return this.porcentajeRetencion;
     }
 }

@@ -2,6 +2,7 @@ CREATE TABLE configuracionvertical (
     id character varying(255) NOT NULL,
     habilitado boolean,
     nombre character varying(255),
+    porcentajeretencion real,
     precioporhora real,
     precioporkm real,
     tarifabase real,
@@ -30,6 +31,18 @@ CREATE TABLE jornadalaboral_servicio (
 
 
 ALTER TABLE public.jornadalaboral_servicio OWNER TO yuberadmin;
+
+CREATE TABLE pagosproveedor (
+    id character varying(255) NOT NULL,
+    fechapago timestamp without time zone,
+    pago boolean,
+    porcentageretencion real,
+    proveedor_id character varying(255),
+    servicio_id character varying(255)
+);
+
+
+ALTER TABLE public.pagosproveedor OWNER TO yuberadmin;
 
 CREATE TABLE persona (
     dtype character varying(31) NOT NULL,
@@ -70,12 +83,13 @@ CREATE TABLE proveedor (
     id character varying(255) NOT NULL,
     activo boolean,
     cantidadservicios integer,
-    cuentabancaria character varying(255),
     descripcion character varying(255),
     nombre character varying(255),
     rating real,
     descripciontel character varying(255),
     telefono character varying(255),
+    tokentarjeta character varying(255),
+    ultimosnumerostarjeta integer,
     jornadaactual_id character varying(255),
     usuario_id character varying(255)
 );
@@ -123,6 +137,9 @@ ALTER TABLE ONLY jornadalaboral_servicio
     ADD CONSTRAINT jornadalaboral_servicio_pkey PRIMARY KEY (jornadalaboral_id, list_index);
 
 
+ALTER TABLE ONLY pagosproveedor
+    ADD CONSTRAINT pagosproveedor_pkey PRIMARY KEY (id);
+
 
 ALTER TABLE ONLY persona
     ADD CONSTRAINT persona_pkey PRIMARY KEY (id);
@@ -164,13 +181,16 @@ ALTER TABLE ONLY jornadalaboral
     ADD CONSTRAINT fk4275ekoyrtlpr1mqhsfs512lu FOREIGN KEY (servicioactivo_id) REFERENCES servicio(id);
 
 
+ALTER TABLE ONLY pagosproveedor
+    ADD CONSTRAINT fka2heugae2xpdlqh22mgvci7oo FOREIGN KEY (proveedor_id) REFERENCES proveedor(id);
+
+
 ALTER TABLE ONLY proveedor_jornadalaboral
     ADD CONSTRAINT fkbjuq16rk9eexkrluob5xy8tqa FOREIGN KEY (proveedor_id) REFERENCES proveedor(id);
 
 
 ALTER TABLE ONLY persona_servicio
     ADD CONSTRAINT fkdly2cd6721sdp8w5itui4r1y3 FOREIGN KEY (servicios_id) REFERENCES servicio(id);
-
 
 ALTER TABLE ONLY persona
     ADD CONSTRAINT fke2pq3sptb1bywssbu99jk8gen FOREIGN KEY (servicioactivo_id) REFERENCES servicio(id);
@@ -188,6 +208,10 @@ ALTER TABLE ONLY jornadalaboral
     ADD CONSTRAINT fkmxv54wjad5nu7itf6ksxyr6b6 FOREIGN KEY (proveedor_id) REFERENCES proveedor(id);
 
 
+ALTER TABLE ONLY pagosproveedor
+    ADD CONSTRAINT fkn7vlpanelvuxqs0wsff19s956 FOREIGN KEY (servicio_id) REFERENCES servicio(id);
+
+
 ALTER TABLE ONLY proveedor
     ADD CONSTRAINT fkoby0y865irqomom3k97h3ylb0 FOREIGN KEY (usuario_id) REFERENCES persona(id);
 
@@ -199,12 +223,13 @@ ALTER TABLE ONLY proveedor
 ALTER TABLE ONLY persona
     ADD CONSTRAINT fkoxspmdh62c59oy57tduwhf5s7 FOREIGN KEY (proveedor_id) REFERENCES proveedor(id);
 
+
 ALTER TABLE ONLY proveedor_jornadalaboral
     ADD CONSTRAINT fkr8d50cl57qcfl88gl3jr6uskq FOREIGN KEY (jornadas_id) REFERENCES jornadalaboral(id);
 
+
 ALTER TABLE ONLY servicio
     ADD CONSTRAINT fkre9dqoc58875cj1dbus356o2y FOREIGN KEY (usuario_id) REFERENCES persona(id);
-
 
 ALTER TABLE ONLY servicio
     ADD CONSTRAINT fksj4nwfvostymmgiisdishllsy FOREIGN KEY (proveedor_id) REFERENCES proveedor(id);
