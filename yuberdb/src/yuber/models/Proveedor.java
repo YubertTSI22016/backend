@@ -37,26 +37,30 @@ public class Proveedor implements Serializable {
     @OneToOne
     private Usuario usuario;
     private Float rating;
+    private Integer cantidadServicios;
     @Embedded
     private Telefono telefono;
     private String descripcion;
     private String nombre;
-    private String cuentaBancaria;
+    private String tokenTarjeta;
+    private Integer ultimosNumerosTarjeta;
     
 
     public Proveedor() {}
     
-    public Proveedor(String id, Usuario usu, Boolean activo, List<JornadaLaboral> jls, JornadaLaboral jl, Float rat, Telefono tel, String desc, String nom, String cba, Integer cs) {
+    public Proveedor(String id, Usuario usu, Boolean activo, List<JornadaLaboral> jls, JornadaLaboral jl, Float rat, Telefono tel, String desc, String nom, String tk, Integer cs, Integer unt) {
     	this.id = id;
     	this.usuario = usu;
         this.activo = activo;
         this.jornadas = jls;
         this.jornadaActual = jl;
         this.rating = rat;
+        this.cantidadServicios = cs;
         this.telefono = tel;
         this.descripcion = desc;
         this.nombre = nom;
-        this.cuentaBancaria = cba;
+        this.tokenTarjeta = tk;
+        this.ultimosNumerosTarjeta = unt;
     }
     
     public Proveedor(DataProveedor dt, Boolean conHijos){
@@ -78,7 +82,8 @@ public class Proveedor implements Serializable {
     		this.setTelefono(new Telefono(dt.getTelefono()));
     	this.setDescripcion(dt.getDescripcion());
     	this.setNombre(dt.getNombre());
-    	this.setCuentaBancaria(dt.getCuentaBancaria());
+    	this.setTokenTarjeta(dt.getTokenTarjeta());
+    	this.setUltimosNumerosTarjeta(dt.getUltimosNumerosTarjeta());
     }
     
     public DataProveedor getDatatype(Boolean conHijos){
@@ -101,7 +106,8 @@ public class Proveedor implements Serializable {
     		result.setTelefono(this.getTelefono().getDatatype());
     	result.setDescripcion(this.getDescripcion());
     	result.setNombre(this.getNombre());
-    	result.setCuentaBancaria(this.getCuentaBancaria());
+    	result.setTokenTarjeta(this.getTokenTarjeta());
+    	result.setUltimosNumerosTarjeta(this.getUltimosNumerosTarjeta());
     	return result;
     }
     
@@ -177,11 +183,27 @@ public class Proveedor implements Serializable {
         this.nombre = val;
     }
     
-    public String getCuentaBancaria(){
-        return this.cuentaBancaria;
+    public String getTokenTarjeta(){
+        return this.tokenTarjeta;
     }
 
-    public void setCuentaBancaria(String val){
-        this.cuentaBancaria = val;
+    public void setTokenTarjeta(String val){
+        this.tokenTarjeta = val;
+    }
+    
+    public Integer getUltimosNumerosTarjeta(){
+        return this.ultimosNumerosTarjeta;
+    }
+
+    public void setUltimosNumerosTarjeta(Integer val){
+        this.ultimosNumerosTarjeta = val;
+    }
+    
+    public void setCantidadServicios(Integer val){
+    	this.cantidadServicios= val;
+    }
+    
+    public Integer getCantidadServicios(){
+    	return this.cantidadServicios;
     }
 }

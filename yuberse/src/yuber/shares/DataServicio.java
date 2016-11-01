@@ -14,6 +14,12 @@ public class DataServicio {
 	@XmlElement
     @XmlJavaTypeAdapter(DateAdapter.class)
 	private Date fecha;
+	@XmlElement
+    @XmlJavaTypeAdapter(DateAdapter.class)
+	private Date inicio;
+	@XmlElement
+    @XmlJavaTypeAdapter(DateAdapter.class)
+	private Date fin;
 	private DataUsuario usuario;
 	private DataProveedor proveedor;
 	private Float rating;
@@ -26,9 +32,11 @@ public class DataServicio {
 	
 	public DataServicio(){}
 	
-	public DataServicio(String id, Date fec, DataUsuario usu, DataProveedor prov, Float rat, String coment, String est, String desc, String coordOri, String coordDest,Float prec){
+	public DataServicio(String id, Date fec, Date ini, Date fin, DataUsuario usu, DataProveedor prov, Float rat, String coment, String est, String desc, String coordOri, String coordDest,Float prec){
 		this.id = id;
 		this.fecha = fec;
+		this.inicio = ini;
+		this.fin = fin;
 		this.usuario = usu;
 		this.proveedor = prov;
 		this.rating = rat;
@@ -54,6 +62,22 @@ public class DataServicio {
     
     public Date getFecha(){
         return this.fecha;
+    }
+    
+    public void setInicio(Date val){
+        this.inicio = val;
+    }
+    
+    public Date getInicio(){
+        return this.inicio;
+    }
+    
+    public void setFin(Date val){
+        this.fin = val;
+    }
+    
+    public Date getFin(){
+        return this.fin;
     }
     
     public void setProveedor(DataProveedor val){

@@ -217,21 +217,44 @@ public class VerticalApi extends BaseApi{
 		return verticalRepo.finalizarServicio(obj.getString("idServicio"), Float.valueOf(obj.getString("precio")), Float.valueOf(obj.getString("calificacionUsuario")), tenant);
 	}
 	
-	//PAGOS
 	@POST
-	@Path("/guardartoken/")
-	public void guardartoken(String data){
+	@Path("/iniciarservicio/")
+	public DataServicio iniciarServicio(String data){
 		JSONObject obj = new JSONObject(data);
 		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
-		verticalRepo.guardarToken(obj.getString("idUsuario"),obj.getString("token"),Integer.valueOf(obj.getString("ultimosDiegitosTarjeta")), tenant);
+		return verticalRepo.iniciarServicio(obj.getString("idServicio"), tenant);
+	}
+	
+	@POST
+	@Path("/guardartokenusuario/")
+	public void guardarTokenUsuario(String data){
+		JSONObject obj = new JSONObject(data);
+		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
+		verticalRepo.guardarTokenUsuario(obj.getString("idUsuario"),obj.getString("token"),Integer.valueOf(obj.getString("ultimosDiegitosTarjeta")), tenant);
 	}
 
 	@POST
-	@Path("/eliminartoken/")
-	public void eliminartoken(String data){
+	@Path("/eliminartokenusuario/")
+	public void eliminarTokenUsuario(String data){
 		JSONObject obj = new JSONObject(data);
 		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
-		verticalRepo.eliminarToken(obj.getString("idUsuario"), tenant);
+		verticalRepo.eliminarTokenUsuario(obj.getString("idUsuario"), tenant);
+	}
+	
+	@POST
+	@Path("/guardartokenproveedor/")
+	public void guardarTokenProveedor(String data){
+		JSONObject obj = new JSONObject(data);
+		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
+		verticalRepo.guardarTokenProveedor(obj.getString("idProveedor"),obj.getString("token"),Integer.valueOf(obj.getString("ultimosDiegitosTarjeta")), tenant);
+	}
+
+	@POST
+	@Path("/eliminartokenproveedor/")
+	public void eliminarTokenProveedor(String data){
+		JSONObject obj = new JSONObject(data);
+		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
+		verticalRepo.eliminarTokenProveedor(obj.getString("idProveedor"), tenant);
 	}
 	
 	@POST

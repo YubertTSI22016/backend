@@ -16,13 +16,14 @@ public class DataProveedor{
     private DataTelefono telefono;
     private String descripcion;
     private String nombre;
-    private String cuentaBancaria;
+    private String tokenTarjeta;
+    private Integer ultimosNumerosTarjeta;
 
  
 
     public DataProveedor() {}
     
-    public DataProveedor(String id, DataUsuario usu, Boolean activo, Boolean eliminado, String clv, List<DataJornadaLaboral> jor, DataJornadaLaboral jl, Float rat, DataTelefono tel, String desc, String nom, String cba, Integer cs) {
+    public DataProveedor(String id, DataUsuario usu, Boolean activo, Boolean eliminado, String clv, List<DataJornadaLaboral> jor, DataJornadaLaboral jl, Float rat, DataTelefono tel, String desc, String nom, String tk, Integer cs, Integer unt) {
     	this.id = id;
     	this.usuario = usu;
         this.activo = activo;
@@ -33,8 +34,9 @@ public class DataProveedor{
         this.telefono = tel;
         this.descripcion = desc;
         this.nombre = nom;
-        this.cuentaBancaria = cba;
         this.cantidadServicios = cs;
+        this.tokenTarjeta = tk;
+        this.ultimosNumerosTarjeta = unt;
     }
 
     public void setId(String val){
@@ -117,12 +119,20 @@ public class DataProveedor{
         this.nombre = val;
     }
     
-    public String getCuentaBancaria(){
-        return this.cuentaBancaria;
+    public String getTokenTarjeta(){
+        return this.tokenTarjeta;
     }
 
-    public void setCuentaBancaria(String val){
-        this.cuentaBancaria = val;
+    public void setTokenTarjeta(String val){
+        this.tokenTarjeta = val;
+    }
+    
+    public Integer getUltimosNumerosTarjeta(){
+        return this.ultimosNumerosTarjeta;
+    }
+
+    public void setUltimosNumerosTarjeta(Integer val){
+        this.ultimosNumerosTarjeta = val;
     }
     
     public void setCantidadServicios(Integer val){

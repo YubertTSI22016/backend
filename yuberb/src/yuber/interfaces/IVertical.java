@@ -61,10 +61,13 @@ public interface IVertical {
 
 	public DataServicio finalizarServicio(String idServicio, Float precio, Float calificacionUsuario, DataTenant tenant);
 
-	//PAGOS
-	public void guardarToken(String idUsuario, String token, Integer ultimosDigitosTarjeta, DataTenant tenant);
+	public void guardarTokenUsuario(String idUsuario, String token, Integer ultimosDigitosTarjeta, DataTenant tenant);
 	
-	public void eliminarToken(String idUsuario, DataTenant tenant);
+	public void eliminarTokenUsuario(String idUsuario, DataTenant tenant);
+	
+	public void guardarTokenProveedor(String idProveedor, String token, Integer ultimosDigitosTarjeta, DataTenant tenant);
+	
+	public void eliminarTokenProveedor(String idProveedor, DataTenant tenant);
 	
 	public void cargarTarjeta(String idUsuario, Float cargo, DataTenant tenant);
 
@@ -77,4 +80,6 @@ public interface IVertical {
 	public DataServicio obtenerServicio(String idServicio, DataTenant tenant);
 	
 	public List<DataServicio> listarServicios(String idUsuProv, DataTenant tenant);
+
+	public DataServicio iniciarServicio(String idServicio, DataTenant tenant);
 }

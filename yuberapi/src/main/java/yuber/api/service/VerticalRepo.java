@@ -115,12 +115,20 @@ public class VerticalRepo {
 		return ctrVertical.finalizarServicio(idServicio, precio, calificacionUsuario, tenant);
 	}
 	
-	public void guardarToken(String idUsuario, String token, Integer ultimosDigitosTarjeta, DataTenant tenant) {
-		ctrVertical.guardarToken(idUsuario, token, ultimosDigitosTarjeta, tenant);
+	public void guardarTokenUsuario(String idUsuario, String token, Integer ultimosDigitosTarjeta, DataTenant tenant) {
+		ctrVertical.guardarTokenUsuario(idUsuario, token, ultimosDigitosTarjeta, tenant);
 	}
 
-	public void eliminarToken(String idUsuario, DataTenant tenant) {
-		ctrVertical.eliminarToken(idUsuario, tenant);
+	public void eliminarTokenUsuario(String idUsuario, DataTenant tenant) {
+		ctrVertical.eliminarTokenUsuario(idUsuario, tenant);
+	}
+	
+	public void guardarTokenProveedor(String idProveedor, String token, Integer ultimosDigitosTarjeta, DataTenant tenant) {
+		ctrVertical.guardarTokenProveedor(idProveedor, token, ultimosDigitosTarjeta, tenant);
+	}
+
+	public void eliminarTokenProveedor(String idProveedor, DataTenant tenant) {
+		ctrVertical.eliminarTokenProveedor(idProveedor, tenant);
 	}
 
 	public void cargarTarjeta(String idUsuario, Float carga, DataTenant tenant){
@@ -145,6 +153,10 @@ public class VerticalRepo {
 	
 	public List<DataServicio> listarServicios(String idUsuProv, DataTenant tenant){
 		return ctrVertical.listarServicios(idUsuProv, tenant);
+	}
+	
+	public DataServicio iniciarServicio(String idServicio, DataTenant tenant){
+		return ctrVertical.iniciarServicio(idServicio, tenant);
 	}
 
 }

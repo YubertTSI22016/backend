@@ -23,6 +23,10 @@ public class Servicio {
 	private String id;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date fecha;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date inicio;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date fin;
 	@ManyToOne
 	private Usuario usuario;
 	@ManyToOne
@@ -37,9 +41,11 @@ public class Servicio {
 	
 	public Servicio(){}
 	
-	public Servicio(String id, Date fec, Usuario usu, Proveedor prov, Float rat, String coment, String est, String desc, String coordOri, String coordDest,Float prec){
+	public Servicio(String id, Date fec, Date ini, Date fin, Usuario usu, Proveedor prov, Float rat, String coment, String est, String desc, String coordOri, String coordDest,Float prec){
 		this.id = id;
 		this.fecha = fec;
+		this.inicio = ini;
+		this.fin = fin;
 		this.usuario = usu;
 		this.proveedor = prov;
 		this.rating = rat;
@@ -54,6 +60,8 @@ public class Servicio {
 	public Servicio(DataServicio dt, Boolean conHijos){
     	this.setId(dt.getId());
     	this.setFecha(dt.getFecha());
+    	this.setInicio(dt.getInicio());
+    	this.setFin(dt.getFin());
     	if(dt.getProveedor() != null && conHijos)
     		this.setProveedor(new Proveedor(dt.getProveedor(), false));
     	if(dt.getUsuario() != null && conHijos)
@@ -72,10 +80,12 @@ public class Servicio {
     	DataServicio result = new DataServicio();
     	result.setId(this.getId());
     	result.setFecha(this.getFecha());
+    	result.setInicio(this.getInicio());
+    	result.setFin(this.getFin());
     	if(this.getProveedor() != null && conHijos)
     		result.setProveedor(this.getProveedor().getDatatype(true));
     	if(this.getUsuario() != null && conHijos)
-    		result.setUsuario(this.getUsuario().getDatatype(true));
+    		result.setUsuario(this.getUsuario().getDatatype(false));
     	result.setRating(this.getRating());
     	result.setComentario(this.getComentario());
     	result.setEstado(this.getEstado());
@@ -101,6 +111,22 @@ public class Servicio {
     
     public Date getFecha(){
         return this.fecha;
+    }
+    
+    public void setInicio(Date val){
+        this.inicio = val;
+    }
+    
+    public Date getInicio(){
+        return this.inicio;
+    }
+    
+    public void setFin(Date val){
+        this.fin = val;
+    }
+    
+    public Date getFin(){
+        return this.fin;
     }
     
     public void setProveedor(Proveedor val){
