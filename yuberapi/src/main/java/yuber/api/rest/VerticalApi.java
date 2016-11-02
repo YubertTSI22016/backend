@@ -297,7 +297,7 @@ public class VerticalApi extends BaseApi{
 	}
 	
 	@POST
-	@Path("/iniciarjornadalaboral/{pagina:[0-9][0-9]*}/{elementosAMostrar:[0-9][0-9]*}")
+	@Path("/listarpagospendientes/{pagina:[0-9][0-9]*}/{elementosAMostrar:[0-9][0-9]*}")
 	public List<DataPagosProveedor> listarPagosPendientes(String data, @PathParam("pagina") final Integer pagina, @PathParam("elementosAMostrar") final Integer elementosPagina){
 		JSONObject obj = new JSONObject(data);
 		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
