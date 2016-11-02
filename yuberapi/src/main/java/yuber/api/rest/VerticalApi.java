@@ -231,7 +231,7 @@ public class VerticalApi extends BaseApi{
 	public void guardarTokenUsuario(String data){
 		JSONObject obj = new JSONObject(data);
 		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
-		verticalRepo.guardarTokenUsuario(obj.getString("idUsuario"),obj.getString("token"),Integer.valueOf(obj.getString("ultimosDiegitosTarjeta")), tenant);
+		verticalRepo.guardarTokenUsuario(obj.getString("idUsuario"),obj.getString("token"),Integer.valueOf(obj.getString("ultimosDigitosTarjeta")), tenant);
 	}
 
 	@POST
@@ -247,7 +247,7 @@ public class VerticalApi extends BaseApi{
 	public void guardarTokenProveedor(String data){
 		JSONObject obj = new JSONObject(data);
 		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
-		verticalRepo.guardarTokenProveedor(obj.getString("idProveedor"),obj.getString("token"),Integer.valueOf(obj.getString("ultimosDiegitosTarjeta")), tenant);
+		verticalRepo.guardarTokenProveedor(obj.getString("idProveedor"),obj.getString("token"),Integer.valueOf(obj.getString("ultimosDigitosTarjeta")), tenant);
 	}
 
 	@POST

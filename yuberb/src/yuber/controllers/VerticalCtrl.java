@@ -197,7 +197,7 @@ public class VerticalCtrl implements IVertical{
 		servicio = srvServicio.getServicio(idServicio, tenant);
         Pusher pusher = new Pusher("259107", "c2f52caa39102181e99f", "805644b0daae68d5a848");
         pusher.setEncrypted(true);
-        pusher.trigger(tenant.getId()+"-usuario", "solicitud-aceptada", Collections.singletonMap("message", servicio));
+        pusher.trigger(tenant.getId() + "-usuario-" + servicio.getUsuario().getId(), "solicitud-aceptada", Collections.singletonMap("message", servicio));
         return servicio;
 	}
 	
