@@ -207,6 +207,9 @@ public class VerticalCtrl implements IVertical{
 		servicio.setEstado("Cancelado");
 		servicio.setFin(new Date());
 		srvServicio.modificarServicio(servicio, tenant);
+		Pusher pusher = new Pusher("259107", "c2f52caa39102181e99f", "805644b0daae68d5a848");
+        pusher.setEncrypted(true);
+        pusher.trigger(tenant.getId() + "-proveedores", "solicitud-cancelada", Collections.singletonMap("message", servicio));
         return servicio;
 	}
 	
