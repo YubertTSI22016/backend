@@ -78,8 +78,8 @@ public class PagosProveedorSrv implements PagosProveedorLocalApi {
 		// obtengo todos los pagos a proveedor de la bd
 		Session session = (Session) em.getDelegate();
 		Criteria criteria = session.createCriteria(PagosProveedor.class);
-		criteria.add(Restrictions.eq("Proveedor.id", idProveedor));
-		criteria.add(Restrictions.eq("Pago", false));
+		criteria.add(Restrictions.eq("proveedor.id", idProveedor));
+		criteria.add(Restrictions.eq("pago", false));
 		criteria.setFirstResult((pagina - 1) * elementosPagina);
 		criteria.setMaxResults(elementosPagina);
 		List<PagosProveedor> listSrv = new ArrayList<PagosProveedor>(new LinkedHashSet(criteria.list()));

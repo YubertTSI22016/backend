@@ -262,11 +262,6 @@ public class VerticalCtrl implements IVertical{
 		servicio.setFin(new Date());
 		srvServicio.modificarServicio(servicio, tenant);
 		DataUsuario usuario = servicio.getUsuario();
-		List<DataServicio> servicios = usuario.getServicios();
-		if(servicios == null)
-			servicios = new ArrayList<DataServicio>();
-		servicios.add(servicio);
-		usuario.setServicios(servicios);
 		usuario.setServicioActivo(null);
 		if(usuario.getCantidadServicios() == null){
 			usuario.setCantidadServicios(1);
