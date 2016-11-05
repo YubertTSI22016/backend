@@ -1,13 +1,18 @@
 package yuber.models;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.JoinColumn;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -38,10 +43,14 @@ public class Servicio {
 	private String coordenadasOrigen;
 	private String coordenadasDestino;
 	private Float precio;
+	@ElementCollection
+	@CollectionTable(name="puntosRecorrido", joinColumns=@JoinColumn(name="servicio_id"))
+	@Column(name="punto")
+	private List<String> puntosRecorrido;
 	
 	public Servicio(){}
 	
-	public Servicio(String id, Date fec, Date ini, Date fin, Usuario usu, Proveedor prov, Float rat, String coment, String est, String desc, String coordOri, String coordDest,Float prec){
+	public Servicio(String id, Date fec, Date ini, Date fin, Usuario usu, Proveedor prov, Float rat, String coment, String est, String desc, String coordOri, String coordDest,Float prec, List<String> pts){
 		this.id = id;
 		this.fecha = fec;
 		this.inicio = ini;
@@ -55,6 +64,7 @@ public class Servicio {
 		this.coordenadasOrigen = coordOri;
 		this.coordenadasDestino = coordDest;
 		this.precio = prec;
+		this.puntosRecorrido = pts;
 	}
 	
 	public Servicio(DataServicio dt, Boolean conHijos){
@@ -73,7 +83,7 @@ public class Servicio {
     	this.setCoordenadasOrigen(dt.getCoordenadasOrigen());
     	this.setCoordenadasDestino(dt.getCoordenadasDestino());
     	this.setPrecio(dt.getPrecio());
-    	 
+    	this.setPuntosRecorrido(dt.getPuntosRecorrido());
     }
     
     public DataServicio getDatatype(Boolean conHijos){
@@ -93,7 +103,7 @@ public class Servicio {
     	result.setCoordenadasOrigen(this.getCoordenadasOrigen());
     	result.setCoordenadasDestino(this.getCoordenadasDestino());
     	result.setPrecio(this.getPrecio());
-    	 
+    	result.setPuntosRecorrido(this.getPuntosRecorrido());
     	return result;
     }
     
@@ -199,6 +209,14 @@ public class Servicio {
     
     public Float getPrecio(){
         return this.precio;
+    }
+    
+    public void setPuntosRecorrido(List<String> val){
+        this.puntosRecorrido = val;
+    }
+    
+    public List<String> getPuntosRecorrido(){
+        return this.puntosRecorrido;
     }
     
 }

@@ -106,6 +106,14 @@ CREATE TABLE proveedor_jornadalaboral (
 
 ALTER TABLE public.proveedor_jornadalaboral OWNER TO yuberadmin;
 
+CREATE TABLE puntosrecorrido (
+    servicio_id character varying(255) NOT NULL,
+    punto character varying(255)
+);
+
+
+ALTER TABLE public.puntosrecorrido OWNER TO yuberadmin;
+
 CREATE TABLE servicio (
     id character varying(255) NOT NULL,
     comentario character varying(255),
@@ -124,6 +132,17 @@ CREATE TABLE servicio (
 
 
 ALTER TABLE public.servicio OWNER TO yuberadmin;
+
+CREATE TABLE tenant (
+    id character varying(255) NOT NULL,
+    domain character varying(255),
+    isactive boolean,
+    isdelete boolean,
+    name character varying(255)
+);
+
+
+ALTER TABLE public.tenant OWNER TO yuberadmin;
 
 ALTER TABLE ONLY configuracionvertical
     ADD CONSTRAINT configuracionvertical_pkey PRIMARY KEY (id);
@@ -161,6 +180,10 @@ ALTER TABLE ONLY servicio
     ADD CONSTRAINT servicio_pkey PRIMARY KEY (id);
 
 
+ALTER TABLE ONLY tenant
+    ADD CONSTRAINT tenant_pkey PRIMARY KEY (id);
+
+
 ALTER TABLE ONLY persona_servicio
     ADD CONSTRAINT uk_13rsnmbq1idiq67tusa4rr9mm UNIQUE (servicios_id);
 
@@ -181,6 +204,10 @@ ALTER TABLE ONLY jornadalaboral
     ADD CONSTRAINT fk4275ekoyrtlpr1mqhsfs512lu FOREIGN KEY (servicioactivo_id) REFERENCES servicio(id);
 
 
+ALTER TABLE ONLY puntosrecorrido
+    ADD CONSTRAINT fk86q236oruw6bb8s0iu679trqy FOREIGN KEY (servicio_id) REFERENCES servicio(id);
+
+
 ALTER TABLE ONLY pagosproveedor
     ADD CONSTRAINT fka2heugae2xpdlqh22mgvci7oo FOREIGN KEY (proveedor_id) REFERENCES proveedor(id);
 
@@ -191,6 +218,7 @@ ALTER TABLE ONLY proveedor_jornadalaboral
 
 ALTER TABLE ONLY persona_servicio
     ADD CONSTRAINT fkdly2cd6721sdp8w5itui4r1y3 FOREIGN KEY (servicios_id) REFERENCES servicio(id);
+
 
 ALTER TABLE ONLY persona
     ADD CONSTRAINT fke2pq3sptb1bywssbu99jk8gen FOREIGN KEY (servicioactivo_id) REFERENCES servicio(id);
@@ -230,6 +258,7 @@ ALTER TABLE ONLY proveedor_jornadalaboral
 
 ALTER TABLE ONLY servicio
     ADD CONSTRAINT fkre9dqoc58875cj1dbus356o2y FOREIGN KEY (usuario_id) REFERENCES persona(id);
+
 
 ALTER TABLE ONLY servicio
     ADD CONSTRAINT fksj4nwfvostymmgiisdishllsy FOREIGN KEY (proveedor_id) REFERENCES proveedor(id);

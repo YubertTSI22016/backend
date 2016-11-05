@@ -112,8 +112,12 @@ public class VerticalRepo {
 		ctrVertical.calificarServicio(idServicio, calificacion, comentario, tenant);
 	}
 	
-	public DataServicio finalizarServicio(String idServicio, Float precio, Float calificacionUsuario, DataTenant tenant){
-		return ctrVertical.finalizarServicio(idServicio, precio, calificacionUsuario, tenant);
+	public DataServicio finalizarServicio(String idServicio, Float calificacionUsuario, DataTenant tenant){
+		return ctrVertical.finalizarServicio(idServicio, calificacionUsuario, tenant);
+	}
+	
+	public DataServicio finalizarTransporte(String idServicio, Float distanciaTotal, Float calificacionUsuario, DataTenant tenant){
+		return ctrVertical.finalizarTransporte(idServicio, distanciaTotal, calificacionUsuario, tenant);
 	}
 	
 	public void guardarTokenUsuario(String idUsuario, String token, Integer ultimosDigitosTarjeta, DataTenant tenant) {
@@ -162,6 +166,14 @@ public class VerticalRepo {
 	
 	public List<DataPagosProveedor> listarPagosPendientes(String idProveedor, Integer pagina, Integer elementosPagina, DataTenant tenant){
 		return ctrVertical.listarPagosPendientes(idProveedor, pagina, elementosPagina, tenant);
+	}
+	
+	public void ingresarPuntoRecorrido(String idServicio, String punto, DataTenant tenant){
+		ctrVertical.ingresarPuntoRecorrido(idServicio, punto, tenant);
+	}
+	
+	public List<String> obtenerPuntosServicio(String idServicio, DataTenant tenant){
+		return ctrVertical.obtenerPuntosServicio(idServicio, tenant);
 	}
 
 }

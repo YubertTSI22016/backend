@@ -215,7 +215,15 @@ public class VerticalApi extends BaseApi{
 	public DataServicio finalizarServicio(String data){
 		JSONObject obj = new JSONObject(data);
 		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
-		return verticalRepo.finalizarServicio(obj.getString("idServicio"), Float.valueOf(obj.getString("precio")), Float.valueOf(obj.getString("calificacionUsuario")), tenant);
+		return verticalRepo.finalizarServicio(obj.getString("idServicio"), Float.valueOf(obj.getString("calificacionUsuario")), tenant);
+	}
+	
+	@POST
+	@Path("/finalizartransporte/")
+	public DataServicio finalizarTransporte(String data){
+		JSONObject obj = new JSONObject(data);
+		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
+		return verticalRepo.finalizarTransporte(obj.getString("idServicio"), Float.valueOf(obj.getString("distanciaTotal")), Float.valueOf(obj.getString("calificacionUsuario")), tenant);
 	}
 	
 	@POST
@@ -302,6 +310,22 @@ public class VerticalApi extends BaseApi{
 		JSONObject obj = new JSONObject(data);
 		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
 		return verticalRepo.listarPagosPendientes(obj.getString("idProveedor"), pagina, elementosPagina, tenant);
+	}
+	
+	@POST
+	@Path("/ingresarpuntorecorrido/")
+	public void ingresarPuntoRecorrido(String data){
+		JSONObject obj = new JSONObject(data);
+		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
+		verticalRepo.ingresarPuntoRecorrido(obj.getString("idServicio"), obj.getString("punto"), tenant);
+	}
+	
+	@GET
+	@Path("/obtenerpuntosservicio/")
+	public List<String> obtenerPuntosServicio(String data){
+		JSONObject obj = new JSONObject(data);
+		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
+		return verticalRepo.obtenerPuntosServicio(obj.getString("idServicio"), tenant);
 	}
 
 //	@POST

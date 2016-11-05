@@ -252,10 +252,44 @@ public class VerticalCtrl implements IVertical{
         return servicio;
 	}
 	
-	public DataServicio finalizarServicio(String idServicio, Float precio, Float calificacionUsuario, DataTenant tenant){
+	public DataServicio finalizarServicio(String idServicio, Float calificacionUsuario, DataTenant tenant){
 		DataServicio servicio = srvServicio.getServicio(idServicio, tenant);
 		servicio.setEstado("Finalizado");
-		servicio.setPrecio(precio);
+		servicio.setFin(new Date());
+		srvServicio.modificarServicio(servicio, tenant);
+		DataUsuario usuario = srvUsuario.getUsuario(servicio.getUsuario().getId(), tenant);
+		usuario.setServicioActivo(null);
+		if(usuario.getCantidadServicios() == null){
+			usuario.setCantidadServicios(1);
+			usuario.setRating(calificacionUsuario);
+		}else{
+			Integer cs = usuario.getCantidadServicios();
+			cs = cs + 1;
+			usuario.setCantidadServicios(cs);
+			Float nuevoRating = (usuario.getRating()*usuario.getCantidadServicios()+calificacionUsuario)/cs;
+			usuario.setRating(nuevoRating);
+		}
+		srvUsuario.modificarUsuario(usuario, tenant);
+		DataProveedor proveedor = srvProveedor.getProveedor(servicio.getProveedor().getId(), tenant);
+		DataJornadaLaboral jornada = proveedor.getJornadaActual();
+		jornada.setServicioActivo(null);
+		proveedor.setJornadaActual(jornada);
+		srvProveedor.modificarProveedor(proveedor, tenant);
+		servicio = srvServicio.getServicio(idServicio, tenant);
+		//cargarTarjeta (usuario.getId(), precio,tenant);
+		DataConfiguracionVertical conf = srvConfiguracionVertical.getConfiguracionVertical(tenant);
+		DataPagosProveedor pagoAProveedor = new DataPagosProveedor();
+		pagoAProveedor.setProveedor(proveedor);
+		pagoAProveedor.setPago(false);
+		pagoAProveedor.setServicio(servicio);
+		pagoAProveedor.setPorcentageRetencion(conf.getPorcentajeRetencion());
+		srvPagosProveedor.crearPagosProveedor(pagoAProveedor, tenant);
+        return servicio;
+	}
+	
+	public DataServicio finalizarTransporte(String idServicio, Float distancia, Float calificacionUsuario, DataTenant tenant){
+		DataServicio servicio = srvServicio.getServicio(idServicio, tenant);
+		servicio.setEstado("Finalizado");
 		servicio.setFin(new Date());
 		srvServicio.modificarServicio(servicio, tenant);
 		DataUsuario usuario = srvUsuario.getUsuario(servicio.getUsuario().getId(), tenant);
@@ -409,6 +443,21 @@ public class VerticalCtrl implements IVertical{
 			return srvServicio.listarServiciosPorProveedor(idUsuProv, tenant);
 		}
 		return null;
+	}
+	
+	public void ingresarPuntoRecorrido(String idServicio, String punto, DataTenant tenant){
+
+		DataServicio srv = srvServicio.getServicio(idServicio, tenant);
+		List<String> puntos = srv.getPuntosRecorrido();
+		if(puntos == null)
+			puntos = new ArrayList<String>();
+		srv.setPuntosRecorrido(puntos);
+		srvServicio.modificarServicio(srv, tenant);
+	}
+	
+	public List<String> obtenerPuntosServicio(String idServicio, DataTenant tenant){
+		DataServicio srv = srvServicio.getServicio(idServicio, tenant);
+		return srv.getPuntosRecorrido();
 	}
 
 }

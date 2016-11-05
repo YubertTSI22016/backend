@@ -2,6 +2,7 @@ package yuber.shares;
 
 
 import java.util.Date;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -29,10 +30,11 @@ public class DataServicio {
 	private String coordenadasOrigen;
 	private String coordenadasDestino;
 	private Float precio;
+	private List<String> puntosRecorrido;
 	
 	public DataServicio(){}
 	
-	public DataServicio(String id, Date fec, Date ini, Date fin, DataUsuario usu, DataProveedor prov, Float rat, String coment, String est, String desc, String coordOri, String coordDest,Float prec){
+	public DataServicio(String id, Date fec, Date ini, Date fin, DataUsuario usu, DataProveedor prov, Float rat, String coment, String est, String desc, String coordOri, String coordDest,Float prec, List<String> pts){
 		this.id = id;
 		this.fecha = fec;
 		this.inicio = ini;
@@ -46,6 +48,7 @@ public class DataServicio {
 		this.coordenadasOrigen = coordOri;
 		this.coordenadasDestino = coordDest;
 		this.precio = prec;
+		this.puntosRecorrido = pts;
 	}
     
     public void setId(String val){
@@ -152,5 +155,12 @@ public class DataServicio {
         return this.precio;
     }
     
+    public void setPuntosRecorrido(List<String> val){
+        this.puntosRecorrido = val;
+    }
+    
+    public List<String> getPuntosRecorrido(){
+        return this.puntosRecorrido;
+    }
 }
 
