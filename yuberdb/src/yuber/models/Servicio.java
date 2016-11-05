@@ -17,7 +17,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import lcbs.models.HibernateUtils;
 import yuber.shares.DataServicio;
 
 @Entity
@@ -104,7 +103,8 @@ public class Servicio {
     	result.setCoordenadasOrigen(this.getCoordenadasOrigen());
     	result.setCoordenadasDestino(this.getCoordenadasDestino());
     	result.setPrecio(this.getPrecio());
-    	result.setPuntosRecorrido(HibernateUtils.initializeAndUnproxy(this.getPuntosRecorrido()));
+    	if(this.getPuntosRecorrido() != null)
+    		result.setPuntosRecorrido(HibernateUtils.initializeAndUnproxy(this.getPuntosRecorrido()));
     	return result;
     }
     

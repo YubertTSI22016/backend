@@ -287,13 +287,20 @@ public class VerticalCtrl implements IVertical{
 		proveedor.setJornadaActual(jornada);
 		srvProveedor.modificarProveedor(proveedor, tenant);
 		servicio = srvServicio.getServicio(idServicio, tenant);
+		
+		log.info("CARGAR TARJETA INICIO ================================================= ");
+		
 		cargarTarjeta (usuario.getId(), precio,tenant);
+		
+		log.info("CARGAR TARJETA FIN ================================================= ");
+		
 		DataPagosProveedor pagoAProveedor = new DataPagosProveedor();
 		pagoAProveedor.setProveedor(proveedor);
 		pagoAProveedor.setPago(false);
 		pagoAProveedor.setServicio(servicio);
 		pagoAProveedor.setPorcentageRetencion(conf.getPorcentajeRetencion());
 		srvPagosProveedor.crearPagosProveedor(pagoAProveedor, tenant);
+		
         return servicio;
 	}
 	
@@ -426,20 +433,25 @@ public class VerticalCtrl implements IVertical{
 		DataUsuario usu = getUsuario(idUsuario, tenant);
 		String token = usu.getTokenTarjeta();
 		String emailUsuario = usu.getEmail().getEmail();
-	
+		
 		// Create a charge: this will charge the user's card
+		log.info("================================================= UNO " + cargo);
 		try {
+			log.info("================================================= DOS =================================================");
 		  Map<String, Object> chargeParams = new HashMap<String, Object>();
-		  chargeParams.put("amount", cargo); // Amount in cents
+		  log.info("================================================= " + Math.round(cargo * 100));
+		  chargeParams.put("amount", Math.round(cargo * 100)); // Amount in cents
+		  log.info("================================================= TRES " + Math.round(cargo * 100));
 	 	  chargeParams.put("currency", "usd");
 		  chargeParams.put("source", token);
 		  chargeParams.put("description", "Cargo para: " + emailUsuario);
+		  log.info("================================================= CUATRO =================================================");
 	
 	 	  //Charge charge = Charge.create(chargeParams);
 	 	  Charge.create(chargeParams);
 	 	  
 		} catch (Exception e) {
-			  // Something else happened, completely unrelated to Stripe
+			  log.info("=================================================" + e.getMessage() + "=================================================");
 		}
 
 	}
@@ -495,7 +507,7 @@ public class VerticalCtrl implements IVertical{
 	
 	        Transfer.create(transferParams);
         } catch (Exception e) {
-            
+        	log.info("================================================= " + e.getMessage() + " =================================================");
         }
     }
 
