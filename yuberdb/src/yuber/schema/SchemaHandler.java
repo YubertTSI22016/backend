@@ -32,7 +32,7 @@ public class SchemaHandler implements ISchemaHandler{
 	@Inject
 	UserTransaction ut;
 	@RequestScoped
-	public void createSchema(String name) throws SchemaException {
+	public void createSchema(String name) throws Exception {
 		createSQL = new ArrayList<String>();
 		try {
 			if(ut.getStatus() != javax.transaction.Status.STATUS_NO_TRANSACTION){
@@ -44,9 +44,10 @@ public class SchemaHandler implements ISchemaHandler{
 			em.createNativeQuery("SET SCHEMA '"+ name+"'").executeUpdate();
 			em.createNativeQuery("SET search_path TO "+ name).executeUpdate();
 			ut.commit();
+			MongoHandler.getSchema(name);
 		} catch (Exception e) {
 			log.info("failing to create schema" + name);
-			 throw new SchemaException("Schema Already Exist"+e.getMessage());
+			throw e;
 		}
 		log.info("Changing current Schema to: "+ name);
 		try {  

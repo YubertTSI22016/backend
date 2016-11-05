@@ -4,8 +4,8 @@ import java.util.List;
 
 import javax.ejb.Local;
 
-import yuber.shares.DataTenant;
 import yuber.shares.DataProveedor;
+import yuber.shares.DataTenant;
 
 @Local
 public interface ProveedorLocalApi {

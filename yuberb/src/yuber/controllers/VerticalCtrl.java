@@ -14,13 +14,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.pusher.rest.Pusher;
-
 import com.stripe.Stripe;
-import com.stripe.exception.APIConnectionException;
-import com.stripe.exception.AuthenticationException;
-import com.stripe.exception.CardException;
-import com.stripe.exception.InvalidRequestException;
-import com.stripe.exception.StripeException;
 import com.stripe.model.Charge;
 
 import yuber.interfaces.AdministradorLocalApi;
@@ -30,7 +24,15 @@ import yuber.interfaces.PagosProveedorLocalApi;
 import yuber.interfaces.ProveedorLocalApi;
 import yuber.interfaces.ServicioLocalApi;
 import yuber.interfaces.UsuarioLocalApi;
-import yuber.shares.*;
+import yuber.shares.DataAdministrador;
+import yuber.shares.DataConfiguracionVertical;
+import yuber.shares.DataEmail;
+import yuber.shares.DataJornadaLaboral;
+import yuber.shares.DataPagosProveedor;
+import yuber.shares.DataProveedor;
+import yuber.shares.DataServicio;
+import yuber.shares.DataTenant;
+import yuber.shares.DataUsuario;
 
 @Stateless
 public class VerticalCtrl implements IVertical{
