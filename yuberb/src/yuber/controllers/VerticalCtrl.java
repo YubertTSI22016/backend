@@ -487,7 +487,7 @@ public class VerticalCtrl implements IVertical{
         srvPagosProveedor.modificarListaPagosProveedor(aActualizar, tenant);
         try{
 	        Map<String, Object> transferParams = new HashMap<String, Object>();
-	        transferParams.put("amount", Integer.valueOf(Float.valueOf(pago*100).toString()));
+	        transferParams.put("amount", Math.round(pago*100));
 	        transferParams.put("currency", "usd");
 	        //transferParams.put("destination", {CONNECTED_STRIPE_ACCOUNT_ID});
 	        //aqui en vez de token de la tarjeta va el ID de la cuenta de usuario Stripe conectada
