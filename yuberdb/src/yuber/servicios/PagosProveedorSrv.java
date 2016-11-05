@@ -13,6 +13,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
+import lcbs.models.Viaje;
 import yuber.interceptors.TenantIntercept;
 import yuber.interfaces.PagosProveedorLocalApi;
 import yuber.models.PagosProveedor;
@@ -59,11 +60,14 @@ public class PagosProveedorSrv implements PagosProveedorLocalApi {
 	
 	
 	public void modificarListaPagosProveedor(List<DataPagosProveedor> pp, DataTenant tenant) {
-		List<PagosProveedor> realObj = new ArrayList<PagosProveedor>();
-		pp.stream().forEach((pagoProv) -> {
-			realObj.add(new PagosProveedor(pagoProv,false));
-        });
-		em.merge(realObj);
+		for ( int i=0; i<pp.size(); i++ ) {
+		    em.persist(new PagosProveedor(pp.get(i),true));
+		    if ( i % 20 == 0 ) { //20, same as the JDBC batch size
+		        //flush a batch of inserts and release memory:
+		        em.flush();
+		        em.clear();
+		    }
+		}
 	}
 
 	public DataPagosProveedor getPagosProveedor(String id, DataTenant tenant) {
