@@ -489,14 +489,12 @@ public class VerticalCtrl implements IVertical{
         DataProveedor prov = srvProveedor.getProveedor(idProveedor, tenant);
         List<DataPagosProveedor> listaPagosPendientes = srvPagosProveedor.listarPagosPendientes(idProveedor, 1, 1000000, tenant);
         Float pago = 0.0f;
-        List<DataPagosProveedor> aActualizar = new ArrayList<DataPagosProveedor>();
         for(Integer i = 0; i < listaPagosPendientes.size(); i++){
         	DataPagosProveedor pp = listaPagosPendientes.get(i);
 			pago += pp.getServicio().getPrecio() * (1 - (pp.getPorcentageRetencion()/100));
 			pp.setPago(true);
-			aActualizar.add(pp);
 		}
-        srvPagosProveedor.modificarListaPagosProveedor(aActualizar, tenant);
+        srvPagosProveedor.cambiarEstadoAPago(idProveedor, tenant);
         try{
 	        Map<String, Object> transferParams = new HashMap<String, Object>();
 	        transferParams.put("amount", Math.round(pago*100));

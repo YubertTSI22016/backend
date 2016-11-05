@@ -13,13 +13,11 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
-import lcbs.models.Viaje;
 import yuber.interceptors.TenantIntercept;
 import yuber.interfaces.PagosProveedorLocalApi;
 import yuber.models.PagosProveedor;
 import yuber.shares.DataTenant;
 import yuber.shares.DataJornadaLaboral;
-import yuber.shares.DataPagosProveedor;
 import yuber.shares.DataPagosProveedor;
 
 /**
@@ -59,9 +57,18 @@ public class PagosProveedorSrv implements PagosProveedorLocalApi {
 	}
 	
 	
-	public void modificarListaPagosProveedor(List<DataPagosProveedor> pp, DataTenant tenant) {
-		for ( int i=0; i<pp.size(); i++ ) {
-		    em.persist(new PagosProveedor(pp.get(i),true));
+	public void cambiarEstadoAPago(String idProveedor, DataTenant tenant) {
+		List<DataPagosProveedor> pagosProv = new ArrayList();
+		// obtengo todos los pagos a proveedor de la bd
+		Session session = (Session) em.getDelegate();
+		Criteria criteria = session.createCriteria(PagosProveedor.class);
+		criteria.add(Restrictions.eq("proveedor.id", idProveedor));
+		criteria.add(Restrictions.eq("pago", false));
+		List<PagosProveedor> listSrv = new ArrayList<PagosProveedor>(new LinkedHashSet(criteria.list()));
+		for ( int i=0; i<listSrv.size(); i++ ) {
+			PagosProveedor current = listSrv.get(i);
+			current.setPago(true);
+		    em.persist(current);
 		    if ( i % 20 == 0 ) { //20, same as the JDBC batch size
 		        //flush a batch of inserts and release memory:
 		        em.flush();
