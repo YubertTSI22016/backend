@@ -419,7 +419,8 @@ public class VerticalCtrl implements IVertical{
 		Stripe.apiKey = "sk_test_7EZ8SFryAQ9k8jrdQplMBlYk";
 
 		Map<String, Object> customerParams = new HashMap<String, Object>();
-		customerParams.put("description", "Customer for "+prov.getUsuario().getEmail());
+		customerParams.put("email", prov.getUsuario().getEmail().getEmail());
+		customerParams.put("description", "Customer for " + prov.getUsuario().getEmail().getEmail());
 		customerParams.put("source", token); // obtained with Stripe.js
 		String customerId = "";
 		try {
