@@ -197,7 +197,7 @@ public class VerticalCtrl implements IVertical{
 		servicio = srvServicio.getServicio(idServicio, tenant);
         Pusher pusher = new Pusher("259107", "c2f52caa39102181e99f", "805644b0daae68d5a848");
         pusher.setEncrypted(true);
-        pusher.trigger(tenant.getId() + "-usuario-" + servicio.getUsuario().getId(), "solicitud-aceptada", Collections.singletonMap("message", servicio));
+        pusher.trigger(tenant.getId()+"-usuario", "solicitud-aceptada", Collections.singletonMap("message", servicio));
         return servicio;
 	}
 	
@@ -207,9 +207,6 @@ public class VerticalCtrl implements IVertical{
 		servicio.setEstado("Cancelado");
 		servicio.setFin(new Date());
 		srvServicio.modificarServicio(servicio, tenant);
-		Pusher pusher = new Pusher("259107", "c2f52caa39102181e99f", "805644b0daae68d5a848");
-        pusher.setEncrypted(true);
-        pusher.trigger(tenant.getId() + "-proveedores", "solicitud-cancelada", Collections.singletonMap("message", servicio));
         return servicio;
 	}
 	
@@ -261,7 +258,7 @@ public class VerticalCtrl implements IVertical{
 		servicio.setPrecio(precio);
 		servicio.setFin(new Date());
 		srvServicio.modificarServicio(servicio, tenant);
-		DataUsuario usuario = servicio.getUsuario();
+		DataUsuario usuario = srvUsuario.getUsuario(servicio.getUsuario().getId(), tenant);
 		usuario.setServicioActivo(null);
 		if(usuario.getCantidadServicios() == null){
 			usuario.setCantidadServicios(1);
@@ -274,11 +271,8 @@ public class VerticalCtrl implements IVertical{
 			usuario.setRating(nuevoRating);
 		}
 		srvUsuario.modificarUsuario(usuario, tenant);
-		DataProveedor proveedor = servicio.getProveedor();
+		DataProveedor proveedor = srvProveedor.getProveedor(servicio.getProveedor().getId(), tenant);
 		DataJornadaLaboral jornada = proveedor.getJornadaActual();
-		List<DataServicio> serviciosp = jornada.getServicios();
-		servicios.add(servicio);
-		jornada.setServicios(serviciosp);
 		jornada.setServicioActivo(null);
 		proveedor.setJornadaActual(jornada);
 		srvProveedor.modificarProveedor(proveedor, tenant);
