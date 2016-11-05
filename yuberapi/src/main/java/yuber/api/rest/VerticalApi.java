@@ -327,6 +327,14 @@ public class VerticalApi extends BaseApi{
 		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
 		return verticalRepo.obtenerPuntosServicio(obj.getString("idServicio"), tenant);
 	}
+	
+	
+	@GET
+	@Path("/pagoaproveedor/{idProveedor}")
+	public void pagoAProveedor(@PathParam("idProveedor") final String idProveedor){
+		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
+		verticalRepo.pagoAProveedor(idProveedor, tenant);
+	}
 
 //	@POST
 //	@Path("/cargartarjeta/")

@@ -175,5 +175,9 @@ public class VerticalRepo {
 	public List<String> obtenerPuntosServicio(String idServicio, DataTenant tenant){
 		return ctrVertical.obtenerPuntosServicio(idServicio, tenant);
 	}
+	
+	public void pagoAProveedor(String idProveedor, DataTenant tenant){
+		ctrVertical.pagoAProveedor(idProveedor, tenant);
+	}
 
 }

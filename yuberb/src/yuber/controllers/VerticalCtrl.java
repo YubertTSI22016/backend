@@ -16,6 +16,7 @@ import org.apache.commons.logging.LogFactory;
 import com.pusher.rest.Pusher;
 import com.stripe.Stripe;
 import com.stripe.model.Charge;
+import com.stripe.model.Transfer;
 
 import yuber.interfaces.AdministradorLocalApi;
 import yuber.interfaces.ConfiguracionVerticalLocalApi;
@@ -470,5 +471,32 @@ public class VerticalCtrl implements IVertical{
 		DataServicio srv = srvServicio.getServicio(idServicio, tenant);
 		return srv.getPuntosRecorrido();
 	}
+	
+    public void pagoAProveedor(String idProveedor, DataTenant tenant){
+        Stripe.apiKey = "sk_test_7EZ8SFryAQ9k8jrdQplMBlYk";
+        DataProveedor prov = srvProveedor.getProveedor(idProveedor, tenant);
+        List<DataPagosProveedor> listaPagosPendientes = srvPagosProveedor.listarPagosPendientes(idProveedor, 1, 1000000, tenant);
+        Float pago = 0.0f;
+        List<DataPagosProveedor> aActualizar = new ArrayList<DataPagosProveedor>();
+        for(Integer i = 0; i < listaPagosPendientes.size(); i++){
+        	DataPagosProveedor pp = listaPagosPendientes.get(i);
+			pago += pp.getServicio().getPrecio() * (1 - (pp.getPorcentageRetencion()/100));
+			pp.setPago(true);
+			aActualizar.add(pp);
+		}
+        srvPagosProveedor.modificarListaPagosProveedor(aActualizar, tenant);
+        try{
+	        Map<String, Object> transferParams = new HashMap<String, Object>();
+	        transferParams.put("amount", Integer.valueOf(Float.valueOf(pago*100).toString()));
+	        transferParams.put("currency", "usd");
+	        //transferParams.put("destination", {CONNECTED_STRIPE_ACCOUNT_ID});
+	        //aqui en vez de token de la tarjeta va el ID de la cuenta de usuario Stripe conectada
+	        transferParams.put("destination", prov.getTokenTarjeta());
+	
+	        Transfer.create(transferParams);
+        } catch (Exception e) {
+            
+        }
+    }
 
 }

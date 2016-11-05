@@ -17,6 +17,7 @@ import yuber.interceptors.TenantIntercept;
 import yuber.interfaces.PagosProveedorLocalApi;
 import yuber.models.PagosProveedor;
 import yuber.shares.DataTenant;
+import yuber.shares.DataJornadaLaboral;
 import yuber.shares.DataPagosProveedor;
 import yuber.shares.DataPagosProveedor;
 
@@ -53,6 +54,15 @@ public class PagosProveedorSrv implements PagosProveedorLocalApi {
 		if (em.find(PagosProveedor.class, realObj.getId()) == null) {
 			throw new IllegalArgumentException("El pago a proveedor no existe");
 		}
+		em.merge(realObj);
+	}
+	
+	
+	public void modificarListaPagosProveedor(List<DataPagosProveedor> pp, DataTenant tenant) {
+		List<PagosProveedor> realObj = new ArrayList<PagosProveedor>();
+		pp.stream().forEach((pagoProv) -> {
+			realObj.add(new PagosProveedor(pagoProv,false));
+        });
 		em.merge(realObj);
 	}
 

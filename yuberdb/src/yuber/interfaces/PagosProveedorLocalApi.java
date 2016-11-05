@@ -9,6 +9,7 @@ import yuber.shares.DataTenant;
 public interface PagosProveedorLocalApi {
 	public List<DataPagosProveedor> obtenerPagosProveedor(Integer pagina, Integer elementosPagina, DataTenant tenant);
 	public void modificarPagosProveedor(DataPagosProveedor srv, DataTenant tenant);
+	public void modificarListaPagosProveedor(List<DataPagosProveedor> pp, DataTenant tenant);
 	public DataPagosProveedor getPagosProveedor(String id, DataTenant tenant);
 	public DataPagosProveedor crearPagosProveedor(DataPagosProveedor srv, DataTenant tenant);
 	public List<DataPagosProveedor> listarPagosPendientes(String idProveedor, Integer pagina, Integer elementosPagina, DataTenant tenant);
