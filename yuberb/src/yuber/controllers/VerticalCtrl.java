@@ -256,9 +256,14 @@ public class VerticalCtrl implements IVertical{
 	}
 	
 	public DataServicio finalizarServicio(String idServicio, Float calificacionUsuario, DataTenant tenant){
+		DataConfiguracionVertical conf = srvConfiguracionVertical.getConfiguracionVertical(tenant);
 		DataServicio servicio = srvServicio.getServicio(idServicio, tenant);
 		servicio.setEstado("Finalizado");
 		servicio.setFin(new Date());
+		long diferenciaFechas = servicio.getFin().getTime() - servicio.getInicio().getTime();
+		Float horasServicio = Float.valueOf(diferenciaFechas / (1000*60*60));
+		Float precio = horasServicio * conf.getPrecioPorHora() + conf.getTarifaBase();
+		servicio.setPrecio(precio);
 		srvServicio.modificarServicio(servicio, tenant);
 		DataUsuario usuario = srvUsuario.getUsuario(servicio.getUsuario().getId(), tenant);
 		usuario.setServicioActivo(null);
@@ -279,8 +284,7 @@ public class VerticalCtrl implements IVertical{
 		proveedor.setJornadaActual(jornada);
 		srvProveedor.modificarProveedor(proveedor, tenant);
 		servicio = srvServicio.getServicio(idServicio, tenant);
-		//cargarTarjeta (usuario.getId(), precio,tenant);
-		DataConfiguracionVertical conf = srvConfiguracionVertical.getConfiguracionVertical(tenant);
+		cargarTarjeta (usuario.getId(), precio,tenant);
 		DataPagosProveedor pagoAProveedor = new DataPagosProveedor();
 		pagoAProveedor.setProveedor(proveedor);
 		pagoAProveedor.setPago(false);
@@ -291,9 +295,12 @@ public class VerticalCtrl implements IVertical{
 	}
 	
 	public DataServicio finalizarTransporte(String idServicio, Float distancia, Float calificacionUsuario, DataTenant tenant){
+		DataConfiguracionVertical conf = srvConfiguracionVertical.getConfiguracionVertical(tenant);
 		DataServicio servicio = srvServicio.getServicio(idServicio, tenant);
 		servicio.setEstado("Finalizado");
 		servicio.setFin(new Date());
+		Float precio = distancia * conf.getPrecioPorKm() + conf.getTarifaBase();
+		servicio.setPrecio(precio);
 		srvServicio.modificarServicio(servicio, tenant);
 		DataUsuario usuario = srvUsuario.getUsuario(servicio.getUsuario().getId(), tenant);
 		usuario.setServicioActivo(null);
@@ -314,8 +321,7 @@ public class VerticalCtrl implements IVertical{
 		proveedor.setJornadaActual(jornada);
 		srvProveedor.modificarProveedor(proveedor, tenant);
 		servicio = srvServicio.getServicio(idServicio, tenant);
-		//cargarTarjeta (usuario.getId(), precio,tenant);
-		DataConfiguracionVertical conf = srvConfiguracionVertical.getConfiguracionVertical(tenant);
+		cargarTarjeta (usuario.getId(), precio,tenant);
 		DataPagosProveedor pagoAProveedor = new DataPagosProveedor();
 		pagoAProveedor.setProveedor(proveedor);
 		pagoAProveedor.setPago(false);
