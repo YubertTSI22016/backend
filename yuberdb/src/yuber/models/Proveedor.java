@@ -44,11 +44,12 @@ public class Proveedor implements Serializable {
     private String nombre;
     private String tokenTarjeta;
     private Integer ultimosNumerosTarjeta;
+    private String stripeAccId;
     
 
     public Proveedor() {}
     
-    public Proveedor(String id, Usuario usu, Boolean activo, List<JornadaLaboral> jls, JornadaLaboral jl, Float rat, Telefono tel, String desc, String nom, String tk, Integer cs, Integer unt) {
+    public Proveedor(String id, Usuario usu, Boolean activo, List<JornadaLaboral> jls, JornadaLaboral jl, Float rat, Telefono tel, String desc, String nom, String tk, Integer cs, Integer unt, String sac) {
     	this.id = id;
     	this.usuario = usu;
         this.activo = activo;
@@ -61,6 +62,7 @@ public class Proveedor implements Serializable {
         this.nombre = nom;
         this.tokenTarjeta = tk;
         this.ultimosNumerosTarjeta = unt;
+        this.stripeAccId = sac;
     }
     
     public Proveedor(DataProveedor dt, Boolean conHijos){
@@ -84,6 +86,7 @@ public class Proveedor implements Serializable {
     	this.setNombre(dt.getNombre());
     	this.setTokenTarjeta(dt.getTokenTarjeta());
     	this.setUltimosNumerosTarjeta(dt.getUltimosNumerosTarjeta());
+    	this.setStripeAccId(dt.getStripeAccId());
     }
     
     public DataProveedor getDatatype(Boolean conHijos){
@@ -108,6 +111,7 @@ public class Proveedor implements Serializable {
     	result.setNombre(this.getNombre());
     	result.setTokenTarjeta(this.getTokenTarjeta());
     	result.setUltimosNumerosTarjeta(this.getUltimosNumerosTarjeta());
+    	result.setStripeAccId(this.getStripeAccId());
     	return result;
     }
     
@@ -205,5 +209,13 @@ public class Proveedor implements Serializable {
     
     public Integer getCantidadServicios(){
     	return this.cantidadServicios;
+    }
+    
+    public String getStripeAccId(){
+        return this.stripeAccId;
+    }
+
+    public void setStripeAccId(String val){
+        this.stripeAccId = val;
     }
 }

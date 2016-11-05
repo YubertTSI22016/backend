@@ -18,12 +18,13 @@ public class DataProveedor{
     private String nombre;
     private String tokenTarjeta;
     private Integer ultimosNumerosTarjeta;
+    private String stripeAccId;
 
  
 
     public DataProveedor() {}
     
-    public DataProveedor(String id, DataUsuario usu, Boolean activo, Boolean eliminado, String clv, List<DataJornadaLaboral> jor, DataJornadaLaboral jl, Float rat, DataTelefono tel, String desc, String nom, String tk, Integer cs, Integer unt) {
+    public DataProveedor(String id, DataUsuario usu, Boolean activo, Boolean eliminado, String clv, List<DataJornadaLaboral> jor, DataJornadaLaboral jl, Float rat, DataTelefono tel, String desc, String nom, String tk, Integer cs, Integer unt, String sac) {
     	this.id = id;
     	this.usuario = usu;
         this.activo = activo;
@@ -37,6 +38,7 @@ public class DataProveedor{
         this.cantidadServicios = cs;
         this.tokenTarjeta = tk;
         this.ultimosNumerosTarjeta = unt;
+        this.stripeAccId = sac;
     }
 
     public void setId(String val){
@@ -141,6 +143,14 @@ public class DataProveedor{
     
     public Integer getCantidadServicios(){
     	return this.cantidadServicios;
+    }
+    
+    public String getStripeAccId(){
+        return this.stripeAccId;
+    }
+
+    public void setStripeAccId(String val){
+        this.stripeAccId = val;
     }
 
 }

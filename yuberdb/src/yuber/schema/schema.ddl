@@ -86,6 +86,7 @@ CREATE TABLE proveedor (
     descripcion character varying(255),
     nombre character varying(255),
     rating real,
+    stripeaccid character varying(255),
     descripciontel character varying(255),
     telefono character varying(255),
     tokentarjeta character varying(255),
@@ -140,18 +141,14 @@ ALTER TABLE ONLY configuracionvertical
 ALTER TABLE ONLY jornadalaboral
     ADD CONSTRAINT jornadalaboral_pkey PRIMARY KEY (id);
 
-
 ALTER TABLE ONLY jornadalaboral_servicio
     ADD CONSTRAINT jornadalaboral_servicio_pkey PRIMARY KEY (jornadalaboral_id, list_index);
-
 
 ALTER TABLE ONLY pagosproveedor
     ADD CONSTRAINT pagosproveedor_pkey PRIMARY KEY (id);
 
-
 ALTER TABLE ONLY persona
     ADD CONSTRAINT persona_pkey PRIMARY KEY (id);
-
 
 ALTER TABLE ONLY persona_servicio
     ADD CONSTRAINT persona_servicio_pkey PRIMARY KEY (usuario_id, list_index);
@@ -198,7 +195,6 @@ ALTER TABLE ONLY persona
 ALTER TABLE ONLY jornadalaboral_servicio
     ADD CONSTRAINT fkfefxg8wolsdt6cgvaoskbjfq2 FOREIGN KEY (jornadalaboral_id) REFERENCES jornadalaboral(id);
 
-
 ALTER TABLE ONLY jornadalaboral_servicio
     ADD CONSTRAINT fkm93dduldkqfme7819i594igtj FOREIGN KEY (servicios_id) REFERENCES servicio(id);
 
@@ -210,6 +206,7 @@ ALTER TABLE ONLY pagosproveedor
 
 ALTER TABLE ONLY proveedor
     ADD CONSTRAINT fkoby0y865irqomom3k97h3ylb0 FOREIGN KEY (usuario_id) REFERENCES persona(id);
+
 
 ALTER TABLE ONLY proveedor
     ADD CONSTRAINT fkood4v7flm7y5vlvlisufyjp7s FOREIGN KEY (jornadaactual_id) REFERENCES jornadalaboral(id);
@@ -225,3 +222,4 @@ ALTER TABLE ONLY servicio
 
 ALTER TABLE ONLY servicio
     ADD CONSTRAINT fksj4nwfvostymmgiisdishllsy FOREIGN KEY (proveedor_id) REFERENCES proveedor(id);
+

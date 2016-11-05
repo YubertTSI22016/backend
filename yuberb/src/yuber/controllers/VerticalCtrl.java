@@ -15,7 +15,13 @@ import org.apache.commons.logging.LogFactory;
 
 import com.pusher.rest.Pusher;
 import com.stripe.Stripe;
+import com.stripe.exception.APIConnectionException;
+import com.stripe.exception.APIException;
+import com.stripe.exception.AuthenticationException;
+import com.stripe.exception.CardException;
+import com.stripe.exception.InvalidRequestException;
 import com.stripe.model.Charge;
+import com.stripe.model.Customer;
 import com.stripe.model.Transfer;
 
 import yuber.interfaces.AdministradorLocalApi;
@@ -410,6 +416,19 @@ public class VerticalCtrl implements IVertical{
 		DataProveedor prov = getProveedor(idProveedor, tenant);
 		prov.setTokenTarjeta(token);
 		prov.setUltimosNumerosTarjeta(ultimosDigitosTarjeta);
+		Stripe.apiKey = "sk_test_7EZ8SFryAQ9k8jrdQplMBlYk";
+
+		Map<String, Object> customerParams = new HashMap<String, Object>();
+		customerParams.put("description", "Customer for "+prov.getUsuario().getEmail());
+		customerParams.put("source", token); // obtained with Stripe.js
+		String customerId = "";
+		try {
+			customerId = Customer.create(customerParams).getId();
+		} catch (AuthenticationException | InvalidRequestException | APIConnectionException | CardException
+				| APIException e) {
+			e.printStackTrace();
+		}
+		prov.setStripeAccId(customerId);
 		srvProveedor.modificarProveedor(prov, tenant);
 	}
 
@@ -501,7 +520,7 @@ public class VerticalCtrl implements IVertical{
 	        transferParams.put("currency", "usd");
 	        //transferParams.put("destination", {CONNECTED_STRIPE_ACCOUNT_ID});
 	        //aqui en vez de token de la tarjeta va el ID de la cuenta de usuario Stripe conectada
-	        transferParams.put("destination", prov.getTokenTarjeta());
+	        transferParams.put("destination", prov.getStripeAccId());
 	
 	        Transfer.create(transferParams);
         } catch (Exception e) {
