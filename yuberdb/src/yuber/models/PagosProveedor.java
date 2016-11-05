@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import yuber.shares.*;
+import yuber.shares.DataPagosProveedor;
 
 @Entity
 @XmlRootElement
