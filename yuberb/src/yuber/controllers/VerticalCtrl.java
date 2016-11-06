@@ -20,8 +20,8 @@ import com.stripe.exception.APIException;
 import com.stripe.exception.AuthenticationException;
 import com.stripe.exception.CardException;
 import com.stripe.exception.InvalidRequestException;
+import com.stripe.model.Account;
 import com.stripe.model.Charge;
-import com.stripe.model.Customer;
 import com.stripe.model.Transfer;
 
 import yuber.interfaces.AdministradorLocalApi;
@@ -418,18 +418,24 @@ public class VerticalCtrl implements IVertical{
 		prov.setUltimosNumerosTarjeta(ultimosDigitosTarjeta);
 		Stripe.apiKey = "sk_test_7EZ8SFryAQ9k8jrdQplMBlYk";
 
-		Map<String, Object> customerParams = new HashMap<String, Object>();
-		customerParams.put("email", prov.getUsuario().getEmail().getEmail());
-		customerParams.put("description", "Customer for " + prov.getUsuario().getEmail().getEmail());
-		customerParams.put("source", token); // obtained with Stripe.js
-		String customerId = "";
+		Map<String, Object> accountParams = new HashMap<String, Object>();
+		accountParams.put("managed", true);
+		accountParams.put("country", "US");
+		accountParams.put("email", prov.getUsuario().getEmail().getEmail());
+		String accId = "";
+		
 		try {
-			customerId = Customer.create(customerParams).getId();
+			Account acc = Account.create(accountParams);
+			accId = acc.getId();
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("external_account", token);
+			params.put("default_for_currency", true);
+			acc.getExternalAccounts().create(params);
 		} catch (AuthenticationException | InvalidRequestException | APIConnectionException | CardException
 				| APIException e) {
 			e.printStackTrace();
 		}
-		prov.setStripeAccId(customerId);
+		prov.setStripeAccId(accId);
 		srvProveedor.modificarProveedor(prov, tenant);
 	}
 
@@ -519,7 +525,7 @@ public class VerticalCtrl implements IVertical{
 	        Map<String, Object> transferParams = new HashMap<String, Object>();
 	        transferParams.put("amount", Math.round(pago*100));
 	        transferParams.put("currency", "usd");
-	        //transferParams.put("destination", {CONNECTED_STRIPE_ACCOUNT_ID});
+	        transferParams.put("destination", "default_for_currency");
 	        //aqui en vez de token de la tarjeta va el ID de la cuenta de usuario Stripe conectada
 	        transferParams.put("destination", prov.getStripeAccId());
 	
