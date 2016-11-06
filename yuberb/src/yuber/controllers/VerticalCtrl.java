@@ -427,6 +427,7 @@ public class VerticalCtrl implements IVertical{
 		try {
 			Account acc = Account.create(accountParams);
 			accId = acc.getId();
+			
 			Map<String, Object> params = new HashMap<String, Object>();
 			params.put("external_account", token);
 			params.put("default_for_currency", true);
