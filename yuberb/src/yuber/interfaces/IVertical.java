@@ -93,4 +93,6 @@ public interface IVertical {
 	public void ingresarPuntoRecorrido(String idServicio, String punto, DataTenant tenant);
 	
 	public List<String> obtenerPuntosServicio(String idServicio, DataTenant tenant);
+
+	public void checkearTiemposPedidos(DataTenant tenant);
 }

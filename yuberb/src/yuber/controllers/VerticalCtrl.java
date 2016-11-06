@@ -22,7 +22,6 @@ import com.stripe.exception.CardException;
 import com.stripe.exception.InvalidRequestException;
 import com.stripe.model.Account;
 import com.stripe.model.Charge;
-import com.stripe.model.Customer;
 import com.stripe.model.Transfer;
 
 import yuber.interfaces.AdministradorLocalApi;
@@ -503,6 +502,7 @@ public class VerticalCtrl implements IVertical{
 		List<String> puntos = srv.getPuntosRecorrido();
 		if(puntos == null)
 			puntos = new ArrayList<String>();
+		puntos.add(punto);
 		srv.setPuntosRecorrido(puntos);
 		srvServicio.modificarServicio(srv, tenant);
 	}
@@ -536,5 +536,20 @@ public class VerticalCtrl implements IVertical{
         	log.info("================================================= " + e.getMessage() + " =================================================");
         }
     }
+
+
+
+	@Override
+	public void checkearTiemposPedidos(DataTenant tenant) {
+		List<DataServicio> servicios = srvServicio.obtenerServiciosPendientes(tenant);
+		for(Integer i = 0; i < servicios.size(); i++){
+			DataServicio servicio = servicios.get(i);
+			long diferenciaFechas = (new Date()).getTime() - servicio.getFecha().getTime();
+			Float segundosDeSolicitado = Float.valueOf(diferenciaFechas / (1000));
+			if(segundosDeSolicitado > 15f){
+				this.cancelarServicio(servicio.getId(), tenant);
+			}
+		}
+	}
 
 }

@@ -321,11 +321,10 @@ public class VerticalApi extends BaseApi{
 	}
 	
 	@GET
-	@Path("/obtenerpuntosservicio/")
-	public List<String> obtenerPuntosServicio(String data){
-		JSONObject obj = new JSONObject(data);
+	@Path("/obtenerpuntosservicio/{idServicio}")
+	public List<String> obtenerPuntosServicio(@PathParam("idServicio") final String idServicio){
 		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
-		return verticalRepo.obtenerPuntosServicio(obj.getString("idServicio"), tenant);
+		return verticalRepo.obtenerPuntosServicio(idServicio, tenant);
 	}
 	
 	
