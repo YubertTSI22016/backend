@@ -422,12 +422,12 @@ public class VerticalCtrl implements IVertical{
 		accountParams.put("managed", true);
 		accountParams.put("country", "US");
 		accountParams.put("email", prov.getUsuario().getEmail().getEmail());
-
-		
 		String accId = "";
+		
 		try {
 			Account acc = Account.create(accountParams);
 			accId = acc.getId();
+			
 			Map<String, Object> params = new HashMap<String, Object>();
 			params.put("external_account", token);
 			params.put("default_for_currency", true);
