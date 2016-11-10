@@ -23,6 +23,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonParser.Feature;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -49,6 +50,7 @@ public class ProveedorSrv implements ProveedorLocalApi {
 	@Inject
 	EntityManager em;
 	private static final Log log = LogFactory.getLog(ProveedorSrv.class);
+
 	public ProveedorSrv() {
 
 	}
@@ -67,47 +69,49 @@ public class ProveedorSrv implements ProveedorLocalApi {
 		});
 		return proveedores;
 	}
-	private String getJSON(Object obj) throws JsonProcessingException{
+
+	private String getJSON(Object obj) throws JsonProcessingException {
 		ObjectMapper mapper = new ObjectMapper();
 		String json = mapper.writeValueAsString(obj).replace("{", " { ").replace("}", " } ").replace(":", " : ");
 		log.info(json + "===========");
 		return json;
 	}
-	private void guardarRegistroJornada(DataProveedor prv, DataTenant tenant) throws JsonParseException, JsonMappingException, IOException {
+
+	private void guardarRegistroJornada(DataProveedor prv, DataTenant tenant)
+			throws JsonParseException, JsonMappingException, IOException {
 		Document reporteNuevo;
 		DateFormat formater = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 		String date = formater.format(new Date());
 		if (prv.getJornadaActual() == null && prv.getJornadas().size() > 0) {
-			
+
 			DataJornadaLaboral jl = prv.getJornadas().get(prv.getJornadas().size() - 1);
 			Document filter = new Document("fecha", date).append("idProveedor", prv.getId());
 			MongoDatabase db = MongoHandler.getSchema(tenant.getName());
-		
-			ObjectMapper mapper = new ObjectMapper();	
+
+			ObjectMapper mapper = new ObjectMapper();
 			Document reporteProveedor = db.getCollection("reporteJornadaProveedor").find(filter).first();
-			 
+
 			if (reporteProveedor != null && !reporteProveedor.isEmpty()) {
 				final String json = reporteProveedor.toJson();
-				
+
 				ReporteProveedores rep = mapper.readValue(json, ReporteProveedores.class);
 				rep.setGanancia(rep.getGanancia() + jl.getSaldo());
-				reporteNuevo = new Document("$set",getJSON(rep));
+				reporteNuevo = new Document("$set", Document.parse(getJSON(rep)));
 				db.getCollection("reporteJornadaProveedor").updateOne(filter, reporteNuevo);
-				
-			}else{
-	
+
+			} else {
+
 				ReporteProveedores rep = new ReporteProveedores();
 				rep.setIdProveedor(prv.getId());
 				rep.setNombre(prv.getNombre());
 				rep.setApellido(prv.getUsuario().getApellido());
-				rep.setGanancia (jl.getSaldo());
-				rep.setFecha(date);
+				rep.setGanancia(jl.getSaldo());
+				rep.setFecha(date + "T00:00:00.000Z");
 				reporteNuevo = Document.parse(getJSON(rep));
-				
+
 				db.getCollection("reporteJornadaProveedor").insertOne(reporteNuevo);
 			}
-			
-		
+
 			log.info(db.getCollection("reporteJornadaProveedor").count());
 		}
 

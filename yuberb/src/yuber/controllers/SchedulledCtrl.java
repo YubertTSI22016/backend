@@ -22,9 +22,8 @@ public class SchedulledCtrl
 	
 	private static final Log log = LogFactory.getLog(SchedulledCtrl.class);
  
-	 @Schedule(second="*/3", minute="*", hour="*")
+	 @Schedule(second="*/50", minute="*", hour="*")
 	    public void automaticTimeout() {
-		 log.info("sape log papa");
 		 List<DataTenant> tenants = ctrTenant.list();
 			for(Integer i = 0; i < tenants.size(); i++){
 				ctrVertical.checkearTiemposPedidos(tenants.get(i));

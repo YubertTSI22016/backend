@@ -2,6 +2,8 @@ package yuber.models;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ReporteProveedores implements Serializable {
 	/**
 	 * 
