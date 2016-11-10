@@ -28,7 +28,7 @@ public abstract class DataPersona{
     	this.clave = c;
     }
     
-    public String getClave(){
+    public String genClave(){
     	return this.clave;
     }
     

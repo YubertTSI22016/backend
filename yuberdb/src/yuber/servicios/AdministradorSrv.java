@@ -63,7 +63,7 @@ public class AdministradorSrv implements AdministradorLocalApi {
 			return crearAdmin(defaultAdmin,tenant);
 		}else if (listAdmin.size() == 1) {
 			DataAdministrador admin = listAdmin.get(0).getDatatype();
-			if (admin.getClave().equals(clave))
+			if (admin.genClave().equals(clave))
 				return admin;
 		}
 		return null;

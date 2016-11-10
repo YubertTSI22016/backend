@@ -59,7 +59,7 @@ public class UsuarioSrv implements UsuarioLocalApi {
 			DataUsuario usuario = listUsu.get(0).getDatatype(true);
 			if(usuario.getEliminado())
 				return null;
-			if (usuario.getClave().equals(clave))
+			if (usuario.genClave().equals(clave))
 				return usuario;
 		}
 		return null;

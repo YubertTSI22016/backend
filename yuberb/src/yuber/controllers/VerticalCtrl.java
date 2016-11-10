@@ -40,6 +40,8 @@ import yuber.shares.DataProveedor;
 import yuber.shares.DataServicio;
 import yuber.shares.DataTenant;
 import yuber.shares.DataUsuario;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 @Stateless
 public class VerticalCtrl implements IVertical{
@@ -58,7 +60,22 @@ public class VerticalCtrl implements IVertical{
 	private static final Log log = LogFactory.getLog(VerticalCtrl.class);
 	//USUARIO
 	public DataUsuario AltaUsuario(DataUsuario usuario, DataTenant tenant) {
-	  
+		MessageDigest md;
+		StringBuffer sb = new StringBuffer();
+		try {
+			md = MessageDigest.getInstance("MD5");
+			md.update(usuario.genClave().getBytes());
+
+			byte byteData[] = md.digest();
+			sb = new StringBuffer();
+	        for (int i = 0; i < byteData.length; i++) {
+	         sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+	        }
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+        
+        usuario.setClave(sb.toString());
 		return srvUsuario.crearUsuario(usuario, tenant);
 	}
 
@@ -71,6 +88,23 @@ public class VerticalCtrl implements IVertical{
 
 	
 	public DataUsuario loginUsuario(String usuario, String clave, DataTenant tenant) {
+		MessageDigest md;
+		StringBuffer sb = new StringBuffer();
+		try {
+			md = MessageDigest.getInstance("MD5");
+			md.update(clave.getBytes());
+
+			byte byteData[] = md.digest();
+			sb = new StringBuffer();
+	        for (int i = 0; i < byteData.length; i++) {
+	         sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+	        }
+		} catch (NoSuchAlgorithmException e) {
+			log.info("Error login ================================================= "+e.getMessage());
+		}
+        
+		clave = sb.toString();
+		log.info("Clave Login ================================================= " + clave);
 		return srvUsuario.loginUsuario(usuario, clave, tenant);
 	}
 
