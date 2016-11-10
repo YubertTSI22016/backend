@@ -39,12 +39,13 @@ public class SchemaHandler implements ISchemaHandler{
 				ut.commit();
 			}
 			log.info("Create schema if not exist"+name);
+
+			MongoHandler.getSchema(name);
 			ut.begin();
 			em.createNativeQuery("CREATE SCHEMA " + name).executeUpdate();
 			em.createNativeQuery("SET SCHEMA '"+ name+"'").executeUpdate();
 			em.createNativeQuery("SET search_path TO "+ name).executeUpdate();
 			ut.commit();
-			MongoHandler.getSchema(name);
 		} catch (Exception e) {
 			log.info("failing to create schema" + name);
 			throw e;

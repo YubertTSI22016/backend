@@ -31,7 +31,6 @@ public class TenantSrv implements TenantLocalApi {
 	EntityManager em;
 	private static final Log log  =  LogFactory.getLog(TenantSrv.class);
 	public List<DataTenant> filter(DataTenant filtro) {
-		log.info(filtro.getDomain());
 		List<DataTenant> tenants = new ArrayList<DataTenant>();
 		Session session = (Session) em.getDelegate();
 		Criteria criteria = session.createCriteria(Tenant.class);

@@ -1,12 +1,11 @@
 package yuber.shares;
 
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
-import yuber.shares.DataProveedor;
 
 public class DataJornadaLaboral {
 	private String id;
@@ -74,7 +73,17 @@ public class DataJornadaLaboral {
     public void setServicioActivo(DataServicio val){
         this.servicioActivo = val;
     }
-    
+    public float getSaldo(){
+    	float alm = 0;
+    	if(servicios != null){
+    		Iterator it = servicios.iterator();
+        	while(it.hasNext()){
+        		DataServicio servicio = (DataServicio)it.next();
+        		alm += servicio.getPrecio();
+        	}
+    	}
+    	return alm;
+    } 
     public DataServicio getServicioActivo(){
         return this.servicioActivo;
     }
