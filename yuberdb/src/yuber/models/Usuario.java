@@ -66,7 +66,7 @@ public class Usuario extends Persona implements Serializable{
     		this.setTelefonoContacto(new Telefono(dt.getTelefonoContacto()));
     	this.setFechaNacimiento(dt.getFechaNacimiento());
     	this.setEliminado(dt.getEliminado());
-    	this.setClave(dt.getClave());
+    	this.setClave(dt.genClave());
     	this.setRedSocialUsada(dt.getRedSocialUsada());
     	this.setIdRedSocial(dt.getIdRedSocial());
     	if(dt.getProveedor() != null)
