@@ -27,7 +27,9 @@ public class VerticalRepo {
 	public DataUsuario AltaUsuario(DataUsuario usuario, DataTenant tenant) {
 		return ctrVertical.AltaUsuario(usuario, tenant);
 	}
-
+	public List<DataUsuario> rankingUsuariosActivos(Date from, Integer pagina, Integer elementosPagina, DataTenant tenant){
+		return ctrVertical.rankingUsuariosActivos(from, pagina, elementosPagina, tenant);
+	}
 	public List<DataUsuario> obtenerUsuarios(Integer pagina, Integer elementosPagina, DataTenant tenant) {
 		return ctrVertical.obtenerUsuarios(pagina, elementosPagina, tenant);
 	}
@@ -39,7 +41,6 @@ public class VerticalRepo {
 	public DataUsuario getUsuario(String id, DataTenant tenant) {
 		return ctrVertical.getUsuario(id, tenant);
 	}
-	
 	public DataUsuario modificarUsuario(DataUsuario usuario, DataTenant tenant){
 		return ctrVertical.modificarUsuario(usuario, tenant);
 	}

@@ -99,4 +99,6 @@ public interface IVertical {
 	public void checkearTiemposPedidos(DataTenant tenant);
 	
 	public List<DataReporteProveedor> rankingProveedoresPorGanancia(Date start, Date end, int pagina, int elementosPagina, DataTenant tenant) throws Exception;
+
+	public List<DataUsuario> rankingUsuariosActivos(Date from, Integer pagina, Integer elementosPagina, DataTenant tenant);
 }

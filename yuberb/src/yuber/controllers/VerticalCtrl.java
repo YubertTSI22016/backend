@@ -589,4 +589,11 @@ public class VerticalCtrl implements IVertical{
 		}
 	}
 
+
+
+	@Override
+	public List<DataUsuario> rankingUsuariosActivos(Date from, Integer pagina, Integer elementosPagina, DataTenant tenant) {
+		return srvUsuario.rankingUsuariosActivos( from,  pagina,  elementosPagina,  tenant);
+	}
+
 }

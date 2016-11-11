@@ -1,5 +1,6 @@
 package yuber.interfaces;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -17,4 +18,5 @@ public interface UsuarioLocalApi {
 	public void darBajaUsuario(String idUsuario, DataTenant tenant);
 	public DataUsuario buscarUsuarioPorMail(String mailUsuario, DataTenant tenant);
 	public DataUsuario loginFacebook(String mailUsuario, String uid, DataTenant tenant);
+	public List<DataUsuario> rankingUsuariosActivos(Date from, Integer pagina, Integer elementosPagina, DataTenant tenant);
 }
