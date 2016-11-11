@@ -37,6 +37,7 @@ import yuber.shares.DataEmail;
 import yuber.shares.DataJornadaLaboral;
 import yuber.shares.DataPagosProveedor;
 import yuber.shares.DataProveedor;
+import yuber.shares.DataReporteProveedor;
 import yuber.shares.DataServicio;
 import yuber.shares.DataTenant;
 import yuber.shares.DataUsuario;
@@ -354,7 +355,9 @@ public class VerticalCtrl implements IVertical{
 	public List<DataProveedor> reporteRatingProveedores(Integer pagina, Integer elementosPagina, Integer rating, DataTenant tenant) {
 		return srvProveedor.reporteRatingProveedores(pagina, elementosPagina, rating, tenant);
 	}
-	
+	public List<DataReporteProveedor> rankingProveedoresPorGanancia(Date start, Date end, int pagina, int elementosPagina, DataTenant tenant) throws Exception{
+		return srvProveedor.rankingProveedoresPorGanancia(start, end, pagina, elementosPagina, tenant);
+	}
 	
 	public DataUsuario loginAltaUsuarioFacebook(String email, String nombre, String uid, DataTenant tenant){
 		DataUsuario result = srvUsuario.loginFacebook(email, uid, tenant);

@@ -1,5 +1,6 @@
 package yuber.api.rest;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -18,6 +19,7 @@ import yuber.shares.DataAdministrador;
 import yuber.shares.DataConfiguracionVertical;
 import yuber.shares.DataPagosProveedor;
 import yuber.shares.DataProveedor;
+import yuber.shares.DataReporteProveedor;
 import yuber.shares.DataServicio;
 import yuber.shares.DataTenant;
 import yuber.shares.DataUsuario;
@@ -193,7 +195,13 @@ public class VerticalApi extends BaseApi{
 		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
 		return verticalRepo.reporteRatingProveedores(pagina, ElementosPagina, rating, tenant);
 	}
-	
+	@GET
+	@Path("/rankingananciaprov/{pagina:[0-9][0-9]*}/{elementosPagina:[0-9][0-9]*}/{start}/{end}")
+	public List<DataReporteProveedor> rankingProveedoresPorGanancia(@PathParam("pagina") final Integer pagina,@PathParam("elementosPagina") final Integer elementosPagina, @PathParam("start") final long start, @PathParam("end") final long end){
+		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
+		
+		return verticalRepo.rankingProveedoresPorGanancia(new Date(start), new Date(end), pagina, elementosPagina, tenant);
+	}
 	@POST
 	@Path("/loginaltafacebook/")
 	public DataUsuario loginAltaUsuarioFacebook(String data){

@@ -1,5 +1,6 @@
 package yuber.api.service;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -11,6 +12,7 @@ import yuber.shares.DataAdministrador;
 import yuber.shares.DataConfiguracionVertical;
 import yuber.shares.DataPagosProveedor;
 import yuber.shares.DataProveedor;
+import yuber.shares.DataReporteProveedor;
 import yuber.shares.DataServicio;
 import yuber.shares.DataTenant;
 import yuber.shares.DataUsuario;
@@ -103,7 +105,13 @@ public class VerticalRepo {
 	public List<DataProveedor> reporteRatingProveedores(Integer pagina, Integer elementosPagina, Integer rating, DataTenant tenant) {
 		return ctrVertical.reporteRatingProveedores(pagina, elementosPagina, rating, tenant);
 	}
-	
+	public List<DataReporteProveedor> rankingProveedoresPorGanancia(Date start, Date end, int pagina, int elementosPagina, DataTenant tenant){
+		try{
+		return ctrVertical.rankingProveedoresPorGanancia(start, end, pagina, elementosPagina, tenant);
+		}catch(Exception e){
+			return null;
+		}
+	}
 	public DataUsuario loginAltaUsuarioFacebook(String email, String nombre, String uid, DataTenant tenant){
 		return ctrVertical.loginAltaUsuarioFacebook(email, nombre, uid, tenant);
 	}
