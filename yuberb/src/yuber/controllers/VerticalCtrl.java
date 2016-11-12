@@ -380,7 +380,14 @@ public class VerticalCtrl implements IVertical {
 			int elementosPagina, DataTenant tenant) throws Exception {
 		return srvProveedor.rankingProveedoresPorGanancia(start, end, pagina, elementosPagina, tenant);
 	}
-
+	 
+	public List<DataReporteProveedor> rankingUsuariosPorGanancia(Date start, Date end, int pagina, int elementosPagina,DataTenant tenant){
+		try{
+			return srvUsuario.rankingUsuariosPorGanancia(start, end, pagina, elementosPagina, tenant);	
+		}catch(Exception e){
+			return null;
+		}
+	}	
 	public DataUsuario loginAltaUsuarioFacebook(String email, String nombre, String uid, DataTenant tenant) {
 		DataUsuario result = srvUsuario.loginFacebook(email, uid, tenant);
 		if (result != null) {
@@ -588,5 +595,15 @@ public class VerticalCtrl implements IVertical {
 	}
 	public List<DataVerticalReport> getReport(Date start, DataTenant tenant){
 		return srvAdmin.getReport(start, tenant);
+	}
+
+	@Override
+	public List<DataReporteProveedor> rankingUsuariosPorConsumo(Date start, Date end, Integer pagina,
+			Integer elementosPagina, DataTenant tenant) {
+		try{
+			return srvUsuario.rankingUsuariosPorConsumo(start, end, pagina, elementosPagina, tenant);	
+		}catch(Exception e){
+			return null;
+		}
 	}
 }

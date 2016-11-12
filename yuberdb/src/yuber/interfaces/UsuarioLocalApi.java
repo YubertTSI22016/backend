@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.ejb.Local;
 
+import yuber.shares.DataReporteProveedor;
 import yuber.shares.DataTenant;
 import yuber.shares.DataUsuario;
 
@@ -19,4 +20,6 @@ public interface UsuarioLocalApi {
 	public DataUsuario buscarUsuarioPorMail(String mailUsuario, DataTenant tenant);
 	public DataUsuario loginFacebook(String mailUsuario, String uid, DataTenant tenant);
 	public List<DataUsuario> rankingUsuariosActivos(Date from, Integer pagina, Integer elementosPagina, DataTenant tenant);
+	public List<DataReporteProveedor> rankingUsuariosPorGanancia(Date start, Date end, int pagina, int elementosPagina,DataTenant tenant) throws Exception;
+	public List<DataReporteProveedor> rankingUsuariosPorConsumo(Date start, Date end, int pagina, int elementosPagina,DataTenant tenant) throws Exception;
 }

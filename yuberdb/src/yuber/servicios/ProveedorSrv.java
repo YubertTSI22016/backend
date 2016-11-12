@@ -80,7 +80,7 @@ public class ProveedorSrv implements ProveedorLocalApi {
 	{
 		ArrayList<DataReporteProveedor> result = new ArrayList<DataReporteProveedor>();
 		MongoDatabase db = MongoHandler.getSchema(tenant.getName());
-		List<String> s = Arrays.asList("nombre", "apellido", "proveedor", "ganancia");
+		List<String> s = Arrays.asList("nombre", "apellido", "proveedor", "ganancia", "cantidad");
 		MongoCursor<Document> it = db.getCollection("reporteJornadaProveedor")
 				.aggregate(Arrays.asList(
 						Aggregates.match(
@@ -88,7 +88,8 @@ public class ProveedorSrv implements ProveedorLocalApi {
 								Filters.lte("fecha", end.getTime()))
 						),
 						Aggregates.project(Projections.fields(Projections.include(s))),
-						Aggregates.group("$proveedor", 
+						Aggregates.group("$proveedor",  
+									Accumulators.sum("cantidad", "$cantidad"),
 									Accumulators.sum("ganancia", "$ganancia"),
 									Accumulators.first("nombre", "$nombre"),
 									Accumulators.first("apellido", "$apellido")
@@ -98,22 +99,9 @@ public class ProveedorSrv implements ProveedorLocalApi {
 						)).iterator();
 		while (it.hasNext()) {
 			Document d = it.next();
-			result.add(buildReporteProveedor(d.toJson()).toData());
+			result.add(MongoHandler.buildObject(ReporteProveedores.class, d.toJson()).toData());
 		}
 		return result;
-	}
-
-	private String getJSON(Object obj) throws JsonProcessingException {
-		ObjectMapper mapper = new ObjectMapper();
-		String json = mapper.writeValueAsString(obj).replace("{", " { ").replace("}", " } ").replace(":", " : ");
-		return json;
-	}
-
-	private ReporteProveedores buildReporteProveedor(String json)
-			throws JsonParseException, JsonMappingException, IOException {
-		ObjectMapper mapper = new ObjectMapper();
-		ReporteProveedores rep = mapper.readValue(json, ReporteProveedores.class);
-		return rep;
 	}
 
 	private void guardarRegistroJornada(DataProveedor prv, DataTenant tenant)
@@ -127,15 +115,15 @@ public class ProveedorSrv implements ProveedorLocalApi {
 			MongoDatabase db = MongoHandler.getSchema(tenant.getName());
 			Bson filter = Aggregates
 					.match(Filters.and(Filters.eq("fecha", date.getTime()), Filters.eq("proveedor", prv.getId())));
-			List<String> s = Arrays.asList("nombre", "apellido", "proveedor", "ganancia");
+			List<String> s = Arrays.asList("nombre", "apellido", "proveedor", "ganancia", "cantidad");
 
 			Document reporteProveedor = db.getCollection("reporteJornadaProveedor")
 					.aggregate(Arrays.asList(filter, Aggregates.project(Projections.fields(Projections.include(s)))))
 					.first();
 			if (reporteProveedor != null && !reporteProveedor.isEmpty()) {
 				final String json = reporteProveedor.toJson();
-				ReporteProveedores rep = buildReporteProveedor(json);
-				reporteNuevo = new Document("$set", new Document("ganancia", rep.getGanancia() + jl.getSaldo() + 10));
+				ReporteProveedores rep = MongoHandler.buildObject(ReporteProveedores.class, json);
+				reporteNuevo = new Document("$set", new Document("ganancia", rep.getGanancia() + jl.getSaldo())).append("$set", new Document("cantidad", rep.getCantidad() + 1));
 				db.getCollection("reporteJornadaProveedor").updateOne(Filters.eq("proveedor", prv.getId()),
 						reporteNuevo);
 
@@ -145,8 +133,9 @@ public class ProveedorSrv implements ProveedorLocalApi {
 				rep.setNombre(prv.getNombre());
 				rep.setApellido(prv.getUsuario().getApellido());
 				rep.setGanancia(jl.getSaldo());
+				rep.setCantidad(1);
 				rep.setFecha(date);
-				reporteNuevo = Document.parse(getJSON(rep));
+				reporteNuevo = Document.parse(MongoHandler.getJSON(rep));
 				db.getCollection("reporteJornadaProveedor").insertOne(reporteNuevo);
 			}
 

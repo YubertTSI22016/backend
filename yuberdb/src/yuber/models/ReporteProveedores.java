@@ -18,6 +18,7 @@ public class ReporteProveedores implements Serializable {
 	public float ganancia;
 	public String proveedor;
 	public Date fecha;
+	public int cantidad;
 	public ReporteProveedores(){}
 	public String getNombre() {
 		return nombre;
@@ -62,7 +63,14 @@ public class ReporteProveedores implements Serializable {
 	}
 	
 	public DataReporteProveedor toData(){
-		DataReporteProveedor data = new DataReporteProveedor(nombre, apellido, proveedor, ganancia);
+		DataReporteProveedor data = new DataReporteProveedor(nombre, apellido, proveedor, ganancia, cantidad);
 		return data;
+	}
+	public void setCantidad(int i) {
+		this.cantidad = i;
+		
+	}
+	public int getCantidad() {
+		return this.cantidad;
 	}
 }

@@ -5,12 +5,13 @@ public class DataReporteProveedor {
 	public String apellido;
 	public float ganancia;
 	public String proveedor;
-
-	public DataReporteProveedor(String nombre, String apellido, String proveedor, float ganancia) {
+	public int cantidad;
+	public DataReporteProveedor(String nombre, String apellido, String proveedor, float ganancia, int cantidad) {
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.proveedor = proveedor;
 		this.ganancia = ganancia;
+		this.cantidad = cantidad;
 	}
 
 	public String getNombre() {
@@ -43,6 +44,14 @@ public class DataReporteProveedor {
 
 	public void setProveedor(String proveedor) {
 		this.proveedor = proveedor;
+	}
+
+	public int getCantidad() {
+		return cantidad;
+	}
+
+	public void setCantidad(int cantidad) {
+		this.cantidad = cantidad;
 	}
 
 }

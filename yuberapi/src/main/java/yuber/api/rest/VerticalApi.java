@@ -215,6 +215,18 @@ public class VerticalApi extends BaseApi{
 		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
 		return verticalRepo.rankingUsuariosActivos(new Date(start), pagina, elementosPagina, tenant);
 	}
+	@GET
+	@Path("/rankingananciausuario/{pagina:[0-9][0-9]*}/{elementosPagina:[0-9][0-9]*}/{start}/{end}")
+	public List<DataReporteProveedor> rankingUsuariosPorGanancia(@PathParam("pagina") final Integer pagina,@PathParam("elementosPagina") final Integer elementosPagina, @PathParam("start") final long start, @PathParam("end") final long end){
+		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
+		return verticalRepo.rankingUsuariosPorGanancia(new Date(start), new Date(end), pagina, elementosPagina, tenant);
+	}
+	@GET
+	@Path("/rankinusuariosporconsumo/{pagina:[0-9][0-9]*}/{elementosPagina:[0-9][0-9]*}/{start}/{end}")
+	public List<DataReporteProveedor> rankingUsuariosPorConsumo(@PathParam("pagina") final Integer pagina,@PathParam("elementosPagina") final Integer elementosPagina, @PathParam("start") final long start, @PathParam("end") final long end){
+		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
+		return verticalRepo.rankingUsuariosPorConsumo(new Date(start), new Date(end), pagina, elementosPagina, tenant);
+	}
 	@POST
 	@Path("/loginaltafacebook/")
 	public DataUsuario loginAltaUsuarioFacebook(String data){

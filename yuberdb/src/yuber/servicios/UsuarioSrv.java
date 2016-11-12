@@ -1,6 +1,7 @@
 package yuber.servicios;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -10,13 +11,25 @@ import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 
+import org.bson.Document;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
+import com.mongodb.client.MongoCursor;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Accumulators;
+import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Projections;
+import com.mongodb.client.model.Sorts;
+
 import yuber.interceptors.TenantIntercept;
 import yuber.interfaces.UsuarioLocalApi;
+import yuber.models.ReporteProveedores;
 import yuber.models.Usuario;
+import yuber.schema.MongoHandler;
+import yuber.shares.DataReporteProveedor;
 import yuber.shares.DataTenant;
 import yuber.shares.DataUsuario;
 
@@ -47,6 +60,60 @@ public class UsuarioSrv implements UsuarioLocalApi {
 			usuarios.add(usu.getDatatype(true));
 		});
 		return usuarios;
+	}
+	
+	public List<DataReporteProveedor> rankingUsuariosPorConsumo(Date start, Date end, int pagina, int elementosPagina,DataTenant tenant) throws Exception{
+		ArrayList<DataReporteProveedor> result = new ArrayList<DataReporteProveedor>();
+		MongoDatabase db = MongoHandler.getSchema(tenant.getName());
+		List<String> s = Arrays.asList("nombre", "apellido", "proveedor", "ganancia", "cantidad");
+		MongoCursor<Document> it = db.getCollection("reporteUsuarios")
+				.aggregate(Arrays.asList(
+						Aggregates.match(
+								Filters.and(Filters.gte("fecha", start.getTime()),
+								Filters.lte("fecha", end.getTime()))
+						),
+						Aggregates.project(Projections.fields(Projections.include(s))),
+						Aggregates.group("$proveedor", 
+									Accumulators.sum("cantidad", "$cantidad"),
+									Accumulators.sum("ganancia", "$ganancia"),
+									Accumulators.first("nombre", "$nombre"),
+									Accumulators.first("apellido", "$apellido")
+						),
+						Aggregates.sort(Sorts.orderBy(Sorts.descending("cantidad"))),Aggregates.skip(pagina * elementosPagina + 1), Aggregates.limit(elementosPagina),
+						Aggregates.project(Projections.fields(Projections.include(s),Projections.computed("proveedor", "$_id")))
+						)).iterator();
+		while (it.hasNext()) {
+			Document d = it.next();
+			result.add(MongoHandler.buildObject(ReporteProveedores.class, d.toJson()).toData());
+		}
+		return result;
+		
+	}
+	public List<DataReporteProveedor> rankingUsuariosPorGanancia(Date start, Date end, int pagina, int elementosPagina,DataTenant tenant) throws Exception
+	{
+		ArrayList<DataReporteProveedor> result = new ArrayList<DataReporteProveedor>();
+		MongoDatabase db = MongoHandler.getSchema(tenant.getName());
+		List<String> s = Arrays.asList("nombre", "apellido", "proveedor", "ganancia");
+		MongoCursor<Document> it = db.getCollection("reporteUsuarios")
+				.aggregate(Arrays.asList(
+						Aggregates.match(
+								Filters.and(Filters.gte("fecha", start.getTime()),
+								Filters.lte("fecha", end.getTime()))
+						),
+						Aggregates.project(Projections.fields(Projections.include(s))),
+						Aggregates.group("$proveedor", 
+									Accumulators.sum("ganancia", "$ganancia"),
+									Accumulators.first("nombre", "$nombre"),
+									Accumulators.first("apellido", "$apellido")
+						),
+						Aggregates.sort(Sorts.orderBy(Sorts.descending("ganancia"))),Aggregates.skip(pagina * elementosPagina + 1), Aggregates.limit(elementosPagina),
+						Aggregates.project(Projections.fields(Projections.include(s),Projections.computed("proveedor", "$_id")))
+						)).iterator();
+		while (it.hasNext()) {
+			Document d = it.next();
+			result.add(MongoHandler.buildObject(ReporteProveedores.class, d.toJson()).toData());
+		}
+		return result;
 	}
 	public List<DataUsuario> rankingUsuariosActivos(Date from, Integer pagina, Integer elementosPagina, DataTenant tenant) {
 		List<DataUsuario> usuarios = new ArrayList();

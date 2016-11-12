@@ -103,4 +103,8 @@ public interface IVertical {
 
 	public List<DataUsuario> rankingUsuariosActivos(Date from, Integer pagina, Integer elementosPagina, DataTenant tenant);
 	public List<DataVerticalReport> getReport(Date start, DataTenant tenant);
+	public List<DataReporteProveedor> rankingUsuariosPorGanancia(Date start, Date end, int pagina, int elementosPagina,DataTenant tenant);
+
+	public List<DataReporteProveedor> rankingUsuariosPorConsumo(Date start, Date end, Integer pagina,
+			Integer elementosPagina, DataTenant tenant);
 }
