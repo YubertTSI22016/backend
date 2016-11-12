@@ -2,6 +2,7 @@ package yuber.models;
 
 
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -25,10 +26,12 @@ public class ConfiguracionVertical{
 	private Float precioPorKm;
 	private Float precioPorHora;
 	private Float porcentajeRetencion;
+	@Column(length = 65535,columnDefinition="Text")
+    private String css;
 	
 public ConfiguracionVertical(){}
 	
-	public ConfiguracionVertical(String id, String nom, Boolean transp,Boolean habilitado, Float tarBase, Float precPorKm, Float precPorHor, Float pr){
+	public ConfiguracionVertical(String id, String nom, Boolean transp,Boolean habilitado, Float tarBase, Float precPorKm, Float precPorHor, Float pr, String cs){
 		this.id = id;
 		this.nombre = nom;
 		this.transporte = transp;
@@ -37,6 +40,7 @@ public ConfiguracionVertical(){}
 		this.precioPorKm = precPorKm;
 		this.precioPorHora = precPorHor;
 		this.porcentajeRetencion = pr;
+		this.css = cs;
 	}
 	
 	public ConfiguracionVertical(DataConfiguracionVertical dt){
@@ -48,7 +52,7 @@ public ConfiguracionVertical(){}
     	this.setPrecioPorKm(dt.getPrecioPorKm());
     	this.setPrecioPorHora(dt.getPrecioPorHora());
     	this.setPorcentajeRetencion(dt.getPorcentajeRetencion());
-    	 
+    	this.setCss(dt.getCss());
     }
     
     public DataConfiguracionVertical getDatatype(){
@@ -61,7 +65,7 @@ public ConfiguracionVertical(){}
     	result.setPrecioPorKm(this.getPrecioPorKm());
     	result.setPrecioPorHora(this.getPrecioPorHora());
     	result.setPorcentajeRetencion(this.getPorcentajeRetencion());
-    	 
+    	result.setCss(this.getCss());
     	return result;
     }
     
@@ -127,5 +131,13 @@ public ConfiguracionVertical(){}
     
     public Float getPorcentajeRetencion(){
         return this.porcentajeRetencion;
+    }
+    
+    public void setCss(String val){
+        this.css = val;
+    }
+    
+    public String getCss(){
+        return this.css;
     }
 }
