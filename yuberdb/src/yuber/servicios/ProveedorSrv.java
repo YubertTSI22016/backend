@@ -2,8 +2,10 @@ package yuber.servicios;
 
 import java.io.IOException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -17,20 +19,23 @@ import javax.persistence.EntityManager;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonParser.Feature;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.UpdateOptions;
-import com.mongodb.util.JSON;
+import com.mongodb.client.model.Accumulators;
+import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Projections;
+import com.mongodb.client.model.Sorts;
 
 import yuber.interceptors.TenantIntercept;
 import yuber.interfaces.ProveedorLocalApi;
@@ -39,6 +44,7 @@ import yuber.models.ReporteProveedores;
 import yuber.schema.MongoHandler;
 import yuber.shares.DataJornadaLaboral;
 import yuber.shares.DataProveedor;
+import yuber.shares.DataReporteProveedor;
 import yuber.shares.DataTenant;
 
 /**
@@ -70,51 +76,81 @@ public class ProveedorSrv implements ProveedorLocalApi {
 		return proveedores;
 	}
 
+	public List<DataReporteProveedor> rankingProveedoresPorGanancia(Date start, Date end, int pagina, int elementosPagina,DataTenant tenant) throws Exception
+	{
+		ArrayList<DataReporteProveedor> result = new ArrayList<DataReporteProveedor>();
+		MongoDatabase db = MongoHandler.getSchema(tenant.getName());
+		List<String> s = Arrays.asList("nombre", "apellido", "proveedor", "ganancia");
+		MongoCursor<Document> it = db.getCollection("reporteJornadaProveedor")
+				.aggregate(Arrays.asList(
+						Aggregates.match(
+								Filters.and(Filters.gte("fecha", start.getTime()),
+								Filters.lte("fecha", end.getTime()))
+						),
+						Aggregates.project(Projections.fields(Projections.include(s))),
+						Aggregates.group("$proveedor", 
+									Accumulators.sum("ganancia", "$ganancia"),
+									Accumulators.first("nombre", "$nombre"),
+									Accumulators.first("apellido", "$apellido")
+						),
+						Aggregates.sort(Sorts.orderBy(Sorts.descending("ganancia"))),Aggregates.skip(pagina * elementosPagina + 1), Aggregates.limit(elementosPagina),
+						Aggregates.project(Projections.fields(Projections.include(s),Projections.computed("proveedor", "$_id")))
+						)).iterator();
+		while (it.hasNext()) {
+			Document d = it.next();
+			result.add(buildReporteProveedor(d.toJson()).toData());
+		}
+		return result;
+	}
+
 	private String getJSON(Object obj) throws JsonProcessingException {
 		ObjectMapper mapper = new ObjectMapper();
 		String json = mapper.writeValueAsString(obj).replace("{", " { ").replace("}", " } ").replace(":", " : ");
-		log.info(json + "===========");
 		return json;
 	}
 
-	private void guardarRegistroJornada(DataProveedor prv, DataTenant tenant)
+	private ReporteProveedores buildReporteProveedor(String json)
 			throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		ReporteProveedores rep = mapper.readValue(json, ReporteProveedores.class);
+		return rep;
+	}
+
+	private void guardarRegistroJornada(DataProveedor prv, DataTenant tenant)
+			throws JsonParseException, JsonMappingException, IOException, ParseException {
 		Document reporteNuevo;
 		DateFormat formater = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-		String date = formater.format(new Date());
+		Date date = formater.parse(formater.format(new Date()));
 		if (prv.getJornadaActual() == null && prv.getJornadas().size() > 0) {
 
 			DataJornadaLaboral jl = prv.getJornadas().get(prv.getJornadas().size() - 1);
-			Document filter = new Document("fecha", date).append("idProveedor", prv.getId());
 			MongoDatabase db = MongoHandler.getSchema(tenant.getName());
+			Bson filter = Aggregates
+					.match(Filters.and(Filters.eq("fecha", date.getTime()), Filters.eq("proveedor", prv.getId())));
+			List<String> s = Arrays.asList("nombre", "apellido", "proveedor", "ganancia");
 
-			ObjectMapper mapper = new ObjectMapper();
-			Document reporteProveedor = db.getCollection("reporteJornadaProveedor").find(filter).first();
-
+			Document reporteProveedor = db.getCollection("reporteJornadaProveedor")
+					.aggregate(Arrays.asList(filter, Aggregates.project(Projections.fields(Projections.include(s)))))
+					.first();
 			if (reporteProveedor != null && !reporteProveedor.isEmpty()) {
 				final String json = reporteProveedor.toJson();
-
-				ReporteProveedores rep = mapper.readValue(json, ReporteProveedores.class);
-				rep.setGanancia(rep.getGanancia() + jl.getSaldo());
-				reporteNuevo = new Document("$set", Document.parse(getJSON(rep)));
-				db.getCollection("reporteJornadaProveedor").updateOne(filter, reporteNuevo);
+				ReporteProveedores rep = buildReporteProveedor(json);
+				reporteNuevo = new Document("$set", new Document("ganancia", rep.getGanancia() + jl.getSaldo() + 10));
+				db.getCollection("reporteJornadaProveedor").updateOne(Filters.eq("proveedor", prv.getId()),
+						reporteNuevo);
 
 			} else {
-
 				ReporteProveedores rep = new ReporteProveedores();
-				rep.setIdProveedor(prv.getId());
+				rep.setProveedor(prv.getId());
 				rep.setNombre(prv.getNombre());
 				rep.setApellido(prv.getUsuario().getApellido());
 				rep.setGanancia(jl.getSaldo());
-				rep.setFecha(date + "T00:00:00.000Z");
+				rep.setFecha(date);
 				reporteNuevo = Document.parse(getJSON(rep));
-
 				db.getCollection("reporteJornadaProveedor").insertOne(reporteNuevo);
 			}
 
-			log.info(db.getCollection("reporteJornadaProveedor").count());
 		}
-
 	}
 
 	public DataProveedor modificarProveedor(DataProveedor prv, DataTenant tenant) {
@@ -125,6 +161,9 @@ public class ProveedorSrv implements ProveedorLocalApi {
 		try {
 			guardarRegistroJornada(prv, tenant);
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

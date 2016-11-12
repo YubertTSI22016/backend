@@ -1,10 +1,12 @@
 package yuber.interfaces;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Local;
 import yuber.shares.DataAdministrador;
 import yuber.shares.DataTenant;
+import yuber.shares.DataVerticalReport;
 
 
 @Local
@@ -16,5 +18,6 @@ public interface AdministradorLocalApi {
 	public DataAdministrador crearAdmin (DataAdministrador admin, DataTenant tenant);
 	public void darBajaAdmin (String idAdmin, DataTenant tenant);
 	public DataAdministrador buscarAdminPorMail (String mailUsuario, DataTenant tenant );
+	public List<DataVerticalReport> getReport(Date start, DataTenant tenant);
 	
 }

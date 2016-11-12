@@ -1,5 +1,6 @@
 package yuber.api.rest;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -18,9 +19,11 @@ import yuber.shares.DataAdministrador;
 import yuber.shares.DataConfiguracionVertical;
 import yuber.shares.DataPagosProveedor;
 import yuber.shares.DataProveedor;
+import yuber.shares.DataReporteProveedor;
 import yuber.shares.DataServicio;
 import yuber.shares.DataTenant;
 import yuber.shares.DataUsuario;
+import yuber.shares.DataVerticalReport;
 
 @RequestScoped
 @Path("/vertical/")
@@ -193,7 +196,25 @@ public class VerticalApi extends BaseApi{
 		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
 		return verticalRepo.reporteRatingProveedores(pagina, ElementosPagina, rating, tenant);
 	}
-	
+	@GET
+	@Path("/rankingananciaprov/{pagina:[0-9][0-9]*}/{elementosPagina:[0-9][0-9]*}/{start}/{end}")
+	public List<DataReporteProveedor> rankingProveedoresPorGanancia(@PathParam("pagina") final Integer pagina,@PathParam("elementosPagina") final Integer elementosPagina, @PathParam("start") final long start, @PathParam("end") final long end){
+		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
+		
+		return verticalRepo.rankingProveedoresPorGanancia(new Date(start), new Date(end), pagina, elementosPagina, tenant);
+	}
+	@GET
+	@Path("/reporteganancia/{start}")
+	public List<DataVerticalReport> getReport(@PathParam("start") final long start){
+		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
+		return verticalRepo.getReport(new Date(start), tenant);
+	}
+	@GET
+	@Path("/rankinactusers/{pagina:[0-9][0-9]*}/{elementosPagina:[0-9][0-9]*}/{start}")
+	public List<DataUsuario> rankingUsuariosActivos(@PathParam("pagina") final Integer pagina,@PathParam("elementosPagina") final Integer elementosPagina, @PathParam("start") final long start){
+		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
+		return verticalRepo.rankingUsuariosActivos(new Date(start), pagina, elementosPagina, tenant);
+	}
 	@POST
 	@Path("/loginaltafacebook/")
 	public DataUsuario loginAltaUsuarioFacebook(String data){

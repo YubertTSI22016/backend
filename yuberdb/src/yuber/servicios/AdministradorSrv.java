@@ -1,8 +1,9 @@
 package yuber.servicios;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashSet;
+import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -10,15 +11,18 @@ import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
 import yuber.interceptors.TenantIntercept;
 import yuber.interfaces.AdministradorLocalApi;
 import yuber.models.Administrador;
-import yuber.shares.DataTenant;
+import yuber.models.VerticalReport;
 import yuber.shares.DataAdministrador;
 import yuber.shares.DataEmail;
+import yuber.shares.DataTenant;
+import yuber.shares.DataVerticalReport;
 
 @Stateless
 @Interceptors ({TenantIntercept.class})
@@ -82,7 +86,17 @@ public class AdministradorSrv implements AdministradorLocalApi {
 		Administrador realObj = (Administrador) session.get(Administrador.class, id);
 		return realObj.getDatatype();
 	}
-
+	public List<DataVerticalReport> getReport(Date start, DataTenant tenant){
+		Session session = (Session) em.getDelegate();
+		Query query = session.getNamedQuery("ReporteVertical")
+				.setDate("start", start);
+		List<VerticalReport> l = query.list();
+		List<DataVerticalReport> result =new ArrayList<DataVerticalReport>();
+		l.forEach(vrport ->{
+			result.add(vrport.toData());
+		});
+		return result;
+	}
 	public DataAdministrador crearAdmin(DataAdministrador admin, DataTenant tenant) {
 		Administrador realObj = new Administrador(admin);
 		realObj.setEliminado(false);

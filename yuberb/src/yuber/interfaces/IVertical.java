@@ -1,14 +1,17 @@
 package yuber.interfaces;
 
+import java.util.Date;
 import java.util.List;
 
 import yuber.shares.DataAdministrador;
 import yuber.shares.DataConfiguracionVertical;
 import yuber.shares.DataPagosProveedor;
 import yuber.shares.DataProveedor;
+import yuber.shares.DataReporteProveedor;
 import yuber.shares.DataServicio;
 import yuber.shares.DataTenant;
 import yuber.shares.DataUsuario;
+import yuber.shares.DataVerticalReport;
 
 public interface IVertical {
 	
@@ -95,4 +98,9 @@ public interface IVertical {
 	public List<String> obtenerPuntosServicio(String idServicio, DataTenant tenant);
 
 	public void checkearTiemposPedidos(DataTenant tenant);
+	
+	public List<DataReporteProveedor> rankingProveedoresPorGanancia(Date start, Date end, int pagina, int elementosPagina, DataTenant tenant) throws Exception;
+
+	public List<DataUsuario> rankingUsuariosActivos(Date from, Integer pagina, Integer elementosPagina, DataTenant tenant);
+	public List<DataVerticalReport> getReport(Date start, DataTenant tenant);
 }

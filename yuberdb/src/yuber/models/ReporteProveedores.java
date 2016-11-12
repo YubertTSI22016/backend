@@ -1,8 +1,11 @@
 package yuber.models;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import yuber.shares.DataReporteProveedor;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ReporteProveedores implements Serializable {
 	/**
@@ -13,8 +16,8 @@ public class ReporteProveedores implements Serializable {
 	public String apellido;
 	public String id;
 	public float ganancia;
-	public String idProveedor;
-	public String fecha;
+	public String proveedor;
+	public Date fecha;
 	public ReporteProveedores(){}
 	public String getNombre() {
 		return nombre;
@@ -41,16 +44,25 @@ public class ReporteProveedores implements Serializable {
 		this.ganancia = ganancia;
 	}
 
-	public String getIdProveedor() {
-		return idProveedor;
+	public String getProveedor() {
+		return proveedor;
 	}
-	public void setIdProveedor(String idProveedor) {
-		this.idProveedor = idProveedor;
+	public void setProveedor(String idProveedor) {
+		this.proveedor = idProveedor;
 	}
-	public String getFecha() {
+	public Date getFecha() {
 		return fecha;
 	}
-	public void setFecha(String fecha) {
+	public void setFecha(Date fecha) {
 		this.fecha = fecha;
+	}
+	@Override
+	public String toString(){
+		return this.ganancia + ":" + this.proveedor + ":" + this.nombre;
+	}
+	
+	public DataReporteProveedor toData(){
+		DataReporteProveedor data = new DataReporteProveedor(nombre, apellido, proveedor, ganancia);
+		return data;
 	}
 }

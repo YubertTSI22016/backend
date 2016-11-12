@@ -1,10 +1,9 @@
 package yuber.servicios;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -49,7 +48,23 @@ public class UsuarioSrv implements UsuarioLocalApi {
 		});
 		return usuarios;
 	}
+	public List<DataUsuario> rankingUsuariosActivos(Date from, Integer pagina, Integer elementosPagina, DataTenant tenant) {
+		List<DataUsuario> usuarios = new ArrayList();
+		// obtengo todos los usuarios de la bd
+		Session session = (Session) em.getDelegate();
+		Criteria criteria = session.createCriteria(Usuario.class);
+		criteria.add(Restrictions.eq("eliminado", false));
+		criteria.add(Restrictions.gt("servicios.fecha", from));
+		criteria.add(Restrictions.eq("servicios.fecha", from));
+		criteria.setFirstResult((pagina - 1) * elementosPagina);
+		criteria.setMaxResults(elementosPagina);
+		List<Usuario> listUsu = new ArrayList<Usuario>(new LinkedHashSet(criteria.list()));
 
+		listUsu.stream().forEach((usu) -> {
+			usuarios.add(usu.getDatatype(true));
+		});
+		return usuarios;
+	}
 	public DataUsuario loginUsuario(String mailUsuario, String clave, DataTenant tenant) {
 		Session session = (Session) em.getDelegate();
 		Criteria criteria = session.createCriteria(Usuario.class);
