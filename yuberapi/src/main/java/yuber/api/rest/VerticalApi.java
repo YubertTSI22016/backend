@@ -23,6 +23,7 @@ import yuber.shares.DataReporteProveedor;
 import yuber.shares.DataServicio;
 import yuber.shares.DataTenant;
 import yuber.shares.DataUsuario;
+import yuber.shares.DataVerticalReport;
 
 @RequestScoped
 @Path("/vertical/")
@@ -201,6 +202,12 @@ public class VerticalApi extends BaseApi{
 		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
 		
 		return verticalRepo.rankingProveedoresPorGanancia(new Date(start), new Date(end), pagina, elementosPagina, tenant);
+	}
+	@GET
+	@Path("/reporteganancia/{start}")
+	public List<DataVerticalReport> getReport(@PathParam("start") final long start){
+		DataTenant tenant = (DataTenant) request.getAttribute("tenant");
+		return verticalRepo.getReport(new Date(start), tenant);
 	}
 	@GET
 	@Path("/rankinactusers/{pagina:[0-9][0-9]*}/{elementosPagina:[0-9][0-9]*}/{start}")

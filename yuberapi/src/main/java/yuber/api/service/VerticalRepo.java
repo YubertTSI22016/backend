@@ -16,6 +16,7 @@ import yuber.shares.DataReporteProveedor;
 import yuber.shares.DataServicio;
 import yuber.shares.DataTenant;
 import yuber.shares.DataUsuario;
+import yuber.shares.DataVerticalReport;
 
 @Stateless
 @Remote
@@ -188,5 +189,7 @@ public class VerticalRepo {
 	public void pagoAProveedor(String idProveedor, DataTenant tenant){
 		ctrVertical.pagoAProveedor(idProveedor, tenant);
 	}
-
+	public List<DataVerticalReport> getReport(Date start, DataTenant tenant){
+		return ctrVertical.getReport(start, tenant);
+	}
 }

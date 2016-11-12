@@ -11,6 +11,7 @@ import yuber.shares.DataReporteProveedor;
 import yuber.shares.DataServicio;
 import yuber.shares.DataTenant;
 import yuber.shares.DataUsuario;
+import yuber.shares.DataVerticalReport;
 
 public interface IVertical {
 	
@@ -101,4 +102,5 @@ public interface IVertical {
 	public List<DataReporteProveedor> rankingProveedoresPorGanancia(Date start, Date end, int pagina, int elementosPagina, DataTenant tenant) throws Exception;
 
 	public List<DataUsuario> rankingUsuariosActivos(Date from, Integer pagina, Integer elementosPagina, DataTenant tenant);
+	public List<DataVerticalReport> getReport(Date start, DataTenant tenant);
 }
