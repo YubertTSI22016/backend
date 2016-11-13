@@ -28,7 +28,8 @@ public class ConfiguracionVertical{
 	private Float porcentajeRetencion;
 	@Column(length = 65535,columnDefinition="Text")
     private String css;
-	
+	private String fbId;
+	private String fbSecret;
 public ConfiguracionVertical(){}
 	
 	public ConfiguracionVertical(String id, String nom, Boolean transp,Boolean habilitado, Float tarBase, Float precPorKm, Float precPorHor, Float pr, String cs){
@@ -53,6 +54,9 @@ public ConfiguracionVertical(){}
     	this.setPrecioPorHora(dt.getPrecioPorHora());
     	this.setPorcentajeRetencion(dt.getPorcentajeRetencion());
     	this.setCss(dt.getCss());
+    	this.setCss(dt.getCss());
+    	this.setFbId(dt.getFbId());
+    	this.setFbSecret(dt.getFbSecret());
     }
     
     public DataConfiguracionVertical getDatatype(){
@@ -66,6 +70,8 @@ public ConfiguracionVertical(){}
     	result.setPrecioPorHora(this.getPrecioPorHora());
     	result.setPorcentajeRetencion(this.getPorcentajeRetencion());
     	result.setCss(this.getCss());
+    	result.setFbId(this.getFbId());
+    	result.setFbSecret(this.getFbSecret());
     	return result;
     }
     
@@ -140,4 +146,20 @@ public ConfiguracionVertical(){}
     public String getCss(){
         return this.css;
     }
+
+	public String getFbId() {
+		return fbId;
+	}
+
+	public void setFbId(String fbId) {
+		this.fbId = fbId;
+	}
+
+	public String getFbSecret() {
+		return fbSecret;
+	}
+
+	public void setFbSecret(String fbSecret) {
+		this.fbSecret = fbSecret;
+	}
 }

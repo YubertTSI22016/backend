@@ -6,6 +6,11 @@ public class DataTenant {
 	private String id;
 	private Boolean isActive = true;
 	private Boolean isDelete = false;
+	
+	private String tenantType = "";
+	private String fbId = "";
+	private String fbSecret= "";
+	
 	public DataTenant(){}
 	public DataTenant(String id, String name, String domain, Boolean isActive) {
 		super();
@@ -44,5 +49,24 @@ public class DataTenant {
 	public void setIsDelete(Boolean isDelete) {
 		this.isDelete = isDelete;
 	}
+	public String getTenantType() {
+		return tenantType;
+	}
+	public void setTenantType(String tenantType) {
+		this.tenantType = tenantType;
+	}
+	public String getFbId() {
+		return fbId;
+	}
+	public void setFbId(String fbId) {
+		this.fbId = fbId;
+	}
+	public String getFbSecret() {
+		return fbSecret;
+	}
+	public void setFbSecret(String fbSecret) {
+		this.fbSecret = fbSecret;
+	}
+ 
 	
 }

@@ -9,7 +9,9 @@ import yuber.exceptions.SchemaException;
 import yuber.exceptions.TenantException;
 import yuber.interfaces.ISchemaHandler;
 import yuber.interfaces.ITenant;
+import yuber.interfaces.IVertical;
 import yuber.interfaces.TenantLocalApi;
+import yuber.shares.DataConfiguracionVertical;
 import yuber.shares.DataTenant;
 
 /**
@@ -21,7 +23,8 @@ public class TenantCtrl implements ITenant {
 	TenantLocalApi srvTenant;
 	@EJB(lookup = "java:app/yuberdb/SchemaHandler!yuber.interfaces.ISchemaHandler")
 	ISchemaHandler srvSchemaHandler;
-
+	@EJB(lookup = "java:app/yuberdb/VerticalCtrl!yuber.interfaces.IVertical")
+	IVertical srvVertical;
 	public List<DataTenant> list() {
 		return srvTenant.list();
 	}
@@ -35,7 +38,16 @@ public class TenantCtrl implements ITenant {
 		try {
 			if (dt == null) {
 				srvSchemaHandler.createSchema(tenant.getName());
-				return srvTenant.create(tenant);
+				DataTenant createdTenant = srvTenant.create(tenant);
+				DataConfiguracionVertical conf =  new DataConfiguracionVertical();
+				conf.setNombre(createdTenant.getName());
+				//TODO: this must be change to be handled by an Enumerated type
+				conf.setTransporte(tenant.getTenantType().toLowerCase().equals("transporte"));
+				conf.setFbId(tenant.getFbId());
+				conf.setFbSecret(tenant.getFbSecret());
+				srvVertical.crearConfiguracionVertical(conf, createdTenant);
+				
+				return createdTenant;
 			} else {
 				throw new TenantException("Tenant Already Exist");
 			}

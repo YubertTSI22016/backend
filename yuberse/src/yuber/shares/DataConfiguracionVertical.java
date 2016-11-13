@@ -13,6 +13,8 @@ public class DataConfiguracionVertical {
 	private Float precioPorHora;
 	private Float porcentajeRetencion;
 	private String css;
+	private String fbId;
+	private String fbSecret;
 	
 public DataConfiguracionVertical(){}
 	
@@ -99,4 +101,21 @@ public DataConfiguracionVertical(){}
     public String getCss(){
         return this.css;
     }
+
+	public void setFbId(String fbId) {
+		this.fbId = fbId;
+		
+	}
+
+ 	public String getFbSecret() {
+		return fbSecret;
+	}
+
+	public void setFbSecret(String fbSecret) {
+		this.fbSecret = fbSecret;
+	}
+
+	public String getFbId() {
+		return fbId;
+	}
 }
