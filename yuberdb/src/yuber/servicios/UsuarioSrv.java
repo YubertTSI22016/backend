@@ -121,9 +121,7 @@ public class UsuarioSrv implements UsuarioLocalApi {
 		// obtengo todos los usuarios de la bd
 		Session session = (Session) em.getDelegate();
 		Criteria criteria = session.createCriteria(Usuario.class, "usuario");
-		criteria.add(Restrictions.gt("usuario.servicios.fecha",from));
-		criteria.add(Restrictions.eq("usuario.servicios.fecha",from));
-		criteria.add(Restrictions.eq("usuario.servicios.usuario.id", "usuario.id")); 
+		criteria.createCriteria("servicios").add(Restrictions.ge("fecha",from));
  		criteria.setFirstResult((pagina - 1) * elementosPagina);
 		criteria.setMaxResults(elementosPagina);
 		List<Usuario> listUsu = new ArrayList<Usuario>(new LinkedHashSet(criteria.list()));
