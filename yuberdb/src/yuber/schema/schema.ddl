@@ -14,10 +14,6 @@ CREATE TABLE configuracionvertical (
 );
 
 
-ALTER TABLE public.configuracionvertical OWNER TO yuberadmin;
-
- 
-
 CREATE TABLE jornadalaboral (
     id character varying(255) NOT NULL,
     fin timestamp without time zone,
@@ -25,19 +21,12 @@ CREATE TABLE jornadalaboral (
     proveedor_id character varying(255),
     servicioactivo_id character varying(255)
 );
-
-
-ALTER TABLE public.jornadalaboral OWNER TO yuberadmin;
-
  
 CREATE TABLE jornadalaboral_servicio (
     jornadalaboral_id character varying(255) NOT NULL,
     servicios_id character varying(255) NOT NULL,
     list_index integer NOT NULL
 );
-
-
-ALTER TABLE public.jornadalaboral_servicio OWNER TO yuberadmin;
 
  
 CREATE TABLE pagosproveedor (
@@ -48,9 +37,6 @@ CREATE TABLE pagosproveedor (
     proveedor_id character varying(255),
     servicio_id character varying(255)
 );
-
-
-ALTER TABLE public.pagosproveedor OWNER TO yuberadmin;
 
  
 CREATE TABLE persona (
@@ -77,18 +63,11 @@ CREATE TABLE persona (
 );
 
 
-ALTER TABLE public.persona OWNER TO yuberadmin;
-
- 
-
 CREATE TABLE persona_servicio (
     usuario_id character varying(255) NOT NULL,
     servicios_id character varying(255) NOT NULL,
     list_index integer NOT NULL
 );
-
-
-ALTER TABLE public.persona_servicio OWNER TO yuberadmin;
 
  
 CREATE TABLE persona_telefonoscontacto (
@@ -98,8 +77,6 @@ CREATE TABLE persona_telefonoscontacto (
     list_index integer NOT NULL
 );
 
-
-ALTER TABLE public.persona_telefonoscontacto OWNER TO yuberadmin;
 
  
 CREATE TABLE proveedor (
@@ -117,30 +94,17 @@ CREATE TABLE proveedor (
     jornadaactual_id character varying(255),
     usuario_id character varying(255)
 );
-
-
-ALTER TABLE public.proveedor OWNER TO yuberadmin;
-
  
 CREATE TABLE proveedor_jornadalaboral (
     proveedor_id character varying(255) NOT NULL,
     jornadas_id character varying(255) NOT NULL,
     list_index integer NOT NULL
 );
-
-
-ALTER TABLE public.proveedor_jornadalaboral OWNER TO yuberadmin;
-
- 
 CREATE TABLE puntosrecorrido (
     servicio_id character varying(255) NOT NULL,
     punto character varying(255)
 );
 
-
-ALTER TABLE public.puntosrecorrido OWNER TO yuberadmin;
-
- 
 CREATE TABLE servicio (
     id character varying(255) NOT NULL,
     comentario character varying(255),
@@ -157,18 +121,11 @@ CREATE TABLE servicio (
     usuario_id character varying(255)
 );
 
-
-ALTER TABLE public.servicio OWNER TO yuberadmin;
-
  
 CREATE TABLE verticalreport (
     dia date NOT NULL,
     saldo real
 );
-
-
-ALTER TABLE public.verticalreport OWNER TO yuberadmin;
-
  
 ALTER TABLE ONLY configuracionvertical
     ADD CONSTRAINT configuracionvertical_pkey PRIMARY KEY (id);

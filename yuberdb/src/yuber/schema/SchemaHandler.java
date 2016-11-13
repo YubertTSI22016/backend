@@ -1,4 +1,4 @@
- package yuber.schema;
+package yuber.schema;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,49 +18,53 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import yuber.exceptions.SchemaException;
-import yuber.interfaces.ISchemaHandler; 
+import yuber.interfaces.ISchemaHandler;
+
 @Stateless
-@TransactionManagement(value=TransactionManagementType.BEAN)
-public class SchemaHandler implements ISchemaHandler{
+@TransactionManagement(value = TransactionManagementType.BEAN)
+public class SchemaHandler implements ISchemaHandler {
 
 	private static final Log log = LogFactory.getLog(SchemaHandler.class);
 	private ArrayList<String> createSQL = new ArrayList<String>();
 	private static final String delimiter = ";";
 	@Inject
 	EntityManager em;
-	
+
 	@Inject
 	UserTransaction ut;
+
 	@RequestScoped
 	public void createSchema(String name) throws Exception {
 		createSQL = new ArrayList<String>();
 		try {
-			if(ut.getStatus() != javax.transaction.Status.STATUS_NO_TRANSACTION){
+			if (ut.getStatus() != javax.transaction.Status.STATUS_NO_TRANSACTION) {
 				ut.commit();
 			}
-			log.info("Create schema if not exist"+name);
+			log.info("Create schema if not exist" + name);
 
 			MongoHandler.getSchema(name);
 			ut.begin();
 			em.createNativeQuery("CREATE SCHEMA " + name).executeUpdate();
-			em.createNativeQuery("SET SCHEMA '"+ name+"'").executeUpdate();
-			em.createNativeQuery("SET search_path TO "+ name).executeUpdate();
+			em.createNativeQuery("SET SCHEMA '" + name + "'").executeUpdate();
+			em.createNativeQuery("SET search_path TO " + name).executeUpdate();
 			ut.commit();
 		} catch (Exception e) {
 			log.info("failing to create schema" + name);
 			throw e;
 		}
-		log.info("Changing current Schema to: "+ name);
-		try {  
+		log.info("Changing current Schema to: " + name);
+		try {
 			InputStream schemadll = SchemaHandler.class.getResourceAsStream("schema.ddl");
 			Scanner scanner = new Scanner(schemadll).useDelimiter(delimiter);
-		    while(scanner.hasNext()) {
-		    	String sql = scanner.next();
-		    	if(!sql.isEmpty())
-		        createSQL.add(sql + delimiter);
-		    }
+			while (scanner.hasNext()) {
+				String sql = scanner.next();
+				if (!sql.isEmpty())
+					createSQL.add(sql + delimiter);
+			}
 			log.info("setSchema-start");
+		
 			create(em);
+			
 			ut.begin();
 			em.createNativeQuery("SET SCHEMA 'public'").executeUpdate();
 			em.createNativeQuery("SET search_path TO public").executeUpdate();
@@ -68,26 +72,28 @@ public class SchemaHandler implements ISchemaHandler{
 			ut.commit();
 		} catch (Exception e) {
 			try {
-				log.info("==RollingBack===");
+				log.info("==RollingBack===" + e.getMessage());
 				ut.rollback();
-				
+				em.createNativeQuery("SET SCHEMA 'public'").executeUpdate();
+				em.createNativeQuery("SET search_path TO public").executeUpdate();
+
 			} catch (IllegalStateException | SecurityException | SystemException e1) {
-				// TODO Auto-generated catch block
-				// TODO Auto-generated catch block
+				em.createNativeQuery("SET SCHEMA 'public'").executeUpdate();
+				em.createNativeQuery("SET search_path TO public").executeUpdate();
 				log.info(e1.getMessage());
-				 
+
 			}
 			// TODO Auto-generated catch block
-			log.info(e.getMessage()); 
+			log.info(e.getMessage());
 		}
 	}
 
 	private void create(EntityManager em) throws IOException {
 		String[] createSQsL = this.createSQL.toArray(new String[0]);
-		for (int j = 0; j < createSQsL.length -1; j++) {
+		for (int j = 0; j < createSQsL.length - 1; j++) {
 			try {
-				 ut.begin();
-				 log.info(createSQsL[j]);
+				ut.begin();
+				log.info(createSQsL[j]);
 				em.createNativeQuery(createSQsL[j]).executeUpdate();
 				ut.commit();
 			} catch (Exception e) {

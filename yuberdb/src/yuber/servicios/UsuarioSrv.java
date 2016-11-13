@@ -15,6 +15,7 @@ import org.bson.Document;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.DistinctRootEntityResultTransformer;
 
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
@@ -119,11 +120,11 @@ public class UsuarioSrv implements UsuarioLocalApi {
 		List<DataUsuario> usuarios = new ArrayList();
 		// obtengo todos los usuarios de la bd
 		Session session = (Session) em.getDelegate();
-		Criteria criteria = session.createCriteria(Usuario.class);
-		criteria.add(Restrictions.eq("eliminado", false));
-		criteria.add(Restrictions.gt("servicios.fecha", from));
-		criteria.add(Restrictions.eq("servicios.fecha", from));
-		criteria.setFirstResult((pagina - 1) * elementosPagina);
+		Criteria criteria = session.createCriteria(Usuario.class, "usuario");
+		criteria.add(Restrictions.gt("usuario.servicios.fecha",from));
+		criteria.add(Restrictions.eq("usuario.servicios.fecha",from));
+		criteria.add(Restrictions.eq("usuario.servicios.usuario.id", "usuario.id")); 
+ 		criteria.setFirstResult((pagina - 1) * elementosPagina);
 		criteria.setMaxResults(elementosPagina);
 		List<Usuario> listUsu = new ArrayList<Usuario>(new LinkedHashSet(criteria.list()));
 
