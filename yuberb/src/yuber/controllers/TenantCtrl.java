@@ -23,7 +23,7 @@ public class TenantCtrl implements ITenant {
 	TenantLocalApi srvTenant;
 	@EJB(lookup = "java:app/yuberdb/SchemaHandler!yuber.interfaces.ISchemaHandler")
 	ISchemaHandler srvSchemaHandler;
-	@EJB(lookup = "java:app/yuberdb/VerticalCtrl!yuber.interfaces.IVertical")
+	@EJB(lookup = "java:app/yuberb/VerticalCtrl!yuber.interfaces.IVertical")
 	IVertical srvVertical;
 	public List<DataTenant> list() {
 		return srvTenant.list();
