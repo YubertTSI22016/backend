@@ -19,6 +19,8 @@ public class TenantIntercept {
 	@AroundInvoke
 	public Object mdbInterceptor(InvocationContext ctx) throws Exception
 	{ 
+
+    	log.info(":::::::::::INTERCEPTING EM:::::::::::::");
 		int l = ctx.getParameters().length;
 		DataTenant tenant = (DataTenant) ctx.getParameters()[l - 1];
 		log.debug(tenant.getName());

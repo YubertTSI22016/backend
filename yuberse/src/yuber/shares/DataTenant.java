@@ -12,6 +12,16 @@ public class DataTenant {
 	private String fbSecret= "";
 	
 	public DataTenant(){}
+	public DataTenant(String id, String name, String domain, Boolean isActive, String tenantType, String fbId, String fbSecret) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.domain = domain;
+		this.isActive = isActive;
+		this.fbId = fbId;
+		this.fbSecret = fbSecret;
+		this.tenantType = tenantType;
+	}
 	public DataTenant(String id, String name, String domain, Boolean isActive) {
 		super();
 		this.id = id;

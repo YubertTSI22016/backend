@@ -4,6 +4,10 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
+import javax.inject.Inject;
+import javax.transaction.UserTransaction;
 
 import yuber.exceptions.SchemaException;
 import yuber.exceptions.TenantException;
@@ -12,12 +16,12 @@ import yuber.interfaces.ITenant;
 import yuber.interfaces.IVertical;
 import yuber.interfaces.TenantLocalApi;
 import yuber.shares.DataConfiguracionVertical;
-import yuber.shares.DataTenant;
-
+import yuber.shares.DataTenant; 
 /**
  * Session Bean implementation class EncomiendaSrv
  */
 @Stateless
+@TransactionManagement(value=TransactionManagementType.BEAN)
 public class TenantCtrl implements ITenant {
 	@EJB(lookup = "java:app/yuberdb/TenantSrv!yuber.interfaces.TenantLocalApi")
 	TenantLocalApi srvTenant;
@@ -25,6 +29,9 @@ public class TenantCtrl implements ITenant {
 	ISchemaHandler srvSchemaHandler;
 	@EJB(lookup = "java:app/yuberb/VerticalCtrl!yuber.interfaces.IVertical")
 	IVertical srvVertical;
+	
+	@Inject
+	UserTransaction ut;
 	public List<DataTenant> list() {
 		return srvTenant.list();
 	}
@@ -34,20 +41,19 @@ public class TenantCtrl implements ITenant {
 	}
 
 	public DataTenant create(DataTenant tenant) throws TenantException, Exception {
+	
 		DataTenant dt = srvTenant.get(tenant);
 		try {
 			if (dt == null) {
 				srvSchemaHandler.createSchema(tenant.getName());
-				DataTenant createdTenant = srvTenant.create(tenant);
-				DataConfiguracionVertical conf =  new DataConfiguracionVertical();
-				conf.setNombre(createdTenant.getName());
-				//TODO: this must be change to be handled by an Enumerated type
-				conf.setTransporte(tenant.getTenantType().toLowerCase().equals("transporte"));
-				conf.setFbId(tenant.getFbId());
-				conf.setFbSecret(tenant.getFbSecret());
-				srvVertical.crearConfiguracionVertical(conf, createdTenant);
-				
-				return createdTenant;
+				ut.begin();
+				insertConfigs(tenant);
+				ut.commit();
+				ut.begin();
+				DataTenant res = srvTenant.create(tenant);
+				ut.commit();
+			
+				return res;
 			} else {
 				throw new TenantException("Tenant Already Exist");
 			}
@@ -56,7 +62,15 @@ public class TenantCtrl implements ITenant {
 		}
 
 	}
-
+	private void insertConfigs(DataTenant tenant){
+		DataConfiguracionVertical conf =  new DataConfiguracionVertical();
+		conf.setNombre(tenant.getName());
+		//TODO: this must be change to be handled by an Enumerated type
+		conf.setTransporte(tenant.getTenantType().toLowerCase().equals("transporte"));
+		conf.setFbId(tenant.getFbId());
+		conf.setFbSecret(tenant.getFbSecret());
+		srvVertical.crearConfiguracionVertical(conf, tenant);
+	}
 	public boolean delete(DataTenant tenant) {
 		return srvTenant.delete(tenant);
 	}

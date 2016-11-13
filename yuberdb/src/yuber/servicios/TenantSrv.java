@@ -10,6 +10,7 @@ import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.transaction.UserTransaction;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -25,7 +26,6 @@ import yuber.shares.DataTenant;
  * Session Bean implementation class CuponeraSrv
  */
 @Stateless
-
 public class TenantSrv implements TenantLocalApi {
 	@Inject
 	EntityManager em;
@@ -75,6 +75,8 @@ public class TenantSrv implements TenantLocalApi {
 
 	@Override
 	public DataTenant create(DataTenant tenant) {
+
+    	log.info(":::::::::::Creating tenant:::::::::::::");
 		Tenant realObj = new Tenant(tenant);
         em.persist(realObj);
         return realObj.getDatatype();

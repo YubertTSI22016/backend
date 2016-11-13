@@ -1,14 +1,10 @@
 package yuber.servicios;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.ejb.LocalBean;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
 import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 
 import org.apache.commons.logging.Log;
@@ -23,13 +19,16 @@ public class EntityManagerProducer {
 
 	private static final Log log = LogFactory.getLog(EntityManagerProducer.class);
 	@PersistenceContext(unitName = "yuberdb")
-    private EntityManager em;
+	private EntityManager em;
 
-    @Produces
-    @RequestScoped
-    public EntityManager getEntityManager() {
-        em.createNativeQuery("SET SCHEMA 'public'").executeUpdate();
+	@Produces
+	@RequestScoped
+	public EntityManager getEntityManager() {
+
+		log.info(":::::::::::getting em:::::::::::::");
+		em.createNativeQuery("SET SCHEMA 'public'").executeUpdate();
 		em.createNativeQuery("SET search_path TO public").executeUpdate();
+
 		return em;
-    }
+	}
 }
