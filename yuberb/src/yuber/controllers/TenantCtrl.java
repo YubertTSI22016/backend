@@ -7,6 +7,8 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.inject.Inject;
+import javax.transaction.NotSupportedException;
+import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
 import yuber.exceptions.SchemaException;
@@ -15,7 +17,9 @@ import yuber.interfaces.ISchemaHandler;
 import yuber.interfaces.ITenant;
 import yuber.interfaces.IVertical;
 import yuber.interfaces.TenantLocalApi;
+import yuber.shares.DataAdministrador;
 import yuber.shares.DataConfiguracionVertical;
+import yuber.shares.DataEmail;
 import yuber.shares.DataTenant; 
 /**
  * Session Bean implementation class EncomiendaSrv
@@ -23,6 +27,8 @@ import yuber.shares.DataTenant;
 @Stateless
 @TransactionManagement(value=TransactionManagementType.BEAN)
 public class TenantCtrl implements ITenant {
+	private final static String EMAIL_SUFIX = "@yuber.org";
+	private static final String ROLE_SUFIX = "admin";
 	@EJB(lookup = "java:app/yuberdb/TenantSrv!yuber.interfaces.TenantLocalApi")
 	TenantLocalApi srvTenant;
 	@EJB(lookup = "java:app/yuberdb/SchemaHandler!yuber.interfaces.ISchemaHandler")
@@ -68,21 +74,58 @@ public class TenantCtrl implements ITenant {
 		conf.setTransporte(tenant.getTenantType().toLowerCase().equals("transporte"));
 		conf.setFbId(tenant.getFbId());
 		conf.setFbSecret(tenant.getFbSecret());
+		DataAdministrador admin =  new DataAdministrador();
+		admin.setActivo(true);
+		admin.setClave(tenant.getName());
+		DataEmail email =  new DataEmail();
+		email.setEmail(tenant.getName() + TenantCtrl.EMAIL_SUFIX);
+		admin.setEmail(email);
+		admin.setNombre(tenant.getName() + TenantCtrl.ROLE_SUFIX);
+		srvVertical.altaAdmin(admin, tenant);
 		srvVertical.crearConfiguracionVertical(conf, tenant);
 	}
-	public boolean delete(DataTenant tenant) {
-		return srvTenant.delete(tenant);
+	public boolean delete(DataTenant tenant) { 
+		try {
+			ut.begin();
+			Boolean l = srvTenant.delete(tenant);
+			ut.commit();
+			return l;
+		} catch (Exception e) {
+			return false;
+		} 
 	}
 
-	public boolean deactivate(DataTenant tenant) {
-		return srvTenant.deactivate(tenant);
+	public boolean deactivate(DataTenant tenant) { 
+		try {
+			ut.begin();
+			Boolean l = srvTenant.deactivate(tenant);
+			ut.commit();
+			return l;
+		} catch (Exception e) {
+			return false;
+		} 
 	}
 
-	public Boolean activate(DataTenant tenant) {
-		return srvTenant.activate(tenant);
+	public Boolean activate(DataTenant tenant) {	 
+		try {
+			ut.begin();
+			Boolean l = srvTenant.activate(tenant);
+			ut.commit();
+			return l;
+		} catch (Exception e) {
+			return false;
+		} 
 	}
 
 	public List<DataTenant> list(DataTenant filter) {
-		return srvTenant.list(filter);
+		try {
+			ut.begin();
+			List<DataTenant> l = srvTenant.list(filter);
+			ut.commit();
+			return l;
+		} catch (Exception e) {
+			return null;
+		} 
+		
 	}
 }
