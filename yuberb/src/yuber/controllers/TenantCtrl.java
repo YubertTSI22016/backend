@@ -47,12 +47,11 @@ public class TenantCtrl implements ITenant {
 			if (dt == null) {
 				srvSchemaHandler.createSchema(tenant.getName());
 				ut.begin();
-				insertConfigs(tenant);
-				ut.commit();
-				ut.begin();
 				DataTenant res = srvTenant.create(tenant);
 				ut.commit();
-			
+				ut.begin();
+				insertConfigs(tenant);
+				ut.commit();
 				return res;
 			} else {
 				throw new TenantException("Tenant Already Exist");
