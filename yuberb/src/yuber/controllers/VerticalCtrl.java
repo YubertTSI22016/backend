@@ -22,6 +22,7 @@ import com.stripe.exception.CardException;
 import com.stripe.exception.InvalidRequestException;
 import com.stripe.model.Account;
 import com.stripe.model.Charge;
+import com.stripe.model.Customer;
 import com.stripe.model.Transfer;
 
 import yuber.interfaces.AdministradorLocalApi;
@@ -119,8 +120,11 @@ public class VerticalCtrl implements IVertical {
 	// PROVEEDOR
 
 	public DataProveedor altaProveedor(DataProveedor proveedor, DataTenant tenant) {
-
-		return srvProveedor.crearProveedor(proveedor, tenant);
+		DataProveedor result = srvProveedor.crearProveedor(proveedor, tenant);
+		DataUsuario usuario = srvUsuario.getUsuario(result.getUsuario().getId(), tenant);
+		usuario.setProveedor(result);
+		srvUsuario.modificarUsuario(usuario, tenant);
+		return srvProveedor.getProveedor(result.getId(), tenant);
 	}
 
 	public List<DataProveedor> obtenerProveedores(Integer pagina, Integer elementosPagina, DataTenant tenant) {
@@ -228,6 +232,8 @@ public class VerticalCtrl implements IVertical {
 		pusher.setEncrypted(true);
 		pusher.trigger(tenant.getId() + "-usuario-" + servicio.getUsuario().getId(), "solicitud-aceptada",
 				Collections.singletonMap("message", servicio));
+		pusher.trigger(tenant.getId() + "-proveedores", "solicitud-cancelada",
+				Collections.singletonMap("message", servicio));
 		return servicio;
 	}
 
@@ -239,6 +245,8 @@ public class VerticalCtrl implements IVertical {
 		Pusher pusher = new Pusher("259107", "c2f52caa39102181e99f", "805644b0daae68d5a848");
 		pusher.setEncrypted(true);
 		pusher.trigger(tenant.getId() + "-proveedores", "solicitud-cancelada",
+				Collections.singletonMap("message", servicio));
+		pusher.trigger(tenant.getId() + "-usuario-" + servicio.getUsuario().getId(), "solicitud-cancelada",
 				Collections.singletonMap("message", servicio));
 		return servicio;
 	}
@@ -430,6 +438,22 @@ public class VerticalCtrl implements IVertical {
 		DataUsuario usu = getUsuario(idUsuario, tenant);
 		usu.setTokenTarjeta(token);
 		usu.setUltimosNumerosTarjeta(ultimosDigitosTarjeta);
+		Stripe.apiKey = "sk_test_7EZ8SFryAQ9k8jrdQplMBlYk";
+
+		String accId = "";
+		Map<String, Object> customerParams = new HashMap<String, Object>();
+		customerParams.put("description", "Customer for "+usu.getEmail().getEmail());
+		customerParams.put("source", token);
+
+		Customer cus = new Customer();
+		try {
+			cus = Customer.create(customerParams);
+		} catch (AuthenticationException | InvalidRequestException | APIConnectionException | CardException
+				| APIException e) {
+			e.printStackTrace();
+		}
+		accId = cus.getId();
+		usu.setStripeAccId(accId);
 		srvUsuario.modificarUsuario(usu, tenant);
 	}
 
@@ -490,24 +514,17 @@ public class VerticalCtrl implements IVertical {
 		// Get the credit card details submitted by the form
 		// String token = request.getParameter("stripeToken");
 		DataUsuario usu = getUsuario(idUsuario, tenant);
-		String token = usu.getTokenTarjeta();
+		String cusId = usu.getStripeAccId();
 		String emailUsuario = usu.getEmail().getEmail();
 
 		// Create a charge: this will charge the user's card
-		log.info("================================================= UNO " + cargo);
 		try {
-			log.info(
-					"================================================= DOS =================================================");
 			Map<String, Object> chargeParams = new HashMap<String, Object>();
-			log.info("================================================= " + Math.round(cargo * 100));
 			chargeParams.put("amount", Math.round(cargo * 100)); // Amount in
 																	// cents
-			log.info("================================================= TRES " + Math.round(cargo * 100));
 			chargeParams.put("currency", "usd");
-			chargeParams.put("source", token);
+			chargeParams.put("customer", cusId);
 			chargeParams.put("description", "Cargo para: " + emailUsuario);
-			log.info(
-					"================================================= CUATRO =================================================");
 
 			// Charge charge = Charge.create(chargeParams);
 			Charge.create(chargeParams);
