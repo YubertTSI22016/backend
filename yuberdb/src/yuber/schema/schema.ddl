@@ -59,7 +59,6 @@ CREATE TABLE persona (
     ultimosnumerostarjeta integer,
     activo boolean,
     proveedor_id character varying(255),
-    stripeaccid character varying(255),
     servicioactivo_id character varying(255)
 );
 

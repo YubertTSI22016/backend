@@ -38,12 +38,11 @@ public class Usuario extends Persona implements Serializable{
     private Integer ultimosNumerosTarjeta;
     private Float rating;
     private Integer cantidadServicios;
-    private String stripeAccId;
     
 
     public Usuario() {}
     
-    public Usuario(String id, String nom, String ape, Email mail, Telefono tel, Date fecNac, Boolean elim, List<Servicio> srv, Servicio sa, String clave, String redSoc, String idRedsoc, Proveedor prov, String token, Integer unt, Float rt, Integer cs, String sac) {
+    public Usuario(String id, String nom, String ape, Email mail, Telefono tel, Date fecNac, Boolean elim, List<Servicio> srv, Servicio sa, String clave, String redSoc, String idRedsoc, Proveedor prov, String token, Integer unt, Float rt, Integer cs) {
         super(id,clave, nom, ape, mail, tel, fecNac, elim);
         this.redSocialUsada = redSoc;
         this.idRedSocial = idRedsoc;
@@ -54,7 +53,6 @@ public class Usuario extends Persona implements Serializable{
         this.ultimosNumerosTarjeta = unt;
         this.rating = rt;
         this.cantidadServicios = cs;
-        this.stripeAccId = sac;
     }
     
     public Usuario(DataUsuario dt, Boolean conHijos){
@@ -86,7 +84,6 @@ public class Usuario extends Persona implements Serializable{
     	this.setUltimosNumerosTarjeta(dt.getUltimosNumerosTarjeta());
     	this.setRating(dt.getRating());
     	this.setCantidadServicios(dt.getCantidadServicios());
-    	this.setStripeAccId(dt.getStripeAccId());
     }
     
     public DataUsuario getDatatype(Boolean conHijos){
@@ -116,7 +113,6 @@ public class Usuario extends Persona implements Serializable{
     		result.setServicioActivo(this.getServicioActivo().getDatatype(false)); 
     	result.setTokenTarjeta(this.getTokenTarjeta());
     	result.setUltimosNumerosTarjeta(this.getUltimosNumerosTarjeta());
-    	result.setStripeAccId(this.getStripeAccId());
     	return result;
     }
     
@@ -192,14 +188,6 @@ public class Usuario extends Persona implements Serializable{
     
     public Integer getCantidadServicios(){
     	return this.cantidadServicios;
-    }
-    
-    public String getStripeAccId(){
-        return this.stripeAccId;
-    }
-
-    public void setStripeAccId(String val){
-        this.stripeAccId = val;
     }
    
 }

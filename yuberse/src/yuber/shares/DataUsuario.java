@@ -13,13 +13,12 @@ public class DataUsuario extends DataPersona{
     private Integer ultimosNumerosTarjeta;
     private Float rating;
     private Integer cantidadServicios;
-    private String stripeAccId;
 
  
 
     public DataUsuario() {}
     
-    public DataUsuario(String id, String nom, String ape, DataEmail mail, DataTelefono tel, Date fecNac, Boolean elim, List<DataServicio> srv, DataServicio sa, String nomMos, String redSoc, String idRedsoc, String clv, DataProveedor prov, String token, Integer unt, Float rt, Integer cs, String sac) {
+    public DataUsuario(String id, String nom, String ape, DataEmail mail, DataTelefono tel, Date fecNac, Boolean elim, List<DataServicio> srv, DataServicio sa, String nomMos, String redSoc, String idRedsoc, String clv, DataProveedor prov, String token, Integer unt, Float rt, Integer cs) {
     	super.setId(id);
         super.setNombre(nom);
         super.setApellido(ape);
@@ -37,7 +36,6 @@ public class DataUsuario extends DataPersona{
         this.ultimosNumerosTarjeta = unt;
         this.rating = rt;
         this.cantidadServicios = cs;
-        this.stripeAccId = sac;
     }
 
     public void setRedSocialUsada(String val){
@@ -110,13 +108,5 @@ public class DataUsuario extends DataPersona{
     
     public Integer getCantidadServicios(){
     	return this.cantidadServicios;
-    }
-    
-    public String getStripeAccId(){
-        return this.stripeAccId;
-    }
-
-    public void setStripeAccId(String val){
-        this.stripeAccId = val;
     }
 }
