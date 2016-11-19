@@ -23,6 +23,7 @@ import com.stripe.exception.InvalidRequestException;
 import com.stripe.model.Account;
 import com.stripe.model.Charge;
 import com.stripe.model.Transfer;
+import com.stripe.net.RequestOptions;
 
 import yuber.interfaces.AdministradorLocalApi;
 import yuber.interfaces.ConfiguracionVerticalLocalApi;
@@ -430,6 +431,27 @@ public class VerticalCtrl implements IVertical {
 		DataUsuario usu = getUsuario(idUsuario, tenant);
 		usu.setTokenTarjeta(token);
 		usu.setUltimosNumerosTarjeta(ultimosDigitosTarjeta);
+		Stripe.apiKey = "sk_test_7EZ8SFryAQ9k8jrdQplMBlYk";
+
+		Map<String, Object> accountParams = new HashMap<String, Object>();
+		accountParams.put("managed", true);
+		accountParams.put("country", "US");
+		accountParams.put("email", usu.getEmail().getEmail());
+		String accId = "";
+
+		try {
+			Account acc = Account.create(accountParams);
+			accId = acc.getId();
+
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("external_account", token);
+			params.put("default_for_currency", true);
+			acc.getExternalAccounts().create(params);
+		} catch (AuthenticationException | InvalidRequestException | APIConnectionException | CardException
+				| APIException e) {
+			e.printStackTrace();
+		}
+		usu.setStripeAccId(accId);
 		srvUsuario.modificarUsuario(usu, tenant);
 	}
 
@@ -490,31 +512,22 @@ public class VerticalCtrl implements IVertical {
 		// Get the credit card details submitted by the form
 		// String token = request.getParameter("stripeToken");
 		DataUsuario usu = getUsuario(idUsuario, tenant);
-		String token = usu.getTokenTarjeta();
+		String token = usu.getTokenTarjeta();;
+		String accid = usu.getStripeAccId();
 		String emailUsuario = usu.getEmail().getEmail();
+		
+		RequestOptions requestOptions = RequestOptions.builder().setStripeAccount(accid).build();
+		Map<String, Object> chargeParams = new HashMap<String, Object>();
+		chargeParams.put("amount", cargo);
+		chargeParams.put("currency", "usd");
+		chargeParams.put("source", token);
+		chargeParams.put("description", "Cargo para: " + emailUsuario);
 
-		// Create a charge: this will charge the user's card
-		log.info("================================================= UNO " + cargo);
 		try {
-			log.info(
-					"================================================= DOS =================================================");
-			Map<String, Object> chargeParams = new HashMap<String, Object>();
-			log.info("================================================= " + Math.round(cargo * 100));
-			chargeParams.put("amount", Math.round(cargo * 100)); // Amount in
-																	// cents
-			log.info("================================================= TRES " + Math.round(cargo * 100));
-			chargeParams.put("currency", "usd");
-			chargeParams.put("source", token);
-			chargeParams.put("description", "Cargo para: " + emailUsuario);
-			log.info(
-					"================================================= CUATRO =================================================");
-
-			// Charge charge = Charge.create(chargeParams);
-			Charge.create(chargeParams);
-
-		} catch (Exception e) {
-			log.info("=================================================" + e.getMessage()
-					+ "=================================================");
+			Charge.create(chargeParams, requestOptions);
+		} catch (AuthenticationException | InvalidRequestException | APIConnectionException | CardException
+				| APIException e) {
+			e.printStackTrace();
 		}
 
 	}
