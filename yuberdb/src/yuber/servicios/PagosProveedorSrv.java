@@ -68,7 +68,7 @@ public class PagosProveedorSrv implements PagosProveedorLocalApi {
 		for ( int i=0; i<listSrv.size(); i++ ) {
 			PagosProveedor current = listSrv.get(i);
 			current.setPago(true);
-		    em.persist(current);
+		    em.merge(current);
 		    if ( i % 20 == 0 ) { //20, same as the JDBC batch size
 		        //flush a batch of inserts and release memory:
 		        em.flush();
