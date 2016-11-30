@@ -148,7 +148,7 @@ public class ProveedorSrv implements ProveedorLocalApi {
 			throw new IllegalArgumentException("El proveedor no existe");
 		}
 		try {
-			guardarRegistroJornada(prv, tenant);
+			guardarRegistroJornada(realObj.getDatatype(true), tenant);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

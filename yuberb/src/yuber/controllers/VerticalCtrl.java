@@ -226,6 +226,7 @@ public class VerticalCtrl implements IVertical {
 		serviciosProv.add(servicio);
 		jornadaActual.setServicios(serviciosProv);
 		proveedor.setJornadaActual(jornadaActual);
+		log.info("===================================Jornada actual "+jornadaActual);
 		srvProveedor.modificarProveedor(proveedor, tenant);
 		servicio = srvServicio.getServicio(idServicio, tenant);
 		Pusher pusher = new Pusher("259107", "c2f52caa39102181e99f", "805644b0daae68d5a848");

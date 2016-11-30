@@ -158,7 +158,7 @@ public class ServicioSrv implements ServicioLocalApi {
 		List<Servicio> listSrv = new ArrayList<Servicio>(new LinkedHashSet(criteria.list()));
 
 		listSrv.stream().forEach((srv) -> {
-			servicios.add(srv.getDatatype(true));
+			servicios.add(srv.getDatatype(false));
 		});
 		return servicios;
 	}

@@ -78,7 +78,7 @@ public class Proveedor implements Serializable {
 	    	this.setJornadas(aux);
     	}
     	if(dt.getJornadaActual() != null && conHijos)
-    		this.setJornadaActual(new JornadaLaboral(dt.getJornadaActual(), false));
+    		this.setJornadaActual(new JornadaLaboral(dt.getJornadaActual(), true));
     	this.setRating(dt.getRating());
     	this.setCantidadServicios(dt.getCantidadServicios());
     	if(dt.getTelefono() != null)
@@ -99,7 +99,7 @@ public class Proveedor implements Serializable {
     	if(this.getJornadas() != null && conHijos){
 	    	List<DataJornadaLaboral> aux = new ArrayList<DataJornadaLaboral>();
 	    	this.getJornadas().stream().forEach((jor) -> {
-	    		aux.add(jor.getDatatype(false));
+	    		aux.add(jor.getDatatype(true));
 	        });
 	    	result.setJornadas(aux);
     	}

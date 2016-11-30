@@ -36,10 +36,10 @@ public class JornadaLaboral {
 	private Date inicio;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date fin;
-	@OneToMany(fetch=FetchType.LAZY,cascade = {CascadeType.ALL})
+	@OneToMany(fetch=FetchType.LAZY)
 	@IndexColumn(name="LIST_INDEX")
     private List<Servicio> servicios;
-	@OneToOne(targetEntity=Servicio.class,fetch=FetchType.LAZY,cascade = {CascadeType.ALL})
+	@OneToOne(targetEntity=Servicio.class,fetch=FetchType.LAZY)
 	private Servicio servicioActivo;
 	
 	public JornadaLaboral(){}
