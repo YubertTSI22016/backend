@@ -1,7 +1,6 @@
 package yuber.api.interceptor;
 
 import javax.ejb.EJB;
-import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.ext.Provider;
 
@@ -22,6 +21,7 @@ public class TenantCheckInterceptor implements javax.ws.rs.container.ContainerRe
 		String id = requestContext.getHeaderString("lcbs-tenant");
 		// String host = requestContext.getHeaderString("host");
 		String referer = requestContext.getHeaderString("Referer");
+		referer = referer == null ? requestContext.getHeaderString("X-Forwarded-Host") : referer;
 		String host = null;
 		if (referer != null) {
 			String[] sp = referer.replaceAll("http://", "").split("/");
@@ -34,20 +34,18 @@ public class TenantCheckInterceptor implements javax.ws.rs.container.ContainerRe
 		if (id != null && !id.isEmpty()) {
 			filter.setId(id);
 		} else {
-			if (host == null) {
-				throw new ForbiddenException("Servicio no disponible: " + host + " / " + rs);
-			}
+//			if (host == null) {
+//				throw new ForbiddenException("Servicio no disponible: " + host + " / " + rs);
+//			}
 			filter.setDomain(host);
 		}
 		filter.setIsActive(true);
 		filter.setIsDelete(false);
 
 		DataTenant tenant = repo.get(filter);
-		if (tenant == null) {
-			throw new ForbiddenException("Servicio no disponible: " + host + " / " + rs);
-		} else {
-			requestContext.setProperty("tenant", tenant);
-		}
+
+		requestContext.setProperty("tenant", tenant);
+
 	}
 
 }
