@@ -215,6 +215,7 @@ public class VerticalCtrl implements IVertical {
 		servicio.setProveedor(proveedor);
 		servicio.setEstado("Aceptado");
 		srvServicio.modificarServicio(servicio, tenant);
+		log.info("OFRECER SERVICIO ID : "+ servicio.getId());
 		DataJornadaLaboral jornadaActual = proveedor.getJornadaActual();
 		DataConfiguracionVertical conf = srvConfiguracionVertical.getConfiguracionVertical(tenant);
 		if (conf.getTransporte()) {

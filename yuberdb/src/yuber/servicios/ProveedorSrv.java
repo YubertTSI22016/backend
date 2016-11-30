@@ -123,7 +123,8 @@ public class ProveedorSrv implements ProveedorLocalApi {
 			if (reporteProveedor != null && !reporteProveedor.isEmpty()) {
 				final String json = reporteProveedor.toJson();
 				ReporteProveedores rep = MongoHandler.buildObject(ReporteProveedores.class, json);
-				reporteNuevo = new Document("$set", new Document("ganancia", rep.getGanancia() + jl.getSaldo())).append("$set", new Document("cantidad", rep.getCantidad() + 1));
+				int cant = jl.getServicios() != null ? jl.getServicios().size() : 0; 
+				reporteNuevo = new Document("$set", new Document("ganancia", rep.getGanancia() + jl.getSaldo())).append("$set", new Document("cantidad", rep.getCantidad() + cant));
 				db.getCollection("reporteJornadaProveedor").updateOne(Filters.eq("proveedor", prv.getId()),
 						reporteNuevo);
 
@@ -133,7 +134,8 @@ public class ProveedorSrv implements ProveedorLocalApi {
 				rep.setNombre(prv.getNombre());
 				rep.setApellido(prv.getUsuario().getApellido());
 				rep.setGanancia(jl.getSaldo());
-				rep.setCantidad(1);
+				int cant = jl.getServicios() != null ? jl.getServicios().size() : 0; 
+				rep.setCantidad( cant);
 				rep.setFecha(date);
 				reporteNuevo = Document.parse(MongoHandler.getJSON(rep));
 				db.getCollection("reporteJornadaProveedor").insertOne(reporteNuevo);
