@@ -76,10 +76,12 @@ public class DataJornadaLaboral {
     public float getSaldo(){
     	float alm = 0;
     	if(servicios != null){
-    		Iterator it = servicios.iterator();
+    		Iterator<DataServicio> it = servicios.iterator();
         	while(it.hasNext()){
-        		DataServicio servicio = (DataServicio)it.next();
-        		alm += servicio.getPrecio();
+        		DataServicio servicio = it.next();
+        		if(servicio != null && servicio.getPrecio() != null){
+            		alm += servicio.getPrecio();	
+        		}
         	}
     	}
     	return alm;

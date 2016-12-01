@@ -20,4 +20,5 @@ public interface ProveedorLocalApi {
 	public List<DataProveedor> reporteRatingProveedores(Integer pagina, Integer elementosPagina, Integer rating,DataTenant tenant);
 
 	public List<DataReporteProveedor> rankingProveedoresPorGanancia(Date start, Date end, int pagina, int elementosPagina,DataTenant tenant) throws Exception;
+	public DataProveedor modificarProveedor(DataProveedor proveedor, boolean b, DataTenant tenant);
 }

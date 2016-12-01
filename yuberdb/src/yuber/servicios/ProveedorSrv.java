@@ -143,21 +143,27 @@ public class ProveedorSrv implements ProveedorLocalApi {
 
 		}
 	}
-
-	public DataProveedor modificarProveedor(DataProveedor prv, DataTenant tenant) {
+	@Override
+	public DataProveedor modificarProveedor(DataProveedor proveedor, DataTenant tenant) {
+		return modificarProveedor(proveedor, false, tenant);
+	}
+	public DataProveedor modificarProveedor(DataProveedor prv,boolean b,  DataTenant tenant) {
 		Proveedor realObj = new Proveedor(prv, true);
 		if (em.find(Proveedor.class, realObj.getId()) == null) {
 			throw new IllegalArgumentException("El proveedor no existe");
 		}
-		try {
-			guardarRegistroJornada(realObj.getDatatype(true), tenant);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(b){
+			try {
+				guardarRegistroJornada(realObj.getDatatype(true), tenant);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
+		
 		em.merge(realObj);
 		return realObj.getDatatype(true);
 	}
@@ -213,5 +219,7 @@ public class ProveedorSrv implements ProveedorLocalApi {
 		});
 		return result;
 	}
+
+	
 
 }

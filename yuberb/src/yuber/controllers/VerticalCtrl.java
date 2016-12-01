@@ -214,6 +214,7 @@ public class VerticalCtrl implements IVertical {
 		DataProveedor proveedor = srvProveedor.getProveedor(idProveedor, tenant);
 		servicio.setProveedor(proveedor);
 		servicio.setEstado("Aceptado");
+		servicio.setInicio(new Date());
 		srvServicio.modificarServicio(servicio, tenant);
 		log.info("OFRECER SERVICIO ID : "+ servicio.getId());
 		DataJornadaLaboral jornadaActual = proveedor.getJornadaActual();
@@ -281,7 +282,7 @@ public class VerticalCtrl implements IVertical {
 		List<DataJornadaLaboral> historialJornadas = proveedor.getJornadas();
 		historialJornadas.add(jornada);
 		proveedor.setJornadas(historialJornadas);
-		return srvProveedor.modificarProveedor(proveedor, tenant);
+		return srvProveedor.modificarProveedor(proveedor, true, tenant);
 	}
 
 	public DataServicio iniciarServicio(String idServicio, DataTenant tenant) {
